@@ -4,6 +4,7 @@ import styled from "styled-components";
 import {motion, AnimatePresence} from "framer-motion";
 import {makeImagePath} from "../utils";
 import {useState} from "react";
+import {useMatch, useNavigate} from "react-router-dom";
 
 const Wrapper = styled.div`
   background: black;
@@ -46,13 +47,14 @@ const Row = styled(motion.div)`
   position: absolute;
   width: 100%;
 `;
-const Box = styled(motion.div)<{ bgPhoto: string }>`
+const Box = styled(motion.div)<{ bgphoto: string }>`
   background-color: white;
-  background-image: url(${(props) => props.bgPhoto});
+  background-image: url(${(props) => props.bgphoto});
   background-size: cover;
   background-position: center center;
   height: 200px;
   font-size: 64px;
+  cursor: pointer;
 
   &:first-child {
     transform-origin: center left;
@@ -69,6 +71,7 @@ const Info = styled(motion.div)`
   position: absolute;
   width: 100%;
   bottom: 0;
+
   h4 {
     text-align: center;
     font-size: 12px;
@@ -115,6 +118,8 @@ const infoVariants = {
 const offset = 6;
 
 function Home() {
+    const navigate = useNavigate();
+    const bigMovieMatch = useMatch("/movies/:movieId");
     const {data, isLoading} = useQuery<IGetMoviesResult>(
         ["movies", "nowPlaying"], getMovies
     );
@@ -125,13 +130,17 @@ function Home() {
         if (data) {
             if (leaving) return;
             toggleLeaving();
-            const totalMovies = data.results.length;
+            const totalMovies = data.results.length - 1;
             const maxIndex = Math.floor(totalMovies / offset) - 1;
             setIndex((prev) => (prev === maxIndex ? 0 : prev + 1));
         }
     };
+    const onBoxClicked = (movieId: number) => {
+        navigate(`/movies/${movieId}`);
+    };
     const NETFLIX_LOGO_URL =
         'https://assets.brand.microsites.netflix.io/assets/2800a67c-4252-11ec-a9ce-066b49664af6_cm_800w.jpg?v=4';
+
     return (
         <Wrapper>
             {isLoading ? (
@@ -161,13 +170,15 @@ function Home() {
                                     .map((movie) => (
                                         <Box
                                             key={movie.id}
+                                            layoutId={movie.id + ""}
+                                            onClick={() => onBoxClicked(movie.id)}
                                             variants={boxVariants}
                                             initial="normal"
                                             whileHover="hover"
                                             transition={{type: "tween"}}
-                                            bgPhoto={movie.backdrop_path ?
+                                            bgphoto={movie.backdrop_path ?
                                                 makeImagePath(movie.backdrop_path, "w500")
-                                        : NETFLIX_LOGO_URL}
+                                                : NETFLIX_LOGO_URL}
                                         >
                                             <Info variants={infoVariants}>
                                                 <h4>{movie.title}</h4>
@@ -177,6 +188,23 @@ function Home() {
                             </Row>
                         </AnimatePresence>
                     </Slider>
+                    <AnimatePresence>
+                        {bigMovieMatch ? (
+                            <motion.div
+                                layoutId={bigMovieMatch.params.movieId}
+                                style={{
+                                    position: "absolute",
+                                    width: "40vw",
+                                    height: "80vh",
+                                    backgroundColor: "red",
+                                    top: 120,
+                                    left: 0,
+                                    right: 0,
+                                    margin: "0 auto",
+                                }}
+                            />
+                        ) : null}
+                    </AnimatePresence>
                 </>
             )}
         </Wrapper>
