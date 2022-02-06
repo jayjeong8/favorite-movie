@@ -52,15 +52,29 @@ const Box = styled(motion.div)<{ bgPhoto: string }>`
   background-size: cover;
   background-position: center center;
   height: 200px;
-  font-size: 66px;
+  font-size: 64px;
 
   &:first-child {
     transform-origin: center left;
   }
+
   &:last-child {
     transform-origin: center right;
   }
 `;
+const Info = styled(motion.div)`
+  padding: 16px;
+  background-color: ${(props) => props.theme.black.lighter};
+  opacity: 0;
+  position: absolute;
+  width: 100%;
+  bottom: 0;
+  h4 {
+    text-align: center;
+    font-size: 12px;
+  }
+`;
+
 
 const rowVariants = {
     hidden: {
@@ -79,7 +93,7 @@ const boxVariants = {
     },
     hover: {
         scale: 1.2,
-        y: -40,
+        y: -80,
         transition: {
             delay: 0.4,
             duration: 0.3,
@@ -87,6 +101,17 @@ const boxVariants = {
         }
     },
 };
+const infoVariants = {
+    hover: {
+        opacity: 1,
+        transition: {
+            delay: 0.4,
+            duration: 0.3,
+            type: "tween",
+        }
+    },
+};
+
 const offset = 6;
 
 function Home() {
@@ -105,6 +130,8 @@ function Home() {
             setIndex((prev) => (prev === maxIndex ? 0 : prev + 1));
         }
     };
+    const NETFLIX_LOGO_URL =
+        'https://assets.brand.microsites.netflix.io/assets/2800a67c-4252-11ec-a9ce-066b49664af6_cm_800w.jpg?v=4';
     return (
         <Wrapper>
             {isLoading ? (
@@ -138,8 +165,14 @@ function Home() {
                                             initial="normal"
                                             whileHover="hover"
                                             transition={{type: "tween"}}
-                                            bgPhoto={makeImagePath(movie.backdrop_path, "w500")}
-                                        />
+                                            bgPhoto={movie.backdrop_path ?
+                                                makeImagePath(movie.backdrop_path, "w500")
+                                        : NETFLIX_LOGO_URL}
+                                        >
+                                            <Info variants={infoVariants}>
+                                                <h4>{movie.title}</h4>
+                                            </Info>
+                                        </Box>
                                     ))}
                             </Row>
                         </AnimatePresence>
