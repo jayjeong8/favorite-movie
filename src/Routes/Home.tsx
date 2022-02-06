@@ -181,7 +181,8 @@ function Home() {
     };
     const clickedMovie =
         bigMovieMatch?.params.movieId &&
-        data?.results.find((movie) => movie.id === +bigMovieMatch.params.movieId);
+        data?.results.find((movie) => movie.id === +(bigMovieMatch.params.movieId || ''));
+
     const NETFLIX_LOGO_URL =
         'https://assets.brand.microsites.netflix.io/assets/2800a67c-4252-11ec-a9ce-066b49664af6_cm_800w.jpg?v=4';
 
