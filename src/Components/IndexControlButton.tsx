@@ -13,7 +13,7 @@ import {
     TVAiringToday, TVOnTheAir, TVPopular,
     TVTopRated
 } from "../atom";
-import {IIndexControl} from "../api";
+import {IGetContentsResult, IIndexControl} from "../api";
 
 
 const DecreaseButton = styled(motion.span)`
@@ -53,9 +53,8 @@ export default function IndexControlButton({queryKeyName2, data}: IIndexControl)
     )
     const toggleLeaving = () => setLeaving((prev: boolean) => !prev);
     const setIncreaseValue = useSetRecoilState(IncreaseState);
-
-    const totalMovies = data.results.length + 1;
-    const maxIndex = Math.floor(totalMovies / offset) - 1;
+    const totalMovies = data?.results?.length;
+    const maxIndex = Math.floor(totalMovies ? totalMovies : 1 / offset);
     const increaseIndex = () => {
         if (data) {
             if (leaving) return;

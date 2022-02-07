@@ -42,7 +42,7 @@ export interface IApi {
 }
 export interface IIndexControl {
     queryKeyName2: string;
-    data:any;
+    data:IGetContentsResult | undefined;
 }
 export interface IBigModal {
     media:"movie"|"tv"|"search"

@@ -13,7 +13,7 @@ export const RowTitle = styled.div`
 `;
 export const InRow = styled(motion.div)`
   display: grid;
-  width: 80%;
+  width: 82.5%;
   gap: 1%;
   grid-template-columns: repeat(6, 1fr);
   position: absolute;

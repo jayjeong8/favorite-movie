@@ -69,7 +69,7 @@ function Search() {
     };
     const bigMovieMatch = useMatch(`/search/:searchId`);
     const onOverlayClick = () => {
-        navigate(`/search`)
+        navigate(`/search?keyword=${savedKeyword}`)
     };
 
     const clickedContents = useRecoilValue(checkMedia === "searchMovie" ? ClickedMovie : ClickedTV);
