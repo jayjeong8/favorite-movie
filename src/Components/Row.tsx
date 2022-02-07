@@ -2,12 +2,8 @@ import {makeImagePath} from "../utils";
 import {AnimatePresence} from "framer-motion";
 import {useNavigate} from "react-router-dom";
 import {useQuery} from "react-query";
-import {
-    getMovieNowPlaying, getMovieLatest, getMovieTopRated, getMovieUpcoming,
-    getTVAiringToday, getTVTopRated, getTVPopular, getTVOnTheAir,
-    IGetContentsResult, IApi
-} from "../api";
-import {useRecoilState, useRecoilValue, useSetRecoilState} from "recoil";
+import {IGetContentsResult, IApi} from "../api";
+import {useRecoilValue, useSetRecoilState} from "recoil";
 import {
     ClickedMovie, ClickedTV, IncreaseState, ModalLeaving,
     MovieNowPlaying,
@@ -18,8 +14,8 @@ import {
     TVAiringToday, TVOnTheAir, TVPopular, TVTopRated,
 } from "../atom";
 import IndexControlButton from "./IndexControlButton";
-import {Slider, Info, Box, RowTitle, InRow} from "../Components/RowStyledComponent";
-import {rowVariants, infoVariants, boxVariants} from "../Components/RowVariants";
+import {Slider, Info, Box, RowTitle, InRow} from "./RowStyledComponent";
+import {rowVariants, infoVariants, boxVariants} from "./RowVariants";
 
 
 function Row({queryKeyName1, queryKeyName2, getApi, rowTitle}: IApi) {
@@ -41,12 +37,12 @@ function Row({queryKeyName1, queryKeyName2, getApi, rowTitle}: IApi) {
     const increaseValue = useRecoilValue(IncreaseState);
     const toggleLeaving = () => setLeaving((prev: boolean) => !prev);
 
-    const [selectedRow, setSelectedRow] = useRecoilState(SelectedRow)
+    const setSelectedRow = useSetRecoilState(SelectedRow)
     const setClickedMovie = useSetRecoilState(ClickedMovie);
     const setClickedTV = useSetRecoilState(ClickedTV);
     const onBoxClicked = (contentId: number) => {
         queryKeyName1 === "MOVIE" ?
-            navigate(`/movies/${contentId}`) : navigate(`/tv/${contentId}`)
+            navigate(`/movie/${contentId}`) : navigate(`/tv/${contentId}`)
         setSelectedRow(queryKeyName2);
         const clicked = data?.results.find((content) => content.id === contentId || undefined);
         queryKeyName1 === "MOVIE" ?

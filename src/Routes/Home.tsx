@@ -1,17 +1,16 @@
 import {useQuery} from "react-query";
 import styled from "styled-components";
-import {motion, AnimatePresence, useViewportScroll} from "framer-motion";
 import {makeImagePath} from "../utils";
-import {useMatch, useNavigate} from "react-router-dom";
 import Row from "../Components/Row";
 import {
     getMovieNowPlaying,
     getMovieTopRated,
+    getMoviePopular,
     getMovieUpcoming,
-    IGetContentsResult, getMoviePopular
+    IGetContentsResult,
 } from "../api";
-import {ClickedMovie, SelectedRow} from "../atom";
-import {useRecoilValue} from "recoil";
+
+import BigContentModal from "../Components/BigContentModal";
 
 const Wrapper = styled.div`
   background: black;
@@ -44,59 +43,10 @@ const Overview = styled.p`
   width: 50%;
 `;
 
-const Overlay = styled(motion.div)`
-  position: fixed;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  opacity: 0;
-`;
-const BigMovieModal = styled(motion.div)`
-  position: absolute;
-  width: 40vw;
-  height: 80vh;
-  left: 0;
-  right: 0;
-  margin: 0 auto;
-  border-radius: 15px;
-  overflow: hidden;
-  background-color: ${(props) => props.theme.black.lighter};
-`;
-const BigCover = styled.div`
-  width: 100%;
-  background-size: cover;
-  background-position: center center;
-  height: 400px;
-`;
-const BigTitle = styled.h3`
-  color: ${(props) => props.theme.white.lighter};
-  padding: 20px;
-  font-size: 46px;
-  position: relative;
-  top: -80px;
-`;
-const BigOverview = styled.p`
-  padding: 20px;
-  position: relative;
-  top: -80px;
-  color: ${(props) => props.theme.white.lighter};
-`;
-
-
 function Home() {
-    const selectedRow = useRecoilValue(SelectedRow);
-    const navigate = useNavigate();
-    const onOverlayClick = () => {
-        navigate("/")
-    };
-    const {scrollY} = useViewportScroll();
-
-    const bigMovieMatch = useMatch("/movies/:movieId");
     const {data, isLoading} = useQuery<IGetContentsResult>(
         ["movies", "topRated"], getMovieTopRated
     );
-    const clickedMovie = useRecoilValue(ClickedMovie);
 
     return (
         <Wrapper>
@@ -134,34 +84,7 @@ function Home() {
                         getApi={getMovieUpcoming}
                         rowTitle={"Upcoming"}
                     />
-
-                    <AnimatePresence>
-                        {bigMovieMatch ? (
-                            <>
-                                <Overlay onClick={onOverlayClick}
-                                         animate={{opacity: 1}}
-                                         exit={{opacity: 0}}/>
-                                <BigMovieModal
-                                    style={{top: scrollY.get() + 100}}
-                                    layoutId={bigMovieMatch.params.movieId + selectedRow}
-                                >
-                                    {clickedMovie && (
-                                        <>
-                                            <BigCover
-                                                style={{
-                                                    backgroundImage: `linear-gradient(to top, black, transparent), url(${makeImagePath(
-                                                        clickedMovie.backdrop_path ? clickedMovie.backdrop_path : clickedMovie.poster_path, "w1280"
-                                                    )})`,
-                                                }}
-                                            />
-                                            <BigTitle>{clickedMovie.title}</BigTitle>
-                                            <BigOverview>{clickedMovie.overview}</BigOverview>
-                                        </>
-                                    )}
-                                </BigMovieModal>
-                            </>
-                        ) : null}
-                    </AnimatePresence>
+                    <BigContentModal media="movie"/>
                 </>
             )}
         </Wrapper>

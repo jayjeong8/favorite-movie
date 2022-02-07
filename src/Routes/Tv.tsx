@@ -43,7 +43,7 @@ const Overview = styled.p`
   width: 50%;
 `;
 
-function Home() {
+function TV() {
     const {data, isLoading} = useQuery<IGetContentsResult>(
         ["TV", "topRatedTV"], getTVTopRated
     );
@@ -85,11 +85,11 @@ function Home() {
                          rowTitle={"On The Air"}
                     />
 
-                    <BigContentModal/>
+                    <BigContentModal media="tv"/>
                 </>
             )}
         </Wrapper>
     );
 }
 
-export default Home;
+export default TV;

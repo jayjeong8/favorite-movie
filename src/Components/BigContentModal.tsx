@@ -3,7 +3,8 @@ import {AnimatePresence, motion, useViewportScroll} from "framer-motion";
 import {useMatch, useNavigate} from "react-router-dom";
 import styled from "styled-components";
 import {useRecoilValue} from "recoil";
-import {ClickedTV, SelectedRow} from "../atom";
+import {ClickedMovie, ClickedTV, SelectedRow} from "../atom";
+import {IBigModal} from "../api";
 
 const Overlay = styled(motion.div)`
   position: fixed;
@@ -44,14 +45,16 @@ const BigOverview = styled.p`
   color: ${(props) => props.theme.white.lighter};
 `;
 
-export default function BigContentModal() {
+export default function BigContentModal({media}:IBigModal) {
     const selectedRow = useRecoilValue(SelectedRow);
     const navigate = useNavigate();
-    const bigMovieMatch = useMatch("/tv/:tvId");
-    const onOverlayClick = () => {navigate("/tv")};
+    const bigMovieMatch = useMatch(media==="movie" ?
+        "/movie/:movieId" :
+        "/tv/:tvId");
+    const onOverlayClick = () => {media==="movie" ? navigate("/movie") : navigate("/tv")};
     const {scrollY} = useViewportScroll();
-    const clickedTV = useRecoilValue(ClickedTV);
-console.log(clickedTV)
+    const clickedContents = useRecoilValue(media==="movie" ? ClickedMovie: ClickedTV);
+console.log(clickedContents)
     return (
         <>
             <AnimatePresence>
@@ -62,19 +65,24 @@ console.log(clickedTV)
                                  exit={{opacity: 0}}/>
                         <BigModal
                             style={{top: scrollY.get() + 100}}
-                            layoutId={bigMovieMatch.params.tvId + selectedRow}
+                            layoutId={media==="movie" ?
+                                (bigMovieMatch.params.movieId + selectedRow) :
+                                (bigMovieMatch.params.tvId + selectedRow)}
                         >
-                            {clickedTV && (
+                            {clickedContents && (
                                 <>
                                     <BigCover
                                         style={{
                                             backgroundImage: `linear-gradient(to top, black, transparent), url(${makeImagePath(
-                                                clickedTV.backdrop_path ? clickedTV.backdrop_path : clickedTV.poster_path, "w1280"
+                                                clickedContents.backdrop_path ? clickedContents.backdrop_path : clickedContents.poster_path, "w1280"
                                             )})`,
                                         }}
                                     />
-                                    <BigTitle>{clickedTV.name}</BigTitle>
-                                    <BigOverview>{clickedTV.overview}</BigOverview>
+                                    <BigTitle>{
+                                        media==="movie" ? clickedContents.title
+                                        : clickedContents.name}
+                                    </BigTitle>
+                                    <BigOverview>{clickedContents.overview}</BigOverview>
                                 </>
                             )}
                         </BigModal>
