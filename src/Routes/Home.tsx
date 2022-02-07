@@ -40,12 +40,19 @@ const Slider = styled.div`
   position: relative;
   top: -100px;
 `;
+const RowTitle = styled.div`
+  font-size: 24px;
+  font-weight: bold;
+  margin: 16px 2.1%;
+`;
 const Row = styled(motion.div)`
   display: grid;
-  gap: 8px;
+  gap: 1%;
   grid-template-columns: repeat(6, 1fr);
   position: absolute;
-  width: 100%;
+  align-items: center;
+  width: 96%;
+  margin: 0 2% 16px 2%;
 `;
 const Box = styled(motion.div)<{ bgphoto: string }>`
   background-color: white;
@@ -201,6 +208,7 @@ function Home() {
                     </Banner>
                     <Slider>
                         <AnimatePresence initial={false} onExitComplete={toggleLeaving}>
+                            <RowTitle>Now Playing</RowTitle>
                             <Row
                                 variants={rowVariants}
                                 initial="hidden"
