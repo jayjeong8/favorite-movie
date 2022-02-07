@@ -12,7 +12,7 @@ import {
     IGetMoviesResult
 } from "../api";
 import {useRecoilState} from "recoil";
-import {NowPlaying, TopRated} from "../atom";
+import {NowPlaying, Popular, SelectedRow, TopRated} from "../atom";
 
 const Slider = styled.div`
   position: relative;
@@ -132,8 +132,11 @@ function Row({queryKeyName, getApi, rowTitle}: IApi) {
         ["movies", queryKeyName], getApi
     );
     const navigate = useNavigate();
+    const [selectedRow, setSelectedRow] = useRecoilState(SelectedRow)
     const [index, setIndex] = useRecoilState(
-        queryKeyName=="nowPlaying" ? NowPlaying : TopRated);
+        queryKeyName == "nowPlaying" ? NowPlaying :
+            queryKeyName == "topRated" ? TopRated : Popular
+    );
     const [leaving, setLeaving] = useState(false);
     const [increaseValue, setIncreaseValue] = useState(true);
     const toggleLeaving = () => setLeaving((prev) => !prev);
@@ -157,8 +160,9 @@ function Row({queryKeyName, getApi, rowTitle}: IApi) {
             setIndex((prev: number) => (prev === maxIndex ? 0 : prev + 1));
         }
     };
-    const onBoxClicked = (movieId: number) => {
+    const onBoxClicked = (movieId: number, ) => {
         navigate(`/movies/${movieId}`);
+        setSelectedRow(queryKeyName);
     };
 
     const NETFLIX_LOGO_URL =
@@ -185,8 +189,8 @@ function Row({queryKeyName, getApi, rowTitle}: IApi) {
                             .slice(offset * index, offset * index + offset)
                             .map((movie) => (
                                 <Box
-                                    key={movie.id}
-                                    layoutId={movie.id + ""}
+                                    key={movie.id + queryKeyName}
+                                    layoutId={movie.id + queryKeyName}
                                     onClick={() => onBoxClicked(movie.id)}
                                     variants={boxVariants}
                                     initial="normal"

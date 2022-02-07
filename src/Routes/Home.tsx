@@ -10,9 +10,10 @@ import {
     getMovieLatest,
     getMovieTopRated,
     getMovieUpcoming,
-    IGetMoviesResult
+    IGetMoviesResult, getMoviePopular
 } from "../api";
-import {NowPlaying} from "../atom";
+import {NowPlaying, SelectedRow} from "../atom";
+import {useRecoilState, useRecoilValue} from "recoil";
 
 const Wrapper = styled.div`
   background: black;
@@ -86,6 +87,7 @@ const BigOverview = styled.p`
 
 
 function Home() {
+    const selectedRow = useRecoilValue(SelectedRow)
     const navigate = useNavigate();
     const onOverlayClick = () => {
         navigate("/")
@@ -113,13 +115,18 @@ function Home() {
                         <Title>{data?.results[0].title}</Title>
                         <Overview>{data?.results[0].overview}</Overview>
                     </Banner>
-                    <Row queryKeyName={"nowPlaying"}
-                         getApi={getMovieNowPlaying}
-                         rowTitle={"Now Playing"}
+                    <Row
+                        queryKeyName={"nowPlaying"}
+                        getApi={getMovieNowPlaying}
+                        rowTitle={"Now Playing"}
                     />
                     <Row queryKeyName={"topRated"}
                          getApi={getMovieTopRated}
                          rowTitle={"Top Rated"}
+                    />
+                    <Row queryKeyName={"popular"}
+                         getApi={getMoviePopular}
+                         rowTitle={"Popular"}
                     />
 
                     <AnimatePresence>
@@ -130,7 +137,7 @@ function Home() {
                                          exit={{opacity: 0}}/>
                                 <BigMovieModal
                                     style={{top: scrollY.get() + 100}}
-                                    layoutId={bigMovieMatch.params.movieId}
+                                    layoutId={bigMovieMatch.params.movieId + selectedRow}
                                 >
                                     {clickedMovie && (
                                         <>

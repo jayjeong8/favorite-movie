@@ -62,6 +62,11 @@ export function getMovieTopRated() {
     return fetch(`${BASE_PATH}/movie/top_rated?api_key=${API_KEY}`)
         .then(response => response.json());
 }
+export function getMoviePopular() {
+    return fetch(`${BASE_PATH}/movie/popular?api_key=${API_KEY}`)
+        .then(response => response.json());
+}
+
 export function getMovieUpcoming() {
     return fetch(`${BASE_PATH}/movie/upcoming?api_key=${API_KEY}`)
         .then(response => response.json());
