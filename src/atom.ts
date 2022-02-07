@@ -48,6 +48,13 @@ export const TVOnTheAir = atom({
     default: 0,
 });
 
+//search Index
+export const SearchIndex = atom({
+    key: 'searchIndex',
+    default: 0,
+});
+
+
 //selected Row
 export const SelectedRow = atom({
     key: 'selectedRow',
