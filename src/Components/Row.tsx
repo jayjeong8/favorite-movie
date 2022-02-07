@@ -11,9 +11,12 @@ import {
     getMovieUpcoming,
     IGetMoviesResult
 } from "../api";
+import {useRecoilState} from "recoil";
+import {NowPlaying, TopRated} from "../atom";
 
 const Slider = styled.div`
   position: relative;
+  height: 280px;
   top: -100px;
 `;
 const RowTitle = styled.div`
@@ -23,11 +26,11 @@ const RowTitle = styled.div`
 `;
 const InRow = styled(motion.div)`
   display: grid;
+  width: 96%;
   gap: 1%;
   grid-template-columns: repeat(6, 1fr);
   position: absolute;
   align-items: center;
-  width: 96%;
   margin: 0 2% 16px 2%;
 `;
 const DecreaseButton = styled(motion.span)`
@@ -122,11 +125,15 @@ interface IApi {
 }
 
 function Row({queryKeyName, getApi, rowTitle}: IApi) {
+    // const {data, isLoading} = useQuery<IGetMoviesResult>(
+    //     ["movies", "nowPlaying"], getMovieNowPlaying
+    // );
     const {data, isLoading} = useQuery<IGetMoviesResult>(
-        ["movies",queryKeyName], getApi
+        ["movies", queryKeyName], getApi
     );
     const navigate = useNavigate();
-    const [index, setIndex] = useState(0);
+    const [index, setIndex] = useRecoilState(
+        queryKeyName=="nowPlaying" ? NowPlaying : TopRated);
     const [leaving, setLeaving] = useState(false);
     const [increaseValue, setIncreaseValue] = useState(true);
     const toggleLeaving = () => setLeaving((prev) => !prev);
@@ -137,7 +144,7 @@ function Row({queryKeyName, getApi, rowTitle}: IApi) {
             toggleLeaving();
             const totalMovies = data.results.length - 1;
             const maxIndex = Math.floor(totalMovies / offset) - 1;
-            setIndex((prev) => (prev === 0 ? maxIndex : prev - 1));
+            setIndex((prev: number) => (prev === 0 ? maxIndex : prev - 1));
         }
     };
     const increaseIndex = () => {
@@ -147,7 +154,7 @@ function Row({queryKeyName, getApi, rowTitle}: IApi) {
             toggleLeaving();
             const totalMovies = data.results.length - 1;
             const maxIndex = Math.floor(totalMovies / offset) - 1;
-            setIndex((prev) => (prev === maxIndex ? 0 : prev + 1));
+            setIndex((prev: number) => (prev === maxIndex ? 0 : prev + 1));
         }
     };
     const onBoxClicked = (movieId: number) => {
@@ -160,7 +167,7 @@ function Row({queryKeyName, getApi, rowTitle}: IApi) {
     return (
         <>
             <Slider>
-                <AnimatePresence initial={false} onExitComplete={toggleLeaving}>
+                <AnimatePresence key={queryKeyName} initial={false} onExitComplete={toggleLeaving}>
                     <RowTitle>{rowTitle}</RowTitle>
                     <DecreaseButton onClick={decreaseIndex}>left</DecreaseButton>
                     <IncreaseButton onClick={increaseIndex}>right</IncreaseButton>
@@ -171,7 +178,7 @@ function Row({queryKeyName, getApi, rowTitle}: IApi) {
                         animate="visible"
                         exit="exit"
                         transition={{type: "tween", duration: 1}}
-                        key={index}
+                        key={index + queryKeyName}
                     >
                         {data?.results
                             .slice(1) //메인화면에 들어가는 영화 제외

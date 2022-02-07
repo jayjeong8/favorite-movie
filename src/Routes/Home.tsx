@@ -1,11 +1,18 @@
 import {useQuery} from "react-query";
-import {getMovieNowPlaying, IGetMoviesResult} from "../api";
 import styled from "styled-components";
 import {motion, AnimatePresence, useViewportScroll} from "framer-motion";
 import {makeImagePath} from "../utils";
 import {useState} from "react";
 import {useMatch, useNavigate} from "react-router-dom";
 import Row from "../Components/Row";
+import {
+    getMovieNowPlaying,
+    getMovieLatest,
+    getMovieTopRated,
+    getMovieUpcoming,
+    IGetMoviesResult
+} from "../api";
+import {NowPlaying} from "../atom";
 
 const Wrapper = styled.div`
   background: black;
@@ -78,10 +85,11 @@ const BigOverview = styled.p`
 `;
 
 
-
 function Home() {
     const navigate = useNavigate();
-    const onOverlayClick = () => {navigate("/")};
+    const onOverlayClick = () => {
+        navigate("/")
+    };
     const {scrollY} = useViewportScroll();
 
     const bigMovieMatch = useMatch("/movies/:movieId");
@@ -105,10 +113,14 @@ function Home() {
                         <Title>{data?.results[0].title}</Title>
                         <Overview>{data?.results[0].overview}</Overview>
                     </Banner>
-                           <Row queryKeyName={"nowPlaying"}
-                                getApi={getMovieNowPlaying}
-                                rowTitle={"Now Playing"}
-                           />
+                    <Row queryKeyName={"nowPlaying"}
+                         getApi={getMovieNowPlaying}
+                         rowTitle={"Now Playing"}
+                    />
+                    <Row queryKeyName={"topRated"}
+                         getApi={getMovieTopRated}
+                         rowTitle={"Top Rated"}
+                    />
 
                     <AnimatePresence>
                         {bigMovieMatch ? (
