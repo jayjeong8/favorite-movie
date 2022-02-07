@@ -84,7 +84,7 @@ function Row({queryKeyName1, queryKeyName2, getApi, rowTitle}: IApi) {
                                             whileHover="hover"
                                             transition={{type: "tween"}}
                                             bgphoto={content.poster_path ?
-                                                makeImagePath(content.poster_path, "w780")
+                                                makeImagePath(content.poster_path, "w500")
                                                 : NETFLIX_LOGO_URL}
                                         >
                                             <Info variants={infoVariants}>

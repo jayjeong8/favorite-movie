@@ -33,7 +33,7 @@ export default function BigContentModal({media}:IBigModal) {
                                     <BigCover
                                         style={{
                                             backgroundImage: `linear-gradient(to top, black, transparent), url(${makeImagePath(
-                                                clickedContents.backdrop_path ? clickedContents.backdrop_path : clickedContents.poster_path, "w1280"
+                                                clickedContents.backdrop_path ? clickedContents.backdrop_path : clickedContents.poster_path, "w780"
                                             )})`,
                                         }}
                                     />
