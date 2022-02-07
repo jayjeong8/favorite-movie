@@ -6,16 +6,18 @@ import {makeImagePath} from "../utils";
 import {Slider, Info, Box, RowTitle, InRow} from "../Components/RowStyledComponent";
 import {rowVariants, infoVariants, boxVariants} from "../Components/RowVariants";
 import {useRecoilValue, useSetRecoilState} from "recoil";
-import {ClickedMovie, IncreaseState, ModalLeaving, SearchIndex, SelectedRow} from "../atom";
+import {ClickedMovie, ClickedTV, IncreaseState, ModalLeaving, SearchIndex, SelectedRow} from "../atom";
 import {IGetContentsResult} from "../api";
 import {useNavigate} from "react-router-dom";
 import styled from "styled-components";
+import BigContentModal from "../Components/BigContentModal";
+import {useState} from "react";
 
 const API_KEY = "8b0c5f0400aa76e404ea70c8b1e0ce22";
 const BASE_PATH = "https://api.themoviedb.org/3";
 
 const Wrapper = styled.div`
-margin-top: 32vh;
+  margin-top: 32vh;
 `;
 
 function Search() {
@@ -41,11 +43,20 @@ function Search() {
     const navigate = useNavigate();
     const setSelectedRow = useSetRecoilState(SelectedRow)
     const setClickedMovie = useSetRecoilState(ClickedMovie);
-    const onBoxClicked = (contentId: number) => {
-        navigate(`/movies/${contentId}`)
-        setSelectedRow("searchMovie");
-        const clicked = movieData?.data?.results.find((content) => content.id === contentId || undefined);
-        setClickedMovie(clicked);
+    const setClickedTV = useSetRecoilState(ClickedTV);
+    const [mediaState, setMediaState] = useState("movie")
+    const onBoxClicked = (contentId: number, checkMedia: string) => {
+        checkMedia === "searchMovie" ?
+            navigate(`/movie/${contentId}`) : navigate(`/tv/${contentId}`);
+        setSelectedRow(checkMedia);
+        const clicked =
+            checkMedia === "searchMovie" ?
+                movieData?.data?.results.find((content) => content.id === contentId || undefined)
+                : tvData?.data?.results.find((content) => content.id === contentId || undefined)
+        checkMedia === "searchMovie" ?
+            setClickedMovie(clicked) : setClickedTV(clicked);
+        checkMedia === "searchMovie" ?
+            setMediaState("movie") : setMediaState("tv");
     };
 
     const offset = 6;
@@ -73,9 +84,9 @@ function Search() {
                             .slice(offset * index, offset * index + offset)
                             .map((content) => (
                                 <Box
-                                    key={content.id + (keyword +"")}
-                                    layoutId={content.id + (keyword +"")}
-                                    onClick={() => onBoxClicked(content.id)}
+                                    key={content.id + (keyword + "")}
+                                    layoutId={content.id + (keyword + "")}
+                                    onClick={() => onBoxClicked(content.id, "searchMovie")}
                                     variants={boxVariants}
                                     initial="normal"
                                     whileHover="hover"
@@ -111,9 +122,9 @@ function Search() {
                             .slice(offset * index, offset * index + offset)
                             .map((content) => (
                                 <Box
-                                    key={content.id + "tv" + (keyword +"")}
-                                    layoutId={content.id + "tv" + (keyword +"")}
-                                    onClick={() => onBoxClicked(content.id)}
+                                    key={content.id + "tv" + (keyword + "")}
+                                    layoutId={content.id + "tv" + (keyword + "")}
+                                    onClick={() => onBoxClicked(content.id, "searchTV")}
                                     variants={boxVariants}
                                     initial="normal"
                                     whileHover="hover"
@@ -130,6 +141,7 @@ function Search() {
                     </InRow>
                 </AnimatePresence>
             </Slider>
+            <BigContentModal media={mediaState==="movie" ? "movie" : "tv"}/>
         </Wrapper>
     )
 
