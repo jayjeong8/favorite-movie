@@ -36,14 +36,14 @@ const InRow = styled(motion.div)`
   margin: 0 10% 16px 10%;
 `;
 const DecreaseButton = styled(motion.span)`
-  z-index: 99;
+  z-index: 2;
   position: absolute;
   align-items: center;
   top: 13vw;
   left: 4%;
 `;
 const IncreaseButton = styled(motion.span)`
-  z-index: 99;
+  z-index: 2;
   position: absolute;
   align-items: center;
   top: 13vw;
