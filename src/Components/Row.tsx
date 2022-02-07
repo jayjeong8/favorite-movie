@@ -9,7 +9,7 @@ import {
 } from "../api";
 import {useRecoilState, useRecoilValue, useSetRecoilState} from "recoil";
 import {
-    ClickedMovie, IncreaseState, ModalLeaving,
+    ClickedMovie, ClickedTV, IncreaseState, ModalLeaving,
     MovieNowPlaying,
     MoviePopular,
     MovieTopRated,
@@ -43,12 +43,14 @@ function Row({queryKeyName1, queryKeyName2, getApi, rowTitle}: IApi) {
 
     const [selectedRow, setSelectedRow] = useRecoilState(SelectedRow)
     const setClickedMovie = useSetRecoilState(ClickedMovie);
+    const setClickedTV = useSetRecoilState(ClickedTV);
     const onBoxClicked = (contentId: number) => {
         queryKeyName1 === "MOVIE" ?
             navigate(`/movies/${contentId}`) : navigate(`/tv/${contentId}`)
         setSelectedRow(queryKeyName2);
         const clicked = data?.results.find((content) => content.id === contentId || undefined);
-        setClickedMovie(clicked);
+        queryKeyName1 === "MOVIE" ?
+            setClickedMovie(clicked): setClickedTV(clicked);
     };
 
     const offset = 6;
