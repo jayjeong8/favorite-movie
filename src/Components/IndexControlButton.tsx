@@ -2,7 +2,6 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faAngleLeft, faAngleRight} from "@fortawesome/free-solid-svg-icons";
 import styled from "styled-components";
 import {motion} from "framer-motion";
-import {useState} from "react";
 import {useRecoilState, useSetRecoilState} from "recoil";
 import {
     IncreaseState,
@@ -14,7 +13,7 @@ import {
     TVAiringToday, TVOnTheAir, TVPopular,
     TVTopRated
 } from "../atom";
-import {IApi, IIndexControl} from "../api";
+import {IIndexControl} from "../api";
 
 
 const DecreaseButton = styled(motion.span)`

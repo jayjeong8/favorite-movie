@@ -44,7 +44,7 @@ export interface IApi {
 }
 export interface IIndexControl {
     queryKeyName2: string;
-    data:IGetContentsResult | undefined
+    data:any;
 }
 export function getMovieNowPlaying() {
     return fetch(`${BASE_PATH}/movie/now_playing?api_key=${API_KEY}`)
