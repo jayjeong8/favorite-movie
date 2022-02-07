@@ -1,5 +1,5 @@
 import {useQuery} from "react-query";
-import {getMovies, IGetMoviesResult} from "../api";
+import {getMovieNowPlaying, IGetMoviesResult} from "../api";
 import styled from "styled-components";
 import {motion, AnimatePresence, useViewportScroll} from "framer-motion";
 import {makeImagePath} from "../utils";
@@ -159,7 +159,7 @@ function Home() {
     const bigMovieMatch = useMatch("/movies/:movieId");
     const {scrollY} = useViewportScroll();
     const {data, isLoading} = useQuery<IGetMoviesResult>(
-        ["movies", "nowPlaying"], getMovies
+        ["movies", "nowPlaying"], getMovieNowPlaying
     );
     const [index, setIndex] = useState(0);
     const [leaving, setLeaving] = useState(false);
