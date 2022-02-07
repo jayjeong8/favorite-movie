@@ -29,7 +29,7 @@ const Banner = styled.div<{ bgPhoto: string }>`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 64px;
+  padding: 0 8%;
   background-image: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 1)),
   url(${(props) => props.bgPhoto});
   background-size: cover;
