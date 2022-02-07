@@ -1,17 +1,17 @@
 import {useLocation} from "react-router";
 import {useQuery} from "react-query";
-import {AnimatePresence} from "framer-motion";
+import {AnimatePresence, useViewportScroll} from "framer-motion";
 import IndexControlButton from "../Components/IndexControlButton";
 import {makeImagePath} from "../utils";
-import {Slider, Info, Box, RowTitle, InRow} from "../Components/RowStyledComponent";
+import {Slider, Info, Box, RowTitle, InRow} from "../Components/StyledRow";
 import {rowVariants, infoVariants, boxVariants} from "../Components/RowVariants";
-import {useRecoilValue, useSetRecoilState} from "recoil";
+import {useRecoilState, useRecoilValue, useSetRecoilState} from "recoil";
 import {ClickedMovie, ClickedTV, IncreaseState, ModalLeaving, SearchIndex, SelectedRow} from "../atom";
 import {IGetContentsResult} from "../api";
-import {useNavigate} from "react-router-dom";
+import {useMatch, useNavigate} from "react-router-dom";
 import styled from "styled-components";
-import BigContentModal from "../Components/BigContentModal";
 import {useState} from "react";
+import {BigCover, BigModal, BigOverview, BigTitle, Overlay} from "../Components/StyledBigModal";
 
 const API_KEY = "8b0c5f0400aa76e404ea70c8b1e0ce22";
 const BASE_PATH = "https://api.themoviedb.org/3";
@@ -41,23 +41,27 @@ function Search() {
     const index = useRecoilValue(SearchIndex);
 
     const navigate = useNavigate();
-    const setSelectedRow = useSetRecoilState(SelectedRow)
+    const [selectedRow,setSelectedRow] = useRecoilState(SelectedRow)
     const setClickedMovie = useSetRecoilState(ClickedMovie);
     const setClickedTV = useSetRecoilState(ClickedTV);
-    const [mediaState, setMediaState] = useState("movie")
-    const onBoxClicked = (contentId: number, checkMedia: string) => {
+    const [checkMedia, setCheckMedia] = useState("searchMovie")
+    const onBoxClicked = (contentId: number, media: string) => {
+        media === "movie"? setCheckMedia("searchMovie") : setCheckMedia("searchTV");
         checkMedia === "searchMovie" ?
             navigate(`/movie/${contentId}`) : navigate(`/tv/${contentId}`);
-        setSelectedRow(checkMedia);
+        setSelectedRow(media);
         const clicked =
             checkMedia === "searchMovie" ?
                 movieData?.data?.results.find((content) => content.id === contentId || undefined)
                 : tvData?.data?.results.find((content) => content.id === contentId || undefined)
         checkMedia === "searchMovie" ?
             setClickedMovie(clicked) : setClickedTV(clicked);
-        checkMedia === "searchMovie" ?
-            setMediaState("movie") : setMediaState("tv");
     };
+    const clickedContents = useRecoilValue(checkMedia==="searchMovie" ? ClickedMovie: ClickedTV);
+
+    const bigMovieMatch = useMatch("/search/:searchId");
+    const onOverlayClick = () => {navigate("/search")};
+    const {scrollY} = useViewportScroll();
 
     const offset = 6;
     const NETFLIX_LOGO_URL =
@@ -86,7 +90,7 @@ function Search() {
                                 <Box
                                     key={content.id + (keyword + "")}
                                     layoutId={content.id + (keyword + "")}
-                                    onClick={() => onBoxClicked(content.id, "searchMovie")}
+                                    onClick={() => onBoxClicked(content.id, "movie")}
                                     variants={boxVariants}
                                     initial="normal"
                                     whileHover="hover"
@@ -124,7 +128,7 @@ function Search() {
                                 <Box
                                     key={content.id + "tv" + (keyword + "")}
                                     layoutId={content.id + "tv" + (keyword + "")}
-                                    onClick={() => onBoxClicked(content.id, "searchTV")}
+                                    onClick={() => onBoxClicked(content.id, "tv")}
                                     variants={boxVariants}
                                     initial="normal"
                                     whileHover="hover"
@@ -141,7 +145,38 @@ function Search() {
                     </InRow>
                 </AnimatePresence>
             </Slider>
-            <BigContentModal media={mediaState==="movie" ? "movie" : "tv"}/>
+
+            <AnimatePresence>
+                {bigMovieMatch ? (
+                    <>
+                        <Overlay onClick={onOverlayClick}
+                                 animate={{opacity: 1}}
+                                 exit={{opacity: 0}}/>
+                        <BigModal
+                            style={{top: scrollY.get() + 100}}
+                            layoutId={
+                                bigMovieMatch.params.searchId + selectedRow}
+                        >
+                            {clickedContents && (
+                                <>
+                                    <BigCover
+                                        style={{
+                                            backgroundImage: `linear-gradient(to top, black, transparent), url(${makeImagePath(
+                                                clickedContents.backdrop_path ? clickedContents.backdrop_path : clickedContents.poster_path, "w1280"
+                                            )})`,
+                                        }}
+                                    />
+                                    <BigTitle>{
+                                        checkMedia==="searchMovie" ? clickedContents.title
+                                            : clickedContents.name}
+                                    </BigTitle>
+                                    <BigOverview>{clickedContents.overview}</BigOverview>
+                                </>
+                            )}
+                        </BigModal>
+                    </>
+                ) : null}
+            </AnimatePresence>
         </Wrapper>
     )
 
