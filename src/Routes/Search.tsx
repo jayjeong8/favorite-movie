@@ -6,12 +6,20 @@ import {makeImagePath} from "../utils";
 import {Slider, Info, Box, RowTitle, InRow} from "../Components/StyledRow";
 import {rowVariants, infoVariants, boxVariants} from "../Components/RowVariants";
 import {useRecoilState, useRecoilValue, useSetRecoilState} from "recoil";
-import {ClickedMovie, ClickedTV, IncreaseState, ModalLeaving, SearchIndex, SelectedRow} from "../atom";
+import {
+    ClickedMovie,
+    ClickedTV,
+    IncreaseState,
+    ModalLeaving,
+    SearchMovieIndex, SearchTVIndex,
+    SelectedRow
+} from "../atom";
 import {IGetContentsResult} from "../api";
 import {useMatch, useNavigate} from "react-router-dom";
 import styled from "styled-components";
 import {useState} from "react";
 import {BigCover, BigModal, BigOverview, BigTitle, Overlay} from "../Components/StyledBigModal";
+import {Loader} from "../Components/Loader";
 
 const API_KEY = "8b0c5f0400aa76e404ea70c8b1e0ce22";
 const BASE_PATH = "https://api.themoviedb.org/3";
@@ -31,12 +39,14 @@ function Search() {
         return await fetch(`${BASE_PATH}/search/tv?api_key=${API_KEY}&query=${keyword}`)
             .then(response => response.json())
     })
+    const {isLoading} = useQuery(["movieSearch", keyword]);
+
 
     const setLeaving = useSetRecoilState(ModalLeaving);
     const increaseValue = useRecoilValue(IncreaseState);
     const toggleLeaving = () => setLeaving((prev: boolean) => !prev);
-    const index = useRecoilValue(SearchIndex);
-
+    const movieIndex = useRecoilValue(SearchMovieIndex);
+    const tvIndex = useRecoilValue(SearchTVIndex);
 
     const {scrollY} = useViewportScroll();
     const navigate = useNavigate();
@@ -44,7 +54,7 @@ function Search() {
     const setClickedMovie = useSetRecoilState(ClickedMovie);
     const setClickedTV = useSetRecoilState(ClickedTV);
     const [checkMedia, setCheckMedia] = useState("searchMovie");
-    const [savedKeyword, setSavedKeyword] = useState<string|null>("");
+    const [savedKeyword, setSavedKeyword] = useState<string | null>("");
     const onBoxClicked = (contentId: number, media: string) => {
         media === "movie" ? setCheckMedia("searchMovie") : setCheckMedia("searchTV");
         navigate(`/search/${contentId}`)
@@ -71,119 +81,119 @@ function Search() {
 
     return (
         <>
-        {!movieData || !tvData ? (<h3>Loading..</h3>) : (
-    <Wrapper>
-        <Slider>
-            <AnimatePresence initial={false} onExitComplete={toggleLeaving}>
-                <RowTitle>Movie</RowTitle>
-                <IndexControlButton
-                    queryKeyName2={keyword + ""}
-                    data={movieData}/>
-                <InRow
-                    variants={rowVariants}
-                    custom={increaseValue}
-                    initial="hidden"
-                    animate="visible"
-                    exit="exit"
-                    transition={{type: "tween", duration: 1}}
-                    key={keyword + ""}
-                >
-                    {movieData?.data?.results
-                        .slice(offset * index, offset * index + offset)
-                        .map((content) => (
-                            <Box
-                                key={content.id + selectedRow + "movie"}
-                                layoutId={content.id + ""}
-                                onClick={() => onBoxClicked(content.id, "movie")}
-                                variants={boxVariants}
-                                initial="normal"
-                                whileHover="hover"
-                                transition={{type: "tween"}}
-                                bgphoto={content.poster_path ?
-                                    makeImagePath(content.poster_path, "w500")
-                                    : NETFLIX_LOGO_URL}
+            {isLoading ? (<Loader>Loading..</Loader>) : (
+                <Wrapper>
+                    <Slider>
+                        <AnimatePresence initial={false} onExitComplete={toggleLeaving}>
+                            <RowTitle>Movie</RowTitle>
+                            <IndexControlButton
+                                queryKeyName2={"searchMovie"}
+                                data={movieData}/>
+                            <InRow
+                                variants={rowVariants}
+                                custom={increaseValue}
+                                initial="hidden"
+                                animate="visible"
+                                exit="exit"
+                                transition={{type: "tween", duration: 1}}
+                                key={keyword + ""}
                             >
-                                <Info variants={infoVariants}>
-                                    <h4>{content.title}</h4>
-                                </Info>
-                            </Box>
-                        ))}
-                </InRow>
-            </AnimatePresence>
-        </Slider>
-        <Slider>
-            <AnimatePresence initial={false} onExitComplete={toggleLeaving}>
-                <RowTitle>TV show</RowTitle>
-                <IndexControlButton
-                    queryKeyName2={keyword + ""}
-                    data={tvData}/>
-                <InRow
-                    variants={rowVariants}
-                    custom={increaseValue}
-                    initial="hidden"
-                    animate="visible"
-                    exit="exit"
-                    transition={{type: "tween", duration: 1}}
-                    key={keyword + ""}
-                >
-                    {tvData?.data?.results
-                        .slice(offset * index, offset * index + offset)
-                        .map((content) => (
-                            <Box
-                                key={content.id + selectedRow + "tv"}
-                                layoutId={content.id + ""}
-                                onClick={() => onBoxClicked(content.id, "tv")}
-                                variants={boxVariants}
-                                initial="normal"
-                                whileHover="hover"
-                                transition={{type: "tween"}}
-                                bgphoto={content.poster_path ?
-                                    makeImagePath(content.poster_path, "w500")
-                                    : NETFLIX_LOGO_URL}
+                                {movieData?.data?.results
+                                    .slice(offset * movieIndex, offset * movieIndex + offset)
+                                    .map((content) => (
+                                        <Box
+                                            key={content.id + selectedRow + "movie"}
+                                            layoutId={content.id + ""}
+                                            onClick={() => onBoxClicked(content.id, "movie")}
+                                            variants={boxVariants}
+                                            initial="normal"
+                                            whileHover="hover"
+                                            transition={{type: "tween"}}
+                                            bgphoto={content.poster_path ?
+                                                makeImagePath(content.poster_path, "w500")
+                                                : NETFLIX_LOGO_URL}
+                                        >
+                                            <Info variants={infoVariants}>
+                                                <h4>{content.title}</h4>
+                                            </Info>
+                                        </Box>
+                                    ))}
+                            </InRow>
+                        </AnimatePresence>
+                    </Slider>
+                    <Slider>
+                        <AnimatePresence initial={false} onExitComplete={toggleLeaving}>
+                            <RowTitle>TV show</RowTitle>
+                            <IndexControlButton
+                                queryKeyName2={"searchTV"}
+                                data={tvData}/>
+                            <InRow
+                                variants={rowVariants}
+                                custom={increaseValue}
+                                initial="hidden"
+                                animate="visible"
+                                exit="exit"
+                                transition={{type: "tween", duration: 1}}
+                                key={keyword + ""}
                             >
-                                <Info variants={infoVariants}>
-                                    <h4>{content.name}</h4>
-                                </Info>
-                            </Box>
-                        ))}
-                </InRow>
-            </AnimatePresence>
-        </Slider>
+                                {tvData?.data?.results
+                                    .slice(offset * tvIndex, offset * tvIndex + offset)
+                                    .map((content) => (
+                                        <Box
+                                            key={content.id + selectedRow + "tv"}
+                                            layoutId={content.id + ""}
+                                            onClick={() => onBoxClicked(content.id, "tv")}
+                                            variants={boxVariants}
+                                            initial="normal"
+                                            whileHover="hover"
+                                            transition={{type: "tween"}}
+                                            bgphoto={content.poster_path ?
+                                                makeImagePath(content.poster_path, "w500")
+                                                : NETFLIX_LOGO_URL}
+                                        >
+                                            <Info variants={infoVariants}>
+                                                <h4>{content.name}</h4>
+                                            </Info>
+                                        </Box>
+                                    ))}
+                            </InRow>
+                        </AnimatePresence>
+                    </Slider>
 
-        <AnimatePresence>
-            {bigMovieMatch ? (
-                <>
-                    <Overlay onClick={onOverlayClick}
-                             animate={{opacity: 1}}
-                             exit={{opacity: 0}}/>
-                    <BigModal
-                        style={{top: scrollY.get() + 100}}
-                        layoutId={bigMovieMatch.params.searchId + ""}
-                    >
-                        {clickedContents && (
+                    <AnimatePresence>
+                        {bigMovieMatch ? (
                             <>
-                                <BigCover
-                                    style={{
-                                        backgroundImage: `linear-gradient(to top, black, transparent), url(${makeImagePath(
-                                            clickedContents.backdrop_path ? clickedContents.backdrop_path : clickedContents.poster_path, "w780"
-                                        )})`,
-                                    }}
-                                />
-                                <BigTitle>{
-                                    checkMedia === "searchMovie" ? clickedContents.title
-                                        : clickedContents.name}
-                                </BigTitle>
-                                <BigOverview>{clickedContents.overview}</BigOverview>
+                                <Overlay onClick={onOverlayClick}
+                                         animate={{opacity: 1}}
+                                         exit={{opacity: 0}}/>
+                                <BigModal
+                                    style={{top: scrollY.get() + 100}}
+                                    layoutId={bigMovieMatch.params.searchId + ""}
+                                >
+                                    {clickedContents && (
+                                        <>
+                                            <BigCover
+                                                style={{
+                                                    backgroundImage: `linear-gradient(to top, black, transparent), url(${makeImagePath(
+                                                        clickedContents.backdrop_path ? clickedContents.backdrop_path : clickedContents.poster_path, "w780"
+                                                    )})`,
+                                                }}
+                                            />
+                                            <BigTitle>{
+                                                checkMedia === "searchMovie" ? clickedContents.title
+                                                    : clickedContents.name}
+                                            </BigTitle>
+                                            <BigOverview>{clickedContents.overview}</BigOverview>
+                                        </>
+                                    )}
+                                </BigModal>
                             </>
-                        )}
-                    </BigModal>
-                </>
-            ) : null}
-        </AnimatePresence>
-    </Wrapper>
-        )
-        }
-</>
+                        ) : null}
+                    </AnimatePresence>
+                </Wrapper>
+            )
+            }
+        </>
     )
 
 }

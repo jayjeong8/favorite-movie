@@ -8,8 +8,8 @@ import {
     ModalLeaving,
     MovieNowPlaying,
     MoviePopular,
-     MovieTopRated,
-    MovieUpcoming,
+    MovieTopRated,
+    MovieUpcoming, SearchMovieIndex, SearchTVIndex,
     TVAiringToday, TVOnTheAir, TVPopular,
     TVTopRated
 } from "../atom";
@@ -41,7 +41,9 @@ export default function IndexControlButton({queryKeyName2, data}:IIndexControl) 
                 queryKeyName2 === "upcoming" ? MovieUpcoming :
                     queryKeyName2 === "airingToday" ? TVAiringToday :
                         queryKeyName2 === "topRatedTV" ? TVTopRated :
-                            queryKeyName2 === "popularTV" ? TVPopular : TVOnTheAir)
+                            queryKeyName2 === "popularTV" ? TVPopular :
+                                queryKeyName2 === "onTheAir" ? TVOnTheAir :
+                                    queryKeyName2 === "searchMovie" ? SearchMovieIndex : SearchTVIndex )
     const toggleLeaving = () => setLeaving((prev:boolean) => !prev);
     const setIncreaseValue = useSetRecoilState(IncreaseState);
 

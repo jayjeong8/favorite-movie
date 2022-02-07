@@ -1,5 +1,6 @@
 import {useQuery} from "react-query";
 import styled from "styled-components";
+import {Loader} from "../Components/Loader";
 import {makeImagePath} from "../utils";
 import Row from "../Components/Row";
 import {
@@ -9,19 +10,13 @@ import {
     getTVOnTheAir,
     IGetContentsResult
 } from "../api";
-
 import BigContentModal from "../Components/BigContentModal";
 
 const Wrapper = styled.div`
   background: black;
   padding-bottom: 200px;
 `;
-const Loader = styled.div`
-  height: 20vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
+
 const Banner = styled.div<{ bgPhoto: string }>`
   height: 100vh;
   display: flex;
