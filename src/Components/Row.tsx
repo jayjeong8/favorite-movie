@@ -1,3 +1,5 @@
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faAngleLeft, faAngleRight,} from '@fortawesome/free-solid-svg-icons'
 import {makeImagePath} from "../utils";
 import styled from "styled-components";
 import {motion, AnimatePresence} from "framer-motion";
@@ -12,49 +14,47 @@ import {
     IGetMoviesResult
 } from "../api";
 import {useRecoilState} from "recoil";
-import {NowPlaying, Popular, SelectedRow, TopRated} from "../atom";
+import {NowPlaying, Popular, SelectedRow, TopRated, Upcoming} from "../atom";
 
 const Slider = styled.div`
   position: relative;
-  height: 280px;
+  height: 26vw;
   top: -100px;
 `;
 const RowTitle = styled.div`
   font-size: 24px;
   font-weight: bold;
-  margin: 16px 2.1%;
+  margin: 16px 8%;
 `;
 const InRow = styled(motion.div)`
   display: grid;
-  width: 96%;
+  width: 80%;
   gap: 1%;
   grid-template-columns: repeat(6, 1fr);
   position: absolute;
   align-items: center;
-  margin: 0 2% 16px 2%;
+  margin: 0 10% 16px 10%;
 `;
 const DecreaseButton = styled(motion.span)`
   z-index: 99;
   position: absolute;
   align-items: center;
-  top: 134px;
-  left: 0;
-  background-color: tomato;
+  top: 13vw;
+  left: 4%;
 `;
 const IncreaseButton = styled(motion.span)`
   z-index: 99;
   position: absolute;
   align-items: center;
-  top: 134px;
-  right: 0;
-  background-color: tomato;
+  top: 13vw;
+  right: 4%;
 `;
 const Box = styled(motion.div)<{ bgphoto: string }>`
   background-color: white;
   background-image: url(${(props) => props.bgphoto});
   background-size: cover;
   background-position: center center;
-  height: 200px;
+  height: 20vw;
   font-size: 64px;
   cursor: pointer;
 
@@ -135,7 +135,8 @@ function Row({queryKeyName, getApi, rowTitle}: IApi) {
     const [selectedRow, setSelectedRow] = useRecoilState(SelectedRow)
     const [index, setIndex] = useRecoilState(
         queryKeyName == "nowPlaying" ? NowPlaying :
-            queryKeyName == "topRated" ? TopRated : Popular
+            queryKeyName == "topRated" ? TopRated :
+                queryKeyName == "popular" ? Popular : Upcoming
     );
     const [leaving, setLeaving] = useState(false);
     const [increaseValue, setIncreaseValue] = useState(true);
@@ -160,7 +161,7 @@ function Row({queryKeyName, getApi, rowTitle}: IApi) {
             setIndex((prev: number) => (prev === maxIndex ? 0 : prev + 1));
         }
     };
-    const onBoxClicked = (movieId: number, ) => {
+    const onBoxClicked = (movieId: number,) => {
         navigate(`/movies/${movieId}`);
         setSelectedRow(queryKeyName);
     };
@@ -173,8 +174,14 @@ function Row({queryKeyName, getApi, rowTitle}: IApi) {
             <Slider>
                 <AnimatePresence key={queryKeyName} initial={false} onExitComplete={toggleLeaving}>
                     <RowTitle>{rowTitle}</RowTitle>
-                    <DecreaseButton onClick={decreaseIndex}>left</DecreaseButton>
-                    <IncreaseButton onClick={increaseIndex}>right</IncreaseButton>
+                    <DecreaseButton onClick={decreaseIndex}>
+                        <FontAwesomeIcon icon={faAngleLeft}
+                                         size="2x"/>
+                    </DecreaseButton>
+                    <IncreaseButton onClick={increaseIndex}>
+                        <FontAwesomeIcon icon={faAngleRight}
+                                         size="2x"/>
+                    </IncreaseButton>
                     <InRow
                         variants={rowVariants}
                         custom={increaseValue}
@@ -196,8 +203,8 @@ function Row({queryKeyName, getApi, rowTitle}: IApi) {
                                     initial="normal"
                                     whileHover="hover"
                                     transition={{type: "tween"}}
-                                    bgphoto={movie.backdrop_path ?
-                                        makeImagePath(movie.backdrop_path, "w500")
+                                    bgphoto={movie.poster_path ?
+                                        makeImagePath(movie.poster_path, "w780")
                                         : NETFLIX_LOGO_URL}
                                 >
                                     <Info variants={infoVariants}>

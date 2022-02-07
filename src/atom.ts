@@ -17,6 +17,10 @@ export const Popular = atom({
     key: 'popular',
     default: 0,
 });
+export const Upcoming = atom({
+    key: 'upcoming',
+    default: 0,
+});
 
 //selected Row
 export const SelectedRow = atom({

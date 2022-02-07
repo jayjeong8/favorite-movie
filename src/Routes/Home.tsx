@@ -2,17 +2,15 @@ import {useQuery} from "react-query";
 import styled from "styled-components";
 import {motion, AnimatePresence, useViewportScroll} from "framer-motion";
 import {makeImagePath} from "../utils";
-import {useState} from "react";
 import {useMatch, useNavigate} from "react-router-dom";
 import Row from "../Components/Row";
 import {
     getMovieNowPlaying,
-    getMovieLatest,
     getMovieTopRated,
     getMovieUpcoming,
     IGetMoviesResult, getMoviePopular
 } from "../api";
-import {NowPlaying, SelectedRow} from "../atom";
+import {SelectedRow} from "../atom";
 import {useRecoilState, useRecoilValue} from "recoil";
 
 const Wrapper = styled.div`
@@ -87,7 +85,7 @@ const BigOverview = styled.p`
 
 
 function Home() {
-    const selectedRow = useRecoilValue(SelectedRow)
+    const selectedRow = useRecoilValue(SelectedRow);
     const navigate = useNavigate();
     const onOverlayClick = () => {
         navigate("/")
@@ -128,6 +126,10 @@ function Home() {
                          getApi={getMoviePopular}
                          rowTitle={"Popular"}
                     />
+                    <Row queryKeyName={"upcoming"}
+                         getApi={getMovieUpcoming}
+                         rowTitle={"Upcoming"}
+                    />
 
                     <AnimatePresence>
                         {bigMovieMatch ? (
@@ -144,8 +146,7 @@ function Home() {
                                             <BigCover
                                                 style={{
                                                     backgroundImage: `linear-gradient(to top, black, transparent), url(${makeImagePath(
-                                                        clickedMovie.backdrop_path,
-                                                        "w500"
+                                                        clickedMovie.backdrop_path ? clickedMovie.backdrop_path : clickedMovie.poster_path,"w1280"
                                                     )})`,
                                                 }}
                                             />
