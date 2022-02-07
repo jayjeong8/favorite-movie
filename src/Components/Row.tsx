@@ -4,7 +4,7 @@ import {makeImagePath} from "../utils";
 import styled from "styled-components";
 import {motion, AnimatePresence} from "framer-motion";
 import {useState} from "react";
-import {useNavigate} from "react-router-dom";
+import {useMatch, useNavigate} from "react-router-dom";
 import {useQuery} from "react-query";
 import {
     getMovieNowPlaying,
@@ -13,8 +13,8 @@ import {
     getMovieUpcoming,
     IGetMoviesResult
 } from "../api";
-import {useRecoilState} from "recoil";
-import {NowPlaying, Popular, SelectedRow, TopRated, Upcoming} from "../atom";
+import {useRecoilState, useSetRecoilState} from "recoil";
+import {ClickedMovie, MovieNowPlaying, MoviePopular, MovieTopRated, MovieUpcoming, SelectedRow,} from "../atom";
 
 const Slider = styled.div`
   position: relative;
@@ -131,12 +131,17 @@ function Row({queryKeyName, getApi, rowTitle}: IApi) {
     const {data, isLoading} = useQuery<IGetMoviesResult>(
         ["movies", queryKeyName], getApi
     );
+    const bigMovieMatch = useMatch("/movies/:movieId"); //o
+    const setClickedMovie = useSetRecoilState(ClickedMovie);
+  /*  const Clicked = data?.results.find((movie) =>
+        movie.id === movieId)*/
+
     const navigate = useNavigate();
     const [selectedRow, setSelectedRow] = useRecoilState(SelectedRow)
     const [index, setIndex] = useRecoilState(
-        queryKeyName == "nowPlaying" ? NowPlaying :
-            queryKeyName == "topRated" ? TopRated :
-                queryKeyName == "popular" ? Popular : Upcoming
+        queryKeyName === "nowPlaying" ? MovieNowPlaying :
+            queryKeyName === "topRated" ? MovieTopRated :
+                queryKeyName === "popular" ? MoviePopular : MovieUpcoming
     );
     const [leaving, setLeaving] = useState(false);
     const [increaseValue, setIncreaseValue] = useState(true);
@@ -164,57 +169,66 @@ function Row({queryKeyName, getApi, rowTitle}: IApi) {
     const onBoxClicked = (movieId: number,) => {
         navigate(`/movies/${movieId}`);
         setSelectedRow(queryKeyName);
+        console.log(data?.results.find((movie) =>
+            movie.id === movieId))
+        const clicked = data?.results.find((movie) => movie.id === movieId || [])
+        data && setClickedMovie(clicked);
     };
 
     const NETFLIX_LOGO_URL =
         'https://assets.brand.microsites.netflix.io/assets/2800a67c-4252-11ec-a9ce-066b49664af6_cm_800w.jpg?v=4';
 
     return (
-        <>
-            <Slider>
-                <AnimatePresence key={queryKeyName} initial={false} onExitComplete={toggleLeaving}>
-                    <RowTitle>{rowTitle}</RowTitle>
-                    <DecreaseButton onClick={decreaseIndex}>
-                        <FontAwesomeIcon icon={faAngleLeft}
-                                         size="2x"/>
-                    </DecreaseButton>
-                    <IncreaseButton onClick={increaseIndex}>
-                        <FontAwesomeIcon icon={faAngleRight}
-                                         size="2x"/>
-                    </IncreaseButton>
-                    <InRow
-                        variants={rowVariants}
-                        custom={increaseValue}
-                        initial="hidden"
-                        animate="visible"
-                        exit="exit"
-                        transition={{type: "tween", duration: 1}}
-                        key={index + queryKeyName}
-                    >
-                        {data?.results
-                            .slice(1) //메인화면에 들어가는 영화 제외
-                            .slice(offset * index, offset * index + offset)
-                            .map((movie) => (
-                                <Box
-                                    key={movie.id + queryKeyName}
-                                    layoutId={movie.id + queryKeyName}
-                                    onClick={() => onBoxClicked(movie.id)}
-                                    variants={boxVariants}
-                                    initial="normal"
-                                    whileHover="hover"
-                                    transition={{type: "tween"}}
-                                    bgphoto={movie.poster_path ?
-                                        makeImagePath(movie.poster_path, "w780")
-                                        : NETFLIX_LOGO_URL}
-                                >
-                                    <Info variants={infoVariants}>
-                                        <h4>{movie.title}</h4>
-                                    </Info>
-                                </Box>
-                            ))}
-                    </InRow>
-                </AnimatePresence>
-            </Slider>
+        <>{isLoading ? (<h2>Loading..</h2>)
+            : (
+                <>
+                    <Slider>
+                        <AnimatePresence key={queryKeyName} initial={false} onExitComplete={toggleLeaving}>
+                            <RowTitle>{rowTitle}</RowTitle>
+                            <DecreaseButton onClick={decreaseIndex}>
+                                <FontAwesomeIcon icon={faAngleLeft}
+                                                 size="2x"/>
+                            </DecreaseButton>
+                            <IncreaseButton onClick={increaseIndex}>
+                                <FontAwesomeIcon icon={faAngleRight}
+                                                 size="2x"/>
+                            </IncreaseButton>
+                            <InRow
+                                variants={rowVariants}
+                                custom={increaseValue}
+                                initial="hidden"
+                                animate="visible"
+                                exit="exit"
+                                transition={{type: "tween", duration: 1}}
+                                key={index + queryKeyName}
+                            >
+                                {data?.results
+                                    .slice(1) //메인화면에 들어가는 영화 제외
+                                    .slice(offset * index, offset * index + offset)
+                                    .map((movie) => (
+                                        <Box
+                                            key={movie.id + queryKeyName}
+                                            layoutId={movie.id + queryKeyName}
+                                            onClick={() => onBoxClicked(movie.id)}
+                                            variants={boxVariants}
+                                            initial="normal"
+                                            whileHover="hover"
+                                            transition={{type: "tween"}}
+                                            bgphoto={movie.poster_path ?
+                                                makeImagePath(movie.poster_path, "w780")
+                                                : NETFLIX_LOGO_URL}
+                                        >
+                                            <Info variants={infoVariants}>
+                                                <h4>{movie.title}</h4>
+                                            </Info>
+                                        </Box>
+                                    ))}
+                            </InRow>
+                        </AnimatePresence>
+                    </Slider>
+                </>
+            )
+        }
         </>
     )
 }

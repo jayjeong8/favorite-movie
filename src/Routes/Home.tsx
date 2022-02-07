@@ -10,7 +10,7 @@ import {
     getMovieUpcoming,
     IGetMoviesResult, getMoviePopular
 } from "../api";
-import {SelectedRow} from "../atom";
+import {ClickedMovie, SelectedRow} from "../atom";
 import {useRecoilState, useRecoilValue} from "recoil";
 
 const Wrapper = styled.div`
@@ -96,10 +96,10 @@ function Home() {
     const {data, isLoading} = useQuery<IGetMoviesResult>(
         ["movies", "nowPlaying"], getMovieNowPlaying
     );
+    // const clickedMovie = useRecoilValue(ClickedMovie);
     const clickedMovie =
         bigMovieMatch?.params.movieId &&
         data?.results.find((movie) => movie.id === +(bigMovieMatch.params.movieId || ''));
-
 
     return (
         <Wrapper>
