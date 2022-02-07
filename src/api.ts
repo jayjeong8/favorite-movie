@@ -50,17 +50,6 @@ export interface IGetTVResult {
     total_results: number;
 }
 
-export interface IGetSearchResult {
-    dates: {
-        maximum: string;
-        minimum: string;
-    };
-    page: number;
-    results: IMovie[] | ITV[];
-    total_pages: number;
-    total_results: number;
-}
-
 export function getMovieNowPlaying() {
     return fetch(`${BASE_PATH}/movie/now_playing?api_key=${API_KEY}`)
         .then(response => response.json());
@@ -95,7 +84,11 @@ export function getTVPopular() {
         .then(response => response.json());
 }
 
-export function getSearch() {
-    return fetch(`${BASE_PATH}/search/multi?api_key=${API_KEY}`)
+export function getSearchMovie() {
+    return fetch(`${BASE_PATH}/search/movie?api_key=${API_KEY}`)
+        .then(response => response.json());
+}
+export function getSearchTV() {
+    return fetch(`${BASE_PATH}/search/tv?api_key=${API_KEY}`)
         .then(response => response.json());
 }
