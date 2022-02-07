@@ -54,15 +54,21 @@ const Row = styled(motion.div)`
   width: 96%;
   margin: 0 2% 16px 2%;
 `;
-const DecreaseButton = styled.span`
-  position: inherit;
+const DecreaseButton = styled(motion.span)`
+  z-index: 99;
+  position: absolute;
   align-items: center;
-  left: -1%;
+  top: 134px;
+  left: 0;
+  background-color: tomato;
 `;
-const IncreaseButton = styled.span`
-  position: inherit;
+const IncreaseButton = styled(motion.span)`
+  z-index: 99;
+  position: absolute;
   align-items: center;
-  right: -1%;
+  top: 134px;
+  right: 0;
+  background-color: tomato;
 `;
 const Box = styled(motion.div)<{ bgphoto: string }>`
   background-color: white;
@@ -134,15 +140,15 @@ const BigOverview = styled.p`
 `;
 
 const rowVariants = {
-    hidden: {
-        x: window.outerWidth,
-    },
+    hidden: (increase: boolean) => ({
+        x: increase? window.outerWidth : -window.outerWidth
+    }),
     visible: {
         x: 0,
     },
-    exit: {
-        x: -window.outerWidth,
-    }
+    exit: (increase: boolean)=> ({
+        x: increase? -window.outerWidth : window.outerWidth
+    }),
 };
 const boxVariants = {
     normal: {
@@ -180,10 +186,22 @@ function Home() {
     );
     const [index, setIndex] = useState(0);
     const [leaving, setLeaving] = useState(false);
+    const [increaseValue, setIncreaseValue] = useState(true);
     const toggleLeaving = () => setLeaving((prev) => !prev);
+    const decreaseIndex = () => {
+        if (data) {
+            if (leaving) return;
+            setIncreaseValue(false);
+            toggleLeaving();
+            const totalMovies = data.results.length - 1;
+            const maxIndex = Math.floor(totalMovies / offset) - 1;
+            setIndex((prev) => (prev === 0 ? maxIndex : prev - 1));
+        }
+    };
     const increaseIndex = () => {
         if (data) {
             if (leaving) return;
+            setIncreaseValue(true);
             toggleLeaving();
             const totalMovies = data.results.length - 1;
             const maxIndex = Math.floor(totalMovies / offset) - 1;
@@ -219,16 +237,17 @@ function Home() {
                     <Slider>
                         <AnimatePresence initial={false} onExitComplete={toggleLeaving}>
                             <RowTitle>Now Playing</RowTitle>
+                            <DecreaseButton onClick={decreaseIndex}>left</DecreaseButton>
+                            <IncreaseButton onClick={increaseIndex}>right</IncreaseButton>
                             <Row
                                 variants={rowVariants}
+                                custom={increaseValue}
                                 initial="hidden"
                                 animate="visible"
                                 exit="exit"
                                 transition={{type: "tween", duration: 1}}
                                 key={index}
                             >
-                                <DecreaseButton>left</DecreaseButton>
-                                <IncreaseButton>right</IncreaseButton>
                                 {data?.results
                                     .slice(1) //메인화면에 들어가는 영화 제외
                                     .slice(offset * index, offset * index + offset)
