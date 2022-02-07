@@ -16,7 +16,8 @@ function App() {
                     <Route path="/tv" element={<Tv/>}/>
                     <Route path="/tv/*" element={<Tv/>}/>
                     <Route path="/search" element={<Search/>}/>
-                    <Route path="/search?keyword=*" element={<Search/>}/>
+                    <Route path="/search/*" element={<Search/>}/>
+                    <Route path="/search?keyword=*/*" element={<Search/>}/>
                 </Routes>
             </Router>
         </RecoilRoot>

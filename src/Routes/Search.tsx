@@ -32,23 +32,23 @@ function Search() {
         return await fetch(`${BASE_PATH}/search/tv?api_key=${API_KEY}&query=${keyword}`)
             .then(response => response.json())
     })
-    console.log(movieData)
-    console.log(tvData)
 
     const setLeaving = useSetRecoilState(ModalLeaving);
     const increaseValue = useRecoilValue(IncreaseState);
     const toggleLeaving = () => setLeaving((prev: boolean) => !prev);
     const index = useRecoilValue(SearchIndex);
 
+
+    const {scrollY} = useViewportScroll();
     const navigate = useNavigate();
-    const [selectedRow,setSelectedRow] = useRecoilState(SelectedRow)
+    const [selectedRow, setSelectedRow] = useRecoilState(SelectedRow)
     const setClickedMovie = useSetRecoilState(ClickedMovie);
     const setClickedTV = useSetRecoilState(ClickedTV);
-    const [checkMedia, setCheckMedia] = useState("searchMovie")
+    const [checkMedia, setCheckMedia] = useState("searchMovie");
+    const [savedKeyword, setSavedKeyword] = useState<string|null>("");
     const onBoxClicked = (contentId: number, media: string) => {
-        media === "movie"? setCheckMedia("searchMovie") : setCheckMedia("searchTV");
-        checkMedia === "searchMovie" ?
-            navigate(`/movie/${contentId}`) : navigate(`/tv/${contentId}`);
+        media === "movie" ? setCheckMedia("searchMovie") : setCheckMedia("searchTV");
+        navigate(`/search/${contentId}`)
         setSelectedRow(media);
         const clicked =
             checkMedia === "searchMovie" ?
@@ -56,16 +56,19 @@ function Search() {
                 : tvData?.data?.results.find((content) => content.id === contentId || undefined)
         checkMedia === "searchMovie" ?
             setClickedMovie(clicked) : setClickedTV(clicked);
+        setSavedKeyword(keyword);
     };
-    const clickedContents = useRecoilValue(checkMedia==="searchMovie" ? ClickedMovie: ClickedTV);
+    const bigMovieMatch = useMatch(`/search/:searchId`);
+    const onOverlayClick = () => {
+        navigate(`/search?keyword=${savedKeyword}`)
+    };
 
-    const bigMovieMatch = useMatch("/search/:searchId");
-    const onOverlayClick = () => {navigate("/search")};
-    const {scrollY} = useViewportScroll();
+    const clickedContents = useRecoilValue(checkMedia === "searchMovie" ? ClickedMovie : ClickedTV);
 
     const offset = 6;
     const NETFLIX_LOGO_URL =
         'https://assets.brand.microsites.netflix.io/assets/2800a67c-4252-11ec-a9ce-066b49664af6_cm_800w.jpg?v=4';
+
 
     return (
         <Wrapper>
@@ -88,8 +91,8 @@ function Search() {
                             .slice(offset * index, offset * index + offset)
                             .map((content) => (
                                 <Box
-                                    key={content.id + (keyword + "")}
-                                    layoutId={content.id + (keyword + "")}
+                                    key={content.id + selectedRow + "movie"}
+                                    layoutId={content.id + ""}
                                     onClick={() => onBoxClicked(content.id, "movie")}
                                     variants={boxVariants}
                                     initial="normal"
@@ -126,8 +129,8 @@ function Search() {
                             .slice(offset * index, offset * index + offset)
                             .map((content) => (
                                 <Box
-                                    key={content.id + "tv" + (keyword + "")}
-                                    layoutId={content.id + "tv" + (keyword + "")}
+                                    key={content.id + selectedRow + "tv"}
+                                    layoutId={content.id + ""}
                                     onClick={() => onBoxClicked(content.id, "tv")}
                                     variants={boxVariants}
                                     initial="normal"
@@ -154,8 +157,7 @@ function Search() {
                                  exit={{opacity: 0}}/>
                         <BigModal
                             style={{top: scrollY.get() + 100}}
-                            layoutId={
-                                bigMovieMatch.params.searchId + selectedRow}
+                            layoutId={bigMovieMatch.params.searchId + ""}
                         >
                             {clickedContents && (
                                 <>
@@ -167,7 +169,7 @@ function Search() {
                                         }}
                                     />
                                     <BigTitle>{
-                                        checkMedia==="searchMovie" ? clickedContents.title
+                                        checkMedia === "searchMovie" ? clickedContents.title
                                             : clickedContents.name}
                                     </BigTitle>
                                     <BigOverview>{clickedContents.overview}</BigOverview>
