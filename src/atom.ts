@@ -10,9 +10,9 @@ export interface IClickedMovie {
 }
 
 //clicked movie
-export const ClickedMovie = atom<IMovie[]>({
+export const ClickedMovie = atom<IMovie | undefined>({
     key: 'clickedMovie',
-    default: [],
+    default: undefined
 })
 
 //movie index

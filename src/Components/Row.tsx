@@ -169,10 +169,8 @@ function Row({queryKeyName, getApi, rowTitle}: IApi) {
     const onBoxClicked = (movieId: number,) => {
         navigate(`/movies/${movieId}`);
         setSelectedRow(queryKeyName);
-        console.log(data?.results.find((movie) =>
-            movie.id === movieId))
-        const clicked = data?.results.find((movie) => movie.id === movieId || [])
-        data && setClickedMovie(clicked);
+        const clicked = data?.results.find((movie) => movie.id === movieId || undefined);
+        setClickedMovie(clicked);
     };
 
     const NETFLIX_LOGO_URL =
