@@ -4,7 +4,13 @@ import {motion, AnimatePresence} from "framer-motion";
 import {useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {useQuery} from "react-query";
-import {getMovieNowPlaying, IGetMoviesResult} from "../api";
+import {
+    getMovieNowPlaying,
+    getMovieLatest,
+    getMovieTopRated,
+    getMovieUpcoming,
+    IGetMoviesResult
+} from "../api";
 
 const Slider = styled.div`
   position: relative;
@@ -71,16 +77,15 @@ const Info = styled(motion.div)`
   }
 `;
 
-
 const rowVariants = {
     hidden: (increase: boolean) => ({
-        x: increase? window.outerWidth : -window.outerWidth
+        x: increase ? window.outerWidth : -window.outerWidth
     }),
     visible: {
         x: 0,
     },
-    exit: (increase: boolean)=> ({
-        x: increase? -window.outerWidth : window.outerWidth
+    exit: (increase: boolean) => ({
+        x: increase ? -window.outerWidth : window.outerWidth
     }),
 };
 const boxVariants = {
@@ -110,7 +115,16 @@ const infoVariants = {
 
 const offset = 6;
 
-function Row() {
+interface IApi {
+    queryKeyName: string,
+    getApi: any,
+    rowTitle: string,
+}
+
+function Row({queryKeyName, getApi, rowTitle}: IApi) {
+    const {data, isLoading} = useQuery<IGetMoviesResult>(
+        ["movies",queryKeyName], getApi
+    );
     const navigate = useNavigate();
     const [index, setIndex] = useState(0);
     const [leaving, setLeaving] = useState(false);
@@ -139,9 +153,6 @@ function Row() {
     const onBoxClicked = (movieId: number) => {
         navigate(`/movies/${movieId}`);
     };
-    const {data, isLoading} = useQuery<IGetMoviesResult>(
-        ["movies", "nowPlaying"], getMovieNowPlaying
-    );
 
     const NETFLIX_LOGO_URL =
         'https://assets.brand.microsites.netflix.io/assets/2800a67c-4252-11ec-a9ce-066b49664af6_cm_800w.jpg?v=4';
@@ -150,43 +161,44 @@ function Row() {
         <>
             <Slider>
                 <AnimatePresence initial={false} onExitComplete={toggleLeaving}>
-            <RowTitle>Now Playing</RowTitle>
-            <DecreaseButton onClick={decreaseIndex}>left</DecreaseButton>
-            <IncreaseButton onClick={increaseIndex}>right</IncreaseButton>
-            <InRow
-                variants={rowVariants}
-                custom={increaseValue}
-                initial="hidden"
-                animate="visible"
-                exit="exit"
-                transition={{type: "tween", duration: 1}}
-                key={index}
-            >
-                {data?.results
-                    .slice(1) //메인화면에 들어가는 영화 제외
-                    .slice(offset * index, offset * index + offset)
-                    .map((movie) => (
-                        <Box
-                            key={movie.id}
-                            layoutId={movie.id + ""}
-                            onClick={() => onBoxClicked(movie.id)}
-                            variants={boxVariants}
-                            initial="normal"
-                            whileHover="hover"
-                            transition={{type: "tween"}}
-                            bgphoto={movie.backdrop_path ?
-                                makeImagePath(movie.backdrop_path, "w500")
-                                : NETFLIX_LOGO_URL}
-                        >
-                            <Info variants={infoVariants}>
-                                <h4>{movie.title}</h4>
-                            </Info>
-                        </Box>
-                    ))}
-            </InRow>
+                    <RowTitle>{rowTitle}</RowTitle>
+                    <DecreaseButton onClick={decreaseIndex}>left</DecreaseButton>
+                    <IncreaseButton onClick={increaseIndex}>right</IncreaseButton>
+                    <InRow
+                        variants={rowVariants}
+                        custom={increaseValue}
+                        initial="hidden"
+                        animate="visible"
+                        exit="exit"
+                        transition={{type: "tween", duration: 1}}
+                        key={index}
+                    >
+                        {data?.results
+                            .slice(1) //메인화면에 들어가는 영화 제외
+                            .slice(offset * index, offset * index + offset)
+                            .map((movie) => (
+                                <Box
+                                    key={movie.id}
+                                    layoutId={movie.id + ""}
+                                    onClick={() => onBoxClicked(movie.id)}
+                                    variants={boxVariants}
+                                    initial="normal"
+                                    whileHover="hover"
+                                    transition={{type: "tween"}}
+                                    bgphoto={movie.backdrop_path ?
+                                        makeImagePath(movie.backdrop_path, "w500")
+                                        : NETFLIX_LOGO_URL}
+                                >
+                                    <Info variants={infoVariants}>
+                                        <h4>{movie.title}</h4>
+                                    </Info>
+                                </Box>
+                            ))}
+                    </InRow>
                 </AnimatePresence>
             </Slider>
         </>
     )
 }
+
 export default Row;

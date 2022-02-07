@@ -81,16 +81,13 @@ const BigOverview = styled.p`
 
 function Home() {
     const navigate = useNavigate();
-    const bigMovieMatch = useMatch("/movies/:movieId");
+    const onOverlayClick = () => {navigate("/")};
     const {scrollY} = useViewportScroll();
+
+    const bigMovieMatch = useMatch("/movies/:movieId");
     const {data, isLoading} = useQuery<IGetMoviesResult>(
         ["movies", "nowPlaying"], getMovieNowPlaying
     );
-    const [leaving, setLeaving] = useState(false);
-    const toggleLeaving = () => setLeaving((prev) => !prev);
-    const onOverlayClick = () => {
-        navigate("/")
-    };
     const clickedMovie =
         bigMovieMatch?.params.movieId &&
         data?.results.find((movie) => movie.id === +(bigMovieMatch.params.movieId || ''));
@@ -108,7 +105,10 @@ function Home() {
                         <Title>{data?.results[0].title}</Title>
                         <Overview>{data?.results[0].overview}</Overview>
                     </Banner>
-                           <Row/>
+                           <Row queryKeyName={"nowPlaying"}
+                                getApi={getMovieNowPlaying}
+                                rowTitle={"Now Playing"}
+                           />
 
                     <AnimatePresence>
                         {bigMovieMatch ? (
