@@ -5,12 +5,13 @@ import {makeImagePath} from "../utils";
 import {useMatch, useNavigate} from "react-router-dom";
 import Row from "../Components/Row";
 import {
-    getMovieNowPlaying,
-    getMovieTopRated,
-    getMovieUpcoming,
-    IGetMoviesResult, getMoviePopular
+    getTVAiringToday,
+    getTVTopRated,
+    getTVPopular,
+    getTVOnTheAir,
+    IGetContentsResult
 } from "../api";
-import {ClickedMovie, SelectedRow} from "../atom";
+import {ClickedTV, SelectedRow} from "../atom";
 import {useRecoilValue} from "recoil";
 
 const Wrapper = styled.div`
@@ -88,15 +89,15 @@ function Home() {
     const selectedRow = useRecoilValue(SelectedRow);
     const navigate = useNavigate();
     const onOverlayClick = () => {
-        navigate("/")
+        navigate("/tv")
     };
     const {scrollY} = useViewportScroll();
 
-    const bigMovieMatch = useMatch("/movies/:movieId");
-    const {data, isLoading} = useQuery<IGetMoviesResult>(
-        ["movies", "nowPlaying"], getMovieNowPlaying
+    const bigMovieMatch = useMatch("/tv/:tvId");
+    const {data, isLoading} = useQuery<IGetContentsResult>(
+        ["TV", "tvAiringToday"], getTVAiringToday
     );
-    const clickedMovie = useRecoilValue(ClickedMovie);
+    const clickedTV = useRecoilValue(ClickedTV);
 
     return (
         <Wrapper>
@@ -107,25 +108,32 @@ function Home() {
                     <Banner
                         bgPhoto={makeImagePath(data?.results[0].backdrop_path || "")}
                     >
-                        <Title>{data?.results[0].title}</Title>
+                        <Title>{data?.results[0].name}</Title>
                         <Overview>{data?.results[0].overview}</Overview>
                     </Banner>
                     <Row
-                        queryKeyName={"nowPlaying"}
-                        getApi={getMovieNowPlaying}
-                        rowTitle={"Now Playing"}
+                        queryKeyName1={"TV"}
+                        queryKeyName2={"airingToday"}
+                        getApi={getTVAiringToday}
+                        rowTitle={"Airing Today"}
                     />
-                    <Row queryKeyName={"topRated"}
-                         getApi={getMovieTopRated}
+                    <Row
+                        queryKeyName1={"TV"}
+                        queryKeyName2={"topRatedTV"}
+                         getApi={getTVTopRated}
                          rowTitle={"Top Rated"}
                     />
-                    <Row queryKeyName={"popular"}
-                         getApi={getMoviePopular}
+                    <Row
+                        queryKeyName1={"TV"}
+                        queryKeyName2={"popularTV"}
+                         getApi={getTVPopular}
                          rowTitle={"Popular"}
                     />
-                    <Row queryKeyName={"upcoming"}
-                         getApi={getMovieUpcoming}
-                         rowTitle={"Upcoming"}
+                    <Row
+                        queryKeyName1={"TV"}
+                        queryKeyName2={"onTheAir"}
+                         getApi={getTVOnTheAir}
+                         rowTitle={"On The Air"}
                     />
 
                     <AnimatePresence>
@@ -136,19 +144,19 @@ function Home() {
                                          exit={{opacity: 0}}/>
                                 <BigMovieModal
                                     style={{top: scrollY.get() + 100}}
-                                    layoutId={bigMovieMatch.params.movieId + selectedRow}
+                                    layoutId={bigMovieMatch.params.tvId + selectedRow}
                                 >
-                                    {clickedMovie && (
+                                    {clickedTV && (
                                         <>
                                             <BigCover
                                                 style={{
                                                     backgroundImage: `linear-gradient(to top, black, transparent), url(${makeImagePath(
-                                                        clickedMovie.backdrop_path ? clickedMovie.backdrop_path : clickedMovie.poster_path,"w1280"
+                                                        clickedTV.backdrop_path ? clickedTV.backdrop_path : clickedTV.poster_path,"w1280"
                                                     )})`,
                                                 }}
                                             />
-                                            <BigTitle>{clickedMovie.title}</BigTitle>
-                                            <BigOverview>{clickedMovie.overview}</BigOverview>
+                                            <BigTitle>{clickedTV.name}</BigTitle>
+                                            <BigOverview>{clickedTV.overview}</BigOverview>
                                         </>
                                     )}
                                 </BigMovieModal>

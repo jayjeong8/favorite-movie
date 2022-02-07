@@ -15,42 +15,23 @@ interface IGenres {
     name: string;
 }
 
-export interface IMovie {
+export interface IContent {
     id: number;
     backdrop_path: string;
     poster_path: string;
     title: string;
     overview: string;
     genres: IGenres[];
-}
-
-export interface IGetMoviesResult {
-    dates: {
-        maximum: string;
-        minimum: string;
-    };
-    page: number;
-    results: IMovie[];
-    total_pages: number;
-    total_results: number;
-}
-
-interface ITV {
-    id: number;
-    backdrop_path: string;
-    poster_path: string;
-    first_air_date: string;
     name: string;
-    overview: string;
 }
 
-export interface IGetTVResult {
+export interface IGetContentsResult {
     dates: {
         maximum: string;
         minimum: string;
     };
     page: number;
-    results: ITV[];
+    results: IContent[];
     total_pages: number;
     total_results: number;
 }
@@ -81,22 +62,22 @@ export function getMovieUpcoming() {
 }
 
 export function getTVAiringToday() {
-    return fetch(`${BASE_PATH}/movie/airing_today?api_key=${API_KEY}`)
+    return fetch(`${BASE_PATH}/tv/airing_today?api_key=${API_KEY}`)
         .then(response => response.json());
 }
 
 export function getTVTopRated() {
-    return fetch(`${BASE_PATH}/movie/top_rated?api_key=${API_KEY}`)
+    return fetch(`${BASE_PATH}/tv/top_rated?api_key=${API_KEY}`)
         .then(response => response.json());
 }
 
 export function getTVPopular() {
-    return fetch(`${BASE_PATH}/movie/popular?api_key=${API_KEY}`)
+    return fetch(`${BASE_PATH}/tv/popular?api_key=${API_KEY}`)
         .then(response => response.json());
 }
 
 export function getTVOnTheAir() {
-    return fetch(`${BASE_PATH}/movie/on_the_air?api_key=${API_KEY}`)
+    return fetch(`${BASE_PATH}/tv/on_the_air?api_key=${API_KEY}`)
         .then(response => response.json());
 }
 

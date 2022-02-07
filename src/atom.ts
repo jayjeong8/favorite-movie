@@ -1,17 +1,14 @@
 import {atom} from "recoil";
-import {IGetMoviesResult, IMovie} from "./api";
+import {IContent} from "./api";
 
-export interface IClickedMovie {
-    id: number;
-    backdrop_path: string;
-    poster_path: string;
-    title: string;
-    overview: string;
-}
 
-//clicked movie
-export const ClickedMovie = atom<IMovie | undefined>({
+//clicked
+export const ClickedMovie = atom<IContent | undefined>({
     key: 'clickedMovie',
+    default: undefined
+})
+export const ClickedTV = atom<IContent | undefined>({
+    key: 'clickedTV',
     default: undefined
 })
 
@@ -54,5 +51,5 @@ export const TVOnTheAir = atom({
 //selected Row
 export const SelectedRow = atom({
     key: 'selectedRow',
-    default: 'nowPlaying'
+    default: ''
 })

@@ -11,10 +11,22 @@ import {
     getMovieLatest,
     getMovieTopRated,
     getMovieUpcoming,
-    IGetMoviesResult
+    getTVAiringToday,
+    getTVTopRated,
+    getTVPopular,
+    getTVOnTheAir,
+    IGetContentsResult
 } from "../api";
 import {useRecoilState, useSetRecoilState} from "recoil";
-import {ClickedMovie, MovieNowPlaying, MoviePopular, MovieTopRated, MovieUpcoming, SelectedRow,} from "../atom";
+import {
+    ClickedMovie,
+    MovieNowPlaying,
+    MoviePopular,
+    MovieTopRated,
+    MovieUpcoming,
+    SelectedRow,
+    TVAiringToday, TVOnTheAir, TVPopular, TVTopRated,
+} from "../atom";
 
 const Slider = styled.div`
   position: relative;
@@ -119,29 +131,27 @@ const infoVariants = {
 const offset = 6;
 
 interface IApi {
-    queryKeyName: string,
+    queryKeyName1: string,
+    queryKeyName2: string,
     getApi: any,
     rowTitle: string,
 }
 
-function Row({queryKeyName, getApi, rowTitle}: IApi) {
-    // const {data, isLoading} = useQuery<IGetMoviesResult>(
-    //     ["movies", "nowPlaying"], getMovieNowPlaying
-    // );
-    const {data, isLoading} = useQuery<IGetMoviesResult>(
-        ["movies", queryKeyName], getApi
-    );
-    const bigMovieMatch = useMatch("/movies/:movieId"); //o
-    const setClickedMovie = useSetRecoilState(ClickedMovie);
-  /*  const Clicked = data?.results.find((movie) =>
-        movie.id === movieId)*/
+function Row({queryKeyName1, queryKeyName2, getApi, rowTitle}: IApi) {
 
+    const {data, isLoading} = useQuery<IGetContentsResult>(
+        [queryKeyName1, queryKeyName2], getApi
+    );
     const navigate = useNavigate();
     const [selectedRow, setSelectedRow] = useRecoilState(SelectedRow)
     const [index, setIndex] = useRecoilState(
-        queryKeyName === "nowPlaying" ? MovieNowPlaying :
-            queryKeyName === "topRated" ? MovieTopRated :
-                queryKeyName === "popular" ? MoviePopular : MovieUpcoming
+        queryKeyName2 === "nowPlaying" ? MovieNowPlaying :
+            queryKeyName2 === "topRated" ? MovieTopRated :
+                queryKeyName2 === "popular" ? MoviePopular :
+                    queryKeyName2 === "upcoming" ? MovieUpcoming :
+                        queryKeyName2 === "airingToday" ? TVAiringToday :
+                            queryKeyName2 === "topRatedTV" ? TVTopRated :
+                                queryKeyName2 === "popularTV" ? TVPopular : TVOnTheAir
     );
     const [leaving, setLeaving] = useState(false);
     const [increaseValue, setIncreaseValue] = useState(true);
@@ -166,10 +176,13 @@ function Row({queryKeyName, getApi, rowTitle}: IApi) {
             setIndex((prev: number) => (prev === maxIndex ? 0 : prev + 1));
         }
     };
-    const onBoxClicked = (movieId: number,) => {
-        navigate(`/movies/${movieId}`);
-        setSelectedRow(queryKeyName);
-        const clicked = data?.results.find((movie) => movie.id === movieId || undefined);
+    const setClickedMovie = useSetRecoilState(ClickedMovie);
+    const onBoxClicked = (contentId: number) => {
+        queryKeyName1 === "MOVIE" ?
+            navigate(`/movies/${contentId}`) : navigate(`/tv/${contentId}`)
+        setSelectedRow(queryKeyName2);
+        console.log(data?.results.find((content) => content.id === contentId || undefined));
+        const clicked = data?.results.find((content) => content.id === contentId || undefined);
         setClickedMovie(clicked);
     };
 
@@ -181,7 +194,7 @@ function Row({queryKeyName, getApi, rowTitle}: IApi) {
             : (
                 <>
                     <Slider>
-                        <AnimatePresence key={queryKeyName} initial={false} onExitComplete={toggleLeaving}>
+                        <AnimatePresence key={queryKeyName2} initial={false} onExitComplete={toggleLeaving}>
                             <RowTitle>{rowTitle}</RowTitle>
                             <DecreaseButton onClick={decreaseIndex}>
                                 <FontAwesomeIcon icon={faAngleLeft}
@@ -198,26 +211,26 @@ function Row({queryKeyName, getApi, rowTitle}: IApi) {
                                 animate="visible"
                                 exit="exit"
                                 transition={{type: "tween", duration: 1}}
-                                key={index + queryKeyName}
+                                key={index + queryKeyName2}
                             >
                                 {data?.results
                                     .slice(1) //메인화면에 들어가는 영화 제외
                                     .slice(offset * index, offset * index + offset)
-                                    .map((movie) => (
+                                    .map((content) => (
                                         <Box
-                                            key={movie.id + queryKeyName}
-                                            layoutId={movie.id + queryKeyName}
-                                            onClick={() => onBoxClicked(movie.id)}
+                                            key={content.id + queryKeyName2}
+                                            layoutId={content.id + queryKeyName2}
+                                            onClick={() => onBoxClicked(content.id)}
                                             variants={boxVariants}
                                             initial="normal"
                                             whileHover="hover"
                                             transition={{type: "tween"}}
-                                            bgphoto={movie.poster_path ?
-                                                makeImagePath(movie.poster_path, "w780")
+                                            bgphoto={content.poster_path ?
+                                                makeImagePath(content.poster_path, "w780")
                                                 : NETFLIX_LOGO_URL}
                                         >
                                             <Info variants={infoVariants}>
-                                                <h4>{movie.title}</h4>
+                                                <h4>{queryKeyName1 === "MOVIE" ? content.title : content.name}</h4>
                                             </Info>
                                         </Box>
                                     ))}

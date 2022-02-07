@@ -8,7 +8,7 @@ import {
     getMovieNowPlaying,
     getMovieTopRated,
     getMovieUpcoming,
-    IGetMoviesResult, getMoviePopular
+    IGetContentsResult, getMoviePopular
 } from "../api";
 import {ClickedMovie, SelectedRow} from "../atom";
 import {useRecoilValue} from "recoil";
@@ -93,7 +93,7 @@ function Home() {
     const {scrollY} = useViewportScroll();
 
     const bigMovieMatch = useMatch("/movies/:movieId");
-    const {data, isLoading} = useQuery<IGetMoviesResult>(
+    const {data, isLoading} = useQuery<IGetContentsResult>(
         ["movies", "nowPlaying"], getMovieNowPlaying
     );
     const clickedMovie = useRecoilValue(ClickedMovie);
@@ -111,21 +111,28 @@ function Home() {
                         <Overview>{data?.results[0].overview}</Overview>
                     </Banner>
                     <Row
-                        queryKeyName={"nowPlaying"}
+                        queryKeyName1={"MOVIE"}
+                        queryKeyName2={"nowPlaying"}
                         getApi={getMovieNowPlaying}
                         rowTitle={"Now Playing"}
                     />
-                    <Row queryKeyName={"topRated"}
-                         getApi={getMovieTopRated}
-                         rowTitle={"Top Rated"}
+                    <Row
+                        queryKeyName1={"MOVIE"}
+                        queryKeyName2={"topRated"}
+                        getApi={getMovieTopRated}
+                        rowTitle={"Top Rated"}
                     />
-                    <Row queryKeyName={"popular"}
-                         getApi={getMoviePopular}
-                         rowTitle={"Popular"}
+                    <Row
+                        queryKeyName1={"MOVIE"}
+                        queryKeyName2={"popular"}
+                        getApi={getMoviePopular}
+                        rowTitle={"Popular"}
                     />
-                    <Row queryKeyName={"upcoming"}
-                         getApi={getMovieUpcoming}
-                         rowTitle={"Upcoming"}
+                    <Row
+                        queryKeyName1={"MOVIE"}
+                        queryKeyName2={"upcoming"}
+                        getApi={getMovieUpcoming}
+                        rowTitle={"Upcoming"}
                     />
 
                     <AnimatePresence>
@@ -143,7 +150,7 @@ function Home() {
                                             <BigCover
                                                 style={{
                                                     backgroundImage: `linear-gradient(to top, black, transparent), url(${makeImagePath(
-                                                        clickedMovie.backdrop_path ? clickedMovie.backdrop_path : clickedMovie.poster_path,"w1280"
+                                                        clickedMovie.backdrop_path ? clickedMovie.backdrop_path : clickedMovie.poster_path, "w1280"
                                                     )})`,
                                                 }}
                                             />
