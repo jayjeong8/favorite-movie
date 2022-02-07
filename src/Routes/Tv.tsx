@@ -95,7 +95,7 @@ function Home() {
 
     const bigMovieMatch = useMatch("/tv/:tvId");
     const {data, isLoading} = useQuery<IGetContentsResult>(
-        ["TV", "tvAiringToday"], getTVAiringToday
+        ["TV", "topRatedTV"], getTVTopRated
     );
     const clickedTV = useRecoilValue(ClickedTV);
 

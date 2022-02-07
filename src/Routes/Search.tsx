@@ -1,6 +1,5 @@
 import {useLocation} from "react-router";
 import {useQuery} from "react-query";
-import {getSearchTV, IGetContentsResult} from "../api";
 
 const API_KEY = "8b0c5f0400aa76e404ea70c8b1e0ce22";
 const BASE_PATH = "https://api.themoviedb.org/3";

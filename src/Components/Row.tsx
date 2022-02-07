@@ -1,10 +1,7 @@
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faAngleLeft, faAngleRight,} from '@fortawesome/free-solid-svg-icons'
 import {makeImagePath} from "../utils";
 import styled from "styled-components";
 import {motion, AnimatePresence} from "framer-motion";
-import {useState} from "react";
-import {useMatch, useNavigate} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import {useQuery} from "react-query";
 import {
     getMovieNowPlaying,
@@ -15,11 +12,11 @@ import {
     getTVTopRated,
     getTVPopular,
     getTVOnTheAir,
-    IGetContentsResult
+    IGetContentsResult, IApi
 } from "../api";
-import {useRecoilState, useSetRecoilState} from "recoil";
+import {useRecoilState, useRecoilValue, useSetRecoilState} from "recoil";
 import {
-    ClickedMovie,
+    ClickedMovie, IncreaseState, ModalLeaving,
     MovieNowPlaying,
     MoviePopular,
     MovieTopRated,
@@ -27,6 +24,7 @@ import {
     SelectedRow,
     TVAiringToday, TVOnTheAir, TVPopular, TVTopRated,
 } from "../atom";
+import IndexControlButton from "./IndexControlButton";
 
 const Slider = styled.div`
   position: relative;
@@ -47,20 +45,7 @@ const InRow = styled(motion.div)`
   align-items: center;
   margin: 0 10% 16px 10%;
 `;
-const DecreaseButton = styled(motion.span)`
-  z-index: 2;
-  position: absolute;
-  align-items: center;
-  top: 13vw;
-  left: 4%;
-`;
-const IncreaseButton = styled(motion.span)`
-  z-index: 2;
-  position: absolute;
-  align-items: center;
-  top: 13vw;
-  right: 4%;
-`;
+
 const Box = styled(motion.div)<{ bgphoto: string }>`
   background-color: white;
   background-image: url(${(props) => props.bgphoto});
@@ -130,12 +115,6 @@ const infoVariants = {
 
 const offset = 6;
 
-interface IApi {
-    queryKeyName1: string,
-    queryKeyName2: string,
-    getApi: any,
-    rowTitle: string,
-}
 
 function Row({queryKeyName1, queryKeyName2, getApi, rowTitle}: IApi) {
 
@@ -144,7 +123,7 @@ function Row({queryKeyName1, queryKeyName2, getApi, rowTitle}: IApi) {
     );
     const navigate = useNavigate();
     const [selectedRow, setSelectedRow] = useRecoilState(SelectedRow)
-    const [index, setIndex] = useRecoilState(
+    const index = useRecoilValue(
         queryKeyName2 === "nowPlaying" ? MovieNowPlaying :
             queryKeyName2 === "topRated" ? MovieTopRated :
                 queryKeyName2 === "popular" ? MoviePopular :
@@ -153,35 +132,15 @@ function Row({queryKeyName1, queryKeyName2, getApi, rowTitle}: IApi) {
                             queryKeyName2 === "topRatedTV" ? TVTopRated :
                                 queryKeyName2 === "popularTV" ? TVPopular : TVOnTheAir
     );
-    const [leaving, setLeaving] = useState(false);
-    const [increaseValue, setIncreaseValue] = useState(true);
-    const toggleLeaving = () => setLeaving((prev) => !prev);
-    const decreaseIndex = () => {
-        if (data) {
-            if (leaving) return;
-            setIncreaseValue(false);
-            toggleLeaving();
-            const totalMovies = data.results.length - 1;
-            const maxIndex = Math.floor(totalMovies / offset) - 1;
-            setIndex((prev: number) => (prev === 0 ? maxIndex : prev - 1));
-        }
-    };
-    const increaseIndex = () => {
-        if (data) {
-            if (leaving) return;
-            setIncreaseValue(true);
-            toggleLeaving();
-            const totalMovies = data.results.length - 1;
-            const maxIndex = Math.floor(totalMovies / offset) - 1;
-            setIndex((prev: number) => (prev === maxIndex ? 0 : prev + 1));
-        }
-    };
+    const setLeaving = useSetRecoilState(ModalLeaving);
+    const increaseValue = useRecoilValue(IncreaseState);
+    const toggleLeaving = () => setLeaving((prev: boolean) => !prev);
+
     const setClickedMovie = useSetRecoilState(ClickedMovie);
     const onBoxClicked = (contentId: number) => {
         queryKeyName1 === "MOVIE" ?
             navigate(`/movies/${contentId}`) : navigate(`/tv/${contentId}`)
         setSelectedRow(queryKeyName2);
-        console.log(data?.results.find((content) => content.id === contentId || undefined));
         const clicked = data?.results.find((content) => content.id === contentId || undefined);
         setClickedMovie(clicked);
     };
@@ -196,14 +155,9 @@ function Row({queryKeyName1, queryKeyName2, getApi, rowTitle}: IApi) {
                     <Slider>
                         <AnimatePresence key={queryKeyName2} initial={false} onExitComplete={toggleLeaving}>
                             <RowTitle>{rowTitle}</RowTitle>
-                            <DecreaseButton onClick={decreaseIndex}>
-                                <FontAwesomeIcon icon={faAngleLeft}
-                                                 size="2x"/>
-                            </DecreaseButton>
-                            <IncreaseButton onClick={increaseIndex}>
-                                <FontAwesomeIcon icon={faAngleRight}
-                                                 size="2x"/>
-                            </IncreaseButton>
+                            <IndexControlButton
+                                queryKeyName2={queryKeyName2}
+                                data={data}/>
                             <InRow
                                 variants={rowVariants}
                                 custom={increaseValue}
@@ -214,7 +168,6 @@ function Row({queryKeyName1, queryKeyName2, getApi, rowTitle}: IApi) {
                                 key={index + queryKeyName2}
                             >
                                 {data?.results
-                                    .slice(1) //메인화면에 들어가는 영화 제외
                                     .slice(offset * index, offset * index + offset)
                                     .map((content) => (
                                         <Box

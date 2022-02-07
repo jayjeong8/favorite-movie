@@ -59,4 +59,14 @@ export const SearchIndex = atom({
 export const SelectedRow = atom({
     key: 'selectedRow',
     default: ''
+});
+
+export const ModalLeaving = atom({
+    key: 'modalLeaving',
+    default:false
+});
+
+export const IncreaseState = atom({
+    key: `IncreaseState`,
+    default: true
 })

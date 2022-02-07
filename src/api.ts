@@ -36,6 +36,16 @@ export interface IGetContentsResult {
     total_results: number;
 }
 
+export interface IApi {
+    queryKeyName1: string,
+    queryKeyName2: string,
+    getApi: any,
+    rowTitle: string,
+}
+export interface IIndexControl {
+    queryKeyName2: string;
+    data:IGetContentsResult | undefined
+}
 export function getMovieNowPlaying() {
     return fetch(`${BASE_PATH}/movie/now_playing?api_key=${API_KEY}`)
         .then(response => response.json());

@@ -94,7 +94,7 @@ function Home() {
 
     const bigMovieMatch = useMatch("/movies/:movieId");
     const {data, isLoading} = useQuery<IGetContentsResult>(
-        ["movies", "nowPlaying"], getMovieNowPlaying
+        ["movies", "topRated"], getMovieTopRated
     );
     const clickedMovie = useRecoilValue(ClickedMovie);
 
