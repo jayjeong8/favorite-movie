@@ -12,7 +12,6 @@ interface IGenres {
     id: number,
     name: string;
 }
-
 interface IMovie {
     id: number;
     backdrop_path: string;
@@ -21,7 +20,6 @@ interface IMovie {
     overview: string;
     genres : IGenres[];
 }
-
 export interface IGetMoviesResult {
     dates: {
         maximum: string;
@@ -29,6 +27,36 @@ export interface IGetMoviesResult {
     };
     page: number;
     results: IMovie[];
+    total_pages: number;
+    total_results: number;
+}
+
+interface ITV {
+    id: number;
+    backdrop_path: string;
+    poster_path: string;
+    first_air_date: string;
+    name: string;
+    overview: string;
+}
+export interface IGetTVResult {
+    dates: {
+        maximum: string;
+        minimum: string;
+    };
+    page: number;
+    results: ITV[];
+    total_pages: number;
+    total_results: number;
+}
+
+export interface IGetSearchResult {
+    dates: {
+        maximum: string;
+        minimum: string;
+    };
+    page: number;
+    results: IMovie[] | ITV[];
     total_pages: number;
     total_results: number;
 }
@@ -64,5 +92,10 @@ export function getTVTopRated() {
 }
 export function getTVPopular() {
     return fetch(`${BASE_PATH}/movie/popular?api_key=${API_KEY}`)
+        .then(response => response.json());
+}
+
+export function getSearch() {
+    return fetch(`${BASE_PATH}/search/multi?api_key=${API_KEY}`)
         .then(response => response.json());
 }
