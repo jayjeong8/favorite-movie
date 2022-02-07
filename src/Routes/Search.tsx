@@ -69,12 +69,12 @@ function Search() {
     };
     const bigMovieMatch = useMatch(`/search/:searchId`);
     const onOverlayClick = () => {
-        navigate(`/search?keyword=${savedKeyword}`)
+        navigate(`/search`)
     };
 
     const clickedContents = useRecoilValue(checkMedia === "searchMovie" ? ClickedMovie : ClickedTV);
 
-    const offset = 6;
+    const offset = 5;
     const NETFLIX_LOGO_URL =
         'https://assets.brand.microsites.netflix.io/assets/2800a67c-4252-11ec-a9ce-066b49664af6_cm_800w.jpg?v=4';
 
@@ -88,7 +88,7 @@ function Search() {
                             <RowTitle>Movie</RowTitle>
                             <IndexControlButton
                                 queryKeyName2={"searchMovie"}
-                                data={movieData}/>
+                                data={movieData.data}/>
                             <InRow
                                 variants={rowVariants}
                                 custom={increaseValue}
@@ -96,7 +96,7 @@ function Search() {
                                 animate="visible"
                                 exit="exit"
                                 transition={{type: "tween", duration: 1}}
-                                key={keyword + ""}
+                                key={"searchMovie" + movieIndex}
                             >
                                 {movieData?.data?.results
                                     .slice(offset * movieIndex, offset * movieIndex + offset)
@@ -126,7 +126,7 @@ function Search() {
                             <RowTitle>TV show</RowTitle>
                             <IndexControlButton
                                 queryKeyName2={"searchTV"}
-                                data={tvData}/>
+                                data={tvData.data}/>
                             <InRow
                                 variants={rowVariants}
                                 custom={increaseValue}
@@ -134,7 +134,7 @@ function Search() {
                                 animate="visible"
                                 exit="exit"
                                 transition={{type: "tween", duration: 1}}
-                                key={keyword + ""}
+                                key={"searchTV" + tvIndex}
                             >
                                 {tvData?.data?.results
                                     .slice(offset * tvIndex, offset * tvIndex + offset)

@@ -21,39 +21,46 @@ const DecreaseButton = styled(motion.span)`
   position: absolute;
   align-items: center;
   top: 13vw;
-  left: 4%;
+  left: 12%;
+  cursor: pointer;
+  color: rgba(255,255,255,0.4);
 `;
 const IncreaseButton = styled(motion.span)`
   z-index: 2;
   position: absolute;
   align-items: center;
   top: 13vw;
-  right: 4%;
+  right: 12%;
+  cursor: pointer;
+  color: rgba(255,255,255,0.4);
 `;
 
-const offset = 6;
+const offset = 5;
 
-export default function IndexControlButton({queryKeyName2, data}:IIndexControl) {
+export default function IndexControlButton({queryKeyName2, data}: IIndexControl) {
     const [leaving, setLeaving] = useRecoilState(ModalLeaving);
-    const setIndex = useSetRecoilState(queryKeyName2 === "nowPlaying" ? MovieNowPlaying :
-        queryKeyName2 === "topRated" ? MovieTopRated :
-            queryKeyName2 === "popular" ? MoviePopular :
-                queryKeyName2 === "upcoming" ? MovieUpcoming :
-                    queryKeyName2 === "airingToday" ? TVAiringToday :
-                        queryKeyName2 === "topRatedTV" ? TVTopRated :
-                            queryKeyName2 === "popularTV" ? TVPopular :
-                                queryKeyName2 === "onTheAir" ? TVOnTheAir :
-                                    queryKeyName2 === "searchMovie" ? SearchMovieIndex : SearchTVIndex )
-    const toggleLeaving = () => setLeaving((prev:boolean) => !prev);
+    const setIndex = useSetRecoilState(
+        queryKeyName2 === "nowPlaying" ? MovieNowPlaying :
+            queryKeyName2 === "topRated" ? MovieTopRated :
+                queryKeyName2 === "popular" ? MoviePopular :
+                    queryKeyName2 === "upcoming" ? MovieUpcoming :
+                        queryKeyName2 === "airingToday" ? TVAiringToday :
+                            queryKeyName2 === "topRatedTV" ? TVTopRated :
+                                queryKeyName2 === "popularTV" ? TVPopular :
+                                    queryKeyName2 === "onTheAir" ? TVOnTheAir :
+                                        queryKeyName2 === "searchMovie" ? SearchMovieIndex :
+                                            SearchTVIndex
+    )
+    const toggleLeaving = () => setLeaving((prev: boolean) => !prev);
     const setIncreaseValue = useSetRecoilState(IncreaseState);
 
+    const totalMovies = data.results.length + 1;
+    const maxIndex = Math.floor(totalMovies / offset) - 1;
     const increaseIndex = () => {
         if (data) {
             if (leaving) return;
             setIncreaseValue(true);
             toggleLeaving();
-            const totalMovies = data.results.length - 1;
-            const maxIndex = Math.floor(totalMovies / offset) - 1;
             setIndex((prev: number) => (prev === maxIndex ? 0 : prev + 1));
         }
     };
@@ -62,16 +69,14 @@ export default function IndexControlButton({queryKeyName2, data}:IIndexControl) 
             if (leaving) return;
             setIncreaseValue(false);
             toggleLeaving();
-            const totalMovies = data.results.length - 1;
-            const maxIndex = Math.floor(totalMovies / offset) - 1;
             setIndex((prev: number) => (prev === 0 ? maxIndex : prev - 1));
         }
     };
-    return(<>
+    return (<>
         <DecreaseButton onClick={decreaseIndex}>
-        <FontAwesomeIcon icon={faAngleLeft}
-                         size="2x"/>
-    </DecreaseButton>
+            <FontAwesomeIcon icon={faAngleLeft}
+                             size="2x"/>
+        </DecreaseButton>
         <IncreaseButton onClick={increaseIndex}>
             <FontAwesomeIcon icon={faAngleRight}
                              size="2x"/>

@@ -11,14 +11,15 @@ export const Overlay = styled(motion.div)`
 `;
 export const BigModal = styled(motion.div)`
   position: absolute;
-  width: 40vw;
+  width: 60vw;
   height: 80vh;
   left: 0;
   right: 0;
   margin: 0 auto;
-  border-radius: 15px;
+  border-radius: 48px;
   overflow: hidden;
   background-color: ${(props) => props.theme.black.lighter};
+  filter: drop-shadow(0 0 0.16rem crimson);
 `;
 export const BigCover = styled.div`
   width: 100%;
@@ -28,14 +29,18 @@ export const BigCover = styled.div`
 `;
 export const BigTitle = styled.h3`
   color: ${(props) => props.theme.white.lighter};
-  padding: 20px;
-  font-size: 46px;
+  padding: 32px;
+  font-size: 24px;
+  font-weight: bold;
   position: relative;
-  top: -80px;
+  top: -72px;
 `;
 export const BigOverview = styled.p`
-  padding: 20px;
+  font-size: 16px;
+  padding: 32px;
   position: relative;
-  top: -80px;
+  line-height: 1.6;
+  letter-spacing: -0.4px;
+  top: -104px;
   color: ${(props) => props.theme.white.lighter};
 `;

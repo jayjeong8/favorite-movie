@@ -9,7 +9,7 @@ export const Slider = styled.div`
 export const RowTitle = styled.div`
   font-size: 24px;
   font-weight: bold;
-  margin: 16px 8%;
+  margin: 16px 16%;
 `;
 export const InRow = styled(motion.div)`
   display: grid;
@@ -18,7 +18,8 @@ export const InRow = styled(motion.div)`
   grid-template-columns: repeat(6, 1fr);
   position: absolute;
   align-items: center;
-  margin: 0 10% 16px 10%;
+  margin: 0 16% 16px 16%;
+  filter: drop-shadow(0 0 0.08rem crimson);
 `;
 
 export const Box = styled(motion.div)<{ bgphoto: string }>`
@@ -26,6 +27,7 @@ export const Box = styled(motion.div)<{ bgphoto: string }>`
   background-image: url(${(props) => props.bgphoto});
   background-size: cover;
   background-position: center center;
+  border-radius: 24px;
   height: 20vw;
   font-size: 64px;
   cursor: pointer;
@@ -39,7 +41,8 @@ export const Box = styled(motion.div)<{ bgphoto: string }>`
   }
 `;
 export const Info = styled(motion.div)`
-  padding: 16px;
+  padding: 12px;
+  border-radius: 2px 2px 24px 24px;
   background-color: ${(props) => props.theme.black.lighter};
   opacity: 0;
   position: absolute;
@@ -49,5 +52,6 @@ export const Info = styled(motion.div)`
   h4 {
     text-align: center;
     font-size: 12px;
+    font-weight: bold;
   }
 `;
