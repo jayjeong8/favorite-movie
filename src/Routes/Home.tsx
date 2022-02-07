@@ -54,6 +54,16 @@ const Row = styled(motion.div)`
   width: 96%;
   margin: 0 2% 16px 2%;
 `;
+const DecreaseButton = styled.span`
+  position: inherit;
+  align-items: center;
+  left: -1%;
+`;
+const IncreaseButton = styled.span`
+  position: inherit;
+  align-items: center;
+  right: -1%;
+`;
 const Box = styled(motion.div)<{ bgphoto: string }>`
   background-color: white;
   background-image: url(${(props) => props.bgphoto});
@@ -217,6 +227,8 @@ function Home() {
                                 transition={{type: "tween", duration: 1}}
                                 key={index}
                             >
+                                <DecreaseButton>left</DecreaseButton>
+                                <IncreaseButton>right</IncreaseButton>
                                 {data?.results
                                     .slice(1) //메인화면에 들어가는 영화 제외
                                     .slice(offset * index, offset * index + offset)
