@@ -49,15 +49,16 @@ function Search() {
     const tvIndex = useRecoilValue(SearchTVIndex);
 
     const {scrollY} = useViewportScroll();
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
     const [selectedRow, setSelectedRow] = useRecoilState(SelectedRow)
     const setClickedMovie = useSetRecoilState(ClickedMovie);
     const setClickedTV = useSetRecoilState(ClickedTV);
     const [checkMedia, setCheckMedia] = useState("searchMovie");
-    const [savedKeyword, setSavedKeyword] = useState<string | null>("");
+    // const [savedKeyword, setSavedKeyword] = useState<string | null>("");
+    const [savedId, setSavedId] = useState<number | null>(null);
     const onBoxClicked = (contentId: number, media: string) => {
         media === "movie" ? setCheckMedia("searchMovie") : setCheckMedia("searchTV");
-        navigate(`/search/${contentId}`)
+        // navigate(`/search?keyword=${keyword}/${contentId}`)
         setSelectedRow(media);
         const clicked =
             checkMedia === "searchMovie" ?
@@ -65,12 +66,13 @@ function Search() {
                 : tvData?.data?.results.find((content) => content.id === contentId || undefined)
         checkMedia === "searchMovie" ?
             setClickedMovie(clicked) : setClickedTV(clicked);
-        setSavedKeyword(keyword);
+        // setSavedKeyword(keyword);
+        setSavedId(contentId);
     };
-    const bigMovieMatch = useMatch(`/search/:searchId`);
+    const bigMovieMatch = useMatch(`/search/${savedId}`);
     console.log(bigMovieMatch)
     const onOverlayClick = () => {
-        navigate(`/search?keyword=${savedKeyword}`)
+        setSavedId(null);
     };
 
     const clickedContents = useRecoilValue(checkMedia === "searchMovie" ? ClickedMovie : ClickedTV);
@@ -163,14 +165,14 @@ function Search() {
                     </Slider>
 
                     <AnimatePresence>
-                        {bigMovieMatch ? (
+                        {savedId ? (
                             <>
                                 <Overlay onClick={onOverlayClick}
                                          animate={{opacity: 1}}
                                          exit={{opacity: 0}}/>
                                 <BigModal
                                     style={{top: scrollY.get() + 100}}
-                                    layoutId={bigMovieMatch.params.searchId + ""}
+                                    layoutId={savedId + ""}
                                 >
                                     {clickedContents && (
                                         <>
