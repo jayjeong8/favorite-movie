@@ -57,11 +57,11 @@ function Row({queryKeyName1, queryKeyName2, getApi, rowTitle}: IApi) {
             : (
                 <>
                     <Slider>
+                        <RowTitle>{rowTitle}</RowTitle>
+                        <IndexControlButton
+                            queryKeyName2={queryKeyName2}
+                            data={data}/>
                         <AnimatePresence initial={false} onExitComplete={toggleLeaving}>
-                            <RowTitle>{rowTitle}</RowTitle>
-                            <IndexControlButton
-                                queryKeyName2={queryKeyName2}
-                                data={data}/>
                             <InRow
                                 variants={rowVariants}
                                 custom={increaseValue}

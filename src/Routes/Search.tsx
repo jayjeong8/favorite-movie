@@ -15,7 +15,6 @@ import {
     SelectedRow
 } from "../atom";
 import {IGetContentsResult} from "../api";
-import {useMatch, useNavigate} from "react-router-dom";
 import styled from "styled-components";
 import {useState} from "react";
 import {BigCover, BigModal, BigOverview, BigTitle, Overlay} from "../Components/StyledBigModal";
@@ -54,11 +53,9 @@ function Search() {
     const setClickedMovie = useSetRecoilState(ClickedMovie);
     const setClickedTV = useSetRecoilState(ClickedTV);
     const [checkMedia, setCheckMedia] = useState("searchMovie");
-    // const [savedKeyword, setSavedKeyword] = useState<string | null>("");
     const [savedId, setSavedId] = useState<number | null>(null);
     const onBoxClicked = (contentId: number, media: string) => {
         media === "movie" ? setCheckMedia("searchMovie") : setCheckMedia("searchTV");
-        // navigate(`/search?keyword=${keyword}/${contentId}`)
         setSelectedRow(media);
         const clicked =
             checkMedia === "searchMovie" ?
@@ -66,11 +63,8 @@ function Search() {
                 : tvData?.data?.results.find((content) => content.id === contentId || undefined)
         checkMedia === "searchMovie" ?
             setClickedMovie(clicked) : setClickedTV(clicked);
-        // setSavedKeyword(keyword);
         setSavedId(contentId);
     };
-    const bigMovieMatch = useMatch(`/search/${savedId}`);
-    console.log(bigMovieMatch)
     const onOverlayClick = () => {
         setSavedId(null);
     };
@@ -87,11 +81,11 @@ function Search() {
             {isLoading ? (<Loader>Loading..</Loader>) : (
                 <Wrapper>
                     <Slider>
+                        <RowTitle>Movie</RowTitle>
+                        <IndexControlButton
+                            queryKeyName2={"searchMovie"}
+                            data={movieData.data}/>
                         <AnimatePresence initial={false} onExitComplete={toggleLeaving}>
-                            <RowTitle>Movie</RowTitle>
-                            <IndexControlButton
-                                queryKeyName2={"searchMovie"}
-                                data={movieData.data}/>
                             <InRow
                                 variants={rowVariants}
                                 custom={increaseValue}
@@ -126,11 +120,11 @@ function Search() {
                         </AnimatePresence>
                     </Slider>
                     <Slider>
+                        <RowTitle>TV show</RowTitle>
+                        <IndexControlButton
+                            queryKeyName2={"searchTV"}
+                            data={tvData.data}/>
                         <AnimatePresence initial={false} onExitComplete={toggleLeaving}>
-                            <RowTitle>TV show</RowTitle>
-                            <IndexControlButton
-                                queryKeyName2={"searchTV"}
-                                data={tvData.data}/>
                             <InRow
                                 variants={rowVariants}
                                 custom={increaseValue}
