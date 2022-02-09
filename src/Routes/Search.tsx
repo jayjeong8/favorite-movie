@@ -23,7 +23,14 @@ const API_KEY = "8b0c5f0400aa76e404ea70c8b1e0ce22";
 const BASE_PATH = "https://api.themoviedb.org/3";
 
 const Wrapper = styled.div`
-  margin-top: 32vh;
+  margin-top: 40vh;
+  position: relative;
+`;
+const SearchTitle = styled.div`
+  position: absolute;
+  top: -24vh;
+  margin-left: 8vw;
+  font-size: 40px;
 `;
 
 function Search() {
@@ -38,33 +45,37 @@ function Search() {
             .then(response => response.json())
     })
     const {isLoading} = useQuery(["movieSearch", keyword]);
-    const setLeaving = useSetRecoilState(ModalLeaving);
+    const [savedId, setSavedId] = useState<number | null>(null);
+    const [checkMedia, setCheckMedia] = useState("searchMovie");
+    const clickedContents = useRecoilValue(checkMedia === "searchMovie" ?
+        ClickedMovie : ClickedTV);
     const setClickedMovie = useSetRecoilState(ClickedMovie);
     const setClickedTV = useSetRecoilState(ClickedTV);
+    const setLeaving = useSetRecoilState(ModalLeaving);
     const increaseValue = useRecoilValue(IncreaseState);
     const movieIndex = useRecoilValue(SearchMovieIndex);
     const tvIndex = useRecoilValue(SearchTVIndex);
-    const [checkMedia, setCheckMedia] = useState("searchMovie");
-    const [savedId, setSavedId] = useState<number | null>(null);
     const {scrollY} = useViewportScroll();
 
     const toggleLeaving = () => setLeaving((prev: boolean) => !prev);
-    const onBoxClicked = (contentId: number, media: string) => {
-        media === "movie" ? setCheckMedia("searchMovie") : setCheckMedia("searchTV");
-        const clicked =
-            checkMedia === "searchMovie" ?
-                movieData?.data?.results.find((content) => content.id === contentId || undefined)
-                : tvData?.data?.results.find((content) => content.id === contentId || undefined)
-        checkMedia === "searchMovie" ?
-            setClickedMovie(clicked) : setClickedTV(clicked);
+
+    const onMovieBoxClicked = (contentId: number) => {
+        setCheckMedia("searchMovie")
+        const clicked = movieData?.data?.results.find((content) =>
+            content.id === contentId || undefined);
+        setClickedMovie(clicked);
+        setSavedId(contentId);
+    };
+    const onTVBoxClicked = (contentId: number) => {
+        setCheckMedia("searchTV");
+        const clicked = tvData?.data?.results.find((content) =>
+            content.id === contentId || undefined);
+        setClickedTV(clicked);
         setSavedId(contentId);
     };
     const onOverlayClick = () => {
         setSavedId(null);
     };
-
-    const clickedContents = useRecoilValue(checkMedia === "searchMovie" ?
-        ClickedMovie : ClickedTV);
 
     const offset = 5;
     const NETFLIX_LOGO_URL =
@@ -75,6 +86,7 @@ function Search() {
         <>
             {isLoading ? (<Loader>Loading..</Loader>) : (
                 <Wrapper>
+                    <SearchTitle>{`Search "${keyword}"..`}</SearchTitle>
                     <Slider>
                         <RowTitle>Movie</RowTitle>
                         <IndexControlButton
@@ -96,7 +108,7 @@ function Search() {
                                         <Box
                                             key={content.id + "movie"}
                                             layoutId={content.id + ""}
-                                            onClick={() => onBoxClicked(content.id, "movie")}
+                                            onClick={() => onMovieBoxClicked(content.id)}
                                             variants={boxVariants}
                                             initial="normal"
                                             whileHover="hover"
@@ -134,7 +146,7 @@ function Search() {
                                         <Box
                                             key={content.id + "tv"}
                                             layoutId={content.id + ""}
-                                            onClick={() => onBoxClicked(content.id, "tv")}
+                                            onClick={() => onTVBoxClicked(content.id)}
                                             variants={boxVariants}
                                             initial="normal"
                                             whileHover="hover"
