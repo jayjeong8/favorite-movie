@@ -50,11 +50,11 @@ export const TVOnTheAir = atom({
 
 //search Index
 export const SearchMovieIndex = atom({
-    key: 'searchIndex',
+    key: 'searchMovieIndex',
     default: 0,
 });
 export const SearchTVIndex = atom({
-    key: 'searchIndex',
+    key: 'searchTVIndex',
     default: 0,
 });
 

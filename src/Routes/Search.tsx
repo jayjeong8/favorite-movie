@@ -68,6 +68,7 @@ function Search() {
         setSavedKeyword(keyword);
     };
     const bigMovieMatch = useMatch(`/search/:searchId`);
+    console.log(bigMovieMatch)
     const onOverlayClick = () => {
         navigate(`/search?keyword=${savedKeyword}`)
     };
@@ -96,7 +97,8 @@ function Search() {
                                 animate="visible"
                                 exit="exit"
                                 transition={{type: "tween", duration: 1}}
-                                key={"searchMovie" + movieIndex}
+                                // key={"searchMovie" + movieIndex}
+                                key={movieIndex + ""}
                             >
                                 {movieData?.data?.results
                                     .slice(offset * movieIndex, offset * movieIndex + offset)

@@ -23,7 +23,7 @@ const DecreaseButton = styled(motion.span)`
   top: 13vw;
   left: 12%;
   cursor: pointer;
-  color: rgba(255,255,255,0.4);
+  color: rgba(255, 255, 255, 0.4);
 `;
 const IncreaseButton = styled(motion.span)`
   z-index: 2;
@@ -32,7 +32,7 @@ const IncreaseButton = styled(motion.span)`
   top: 13vw;
   right: 12%;
   cursor: pointer;
-  color: rgba(255,255,255,0.4);
+  color: rgba(255, 255, 255, 0.4);
 `;
 
 const offset = 5;
@@ -54,7 +54,8 @@ export default function IndexControlButton({queryKeyName2, data}: IIndexControl)
     const toggleLeaving = () => setLeaving((prev: boolean) => !prev);
     const setIncreaseValue = useSetRecoilState(IncreaseState);
     const totalMovies = data?.results?.length;
-    const maxIndex = Math.floor(totalMovies ? totalMovies : 1 / offset);
+    const maxIndex = Math.floor(totalMovies ? (totalMovies / offset - 1) : 1);
+
     const increaseIndex = () => {
         if (data) {
             if (leaving) return;

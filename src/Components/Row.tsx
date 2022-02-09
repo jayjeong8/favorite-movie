@@ -48,7 +48,6 @@ function Row({queryKeyName1, queryKeyName2, getApi, rowTitle}: IApi) {
         queryKeyName1 === "MOVIE" ?
             setClickedMovie(clicked): setClickedTV(clicked);
     };
-
     const offset = 5;
     const NETFLIX_LOGO_URL =
         'https://assets.brand.microsites.netflix.io/assets/2800a67c-4252-11ec-a9ce-066b49664af6_cm_800w.jpg?v=4';
@@ -58,7 +57,7 @@ function Row({queryKeyName1, queryKeyName2, getApi, rowTitle}: IApi) {
             : (
                 <>
                     <Slider>
-                        <AnimatePresence key={queryKeyName2} initial={false} onExitComplete={toggleLeaving}>
+                        <AnimatePresence initial={false} onExitComplete={toggleLeaving}>
                             <RowTitle>{rowTitle}</RowTitle>
                             <IndexControlButton
                                 queryKeyName2={queryKeyName2}
