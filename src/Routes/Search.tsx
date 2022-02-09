@@ -38,18 +38,17 @@ function Search() {
             .then(response => response.json())
     })
     const {isLoading} = useQuery(["movieSearch", keyword]);
-
-
     const setLeaving = useSetRecoilState(ModalLeaving);
-    const increaseValue = useRecoilValue(IncreaseState);
-    const toggleLeaving = () => setLeaving((prev: boolean) => !prev);
-    const movieIndex = useRecoilValue(SearchMovieIndex);
-    const tvIndex = useRecoilValue(SearchTVIndex);
-    const {scrollY} = useViewportScroll();
     const setClickedMovie = useSetRecoilState(ClickedMovie);
     const setClickedTV = useSetRecoilState(ClickedTV);
+    const increaseValue = useRecoilValue(IncreaseState);
+    const movieIndex = useRecoilValue(SearchMovieIndex);
+    const tvIndex = useRecoilValue(SearchTVIndex);
     const [checkMedia, setCheckMedia] = useState("searchMovie");
     const [savedId, setSavedId] = useState<number | null>(null);
+    const {scrollY} = useViewportScroll();
+
+    const toggleLeaving = () => setLeaving((prev: boolean) => !prev);
     const onBoxClicked = (contentId: number, media: string) => {
         media === "movie" ? setCheckMedia("searchMovie") : setCheckMedia("searchTV");
         const clicked =
