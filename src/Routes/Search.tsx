@@ -5,14 +5,13 @@ import IndexControlButton from "../Components/IndexControlButton";
 import {makeImagePath} from "../utils";
 import {Slider, Info, Box, RowTitle, InRow} from "../Components/StyledRow";
 import {rowVariants, infoVariants, boxVariants} from "../Components/RowVariants";
-import {useRecoilState, useRecoilValue, useSetRecoilState} from "recoil";
+import {useRecoilValue, useSetRecoilState} from "recoil";
 import {
     ClickedMovie,
     ClickedTV,
     IncreaseState,
     ModalLeaving,
     SearchMovieIndex, SearchTVIndex,
-    SelectedRow
 } from "../atom";
 import {IGetContentsResult} from "../api";
 import styled from "styled-components";
@@ -46,16 +45,13 @@ function Search() {
     const toggleLeaving = () => setLeaving((prev: boolean) => !prev);
     const movieIndex = useRecoilValue(SearchMovieIndex);
     const tvIndex = useRecoilValue(SearchTVIndex);
-console.log(movieIndex);
     const {scrollY} = useViewportScroll();
-    const [selectedRow, setSelectedRow] = useRecoilState(SelectedRow)
     const setClickedMovie = useSetRecoilState(ClickedMovie);
     const setClickedTV = useSetRecoilState(ClickedTV);
     const [checkMedia, setCheckMedia] = useState("searchMovie");
     const [savedId, setSavedId] = useState<number | null>(null);
     const onBoxClicked = (contentId: number, media: string) => {
         media === "movie" ? setCheckMedia("searchMovie") : setCheckMedia("searchTV");
-        setSelectedRow(media);
         const clicked =
             checkMedia === "searchMovie" ?
                 movieData?.data?.results.find((content) => content.id === contentId || undefined)
@@ -93,7 +89,6 @@ console.log(movieIndex);
                                 animate="visible"
                                 exit="exit"
                                 transition={{type: "tween", duration: 1}}
-                                // key={"searchMovie" + movieIndex}
                                 key={movieIndex}
                             >
                                 {movieData?.data?.results
