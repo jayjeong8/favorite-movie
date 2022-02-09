@@ -46,9 +46,8 @@ function Search() {
     const toggleLeaving = () => setLeaving((prev: boolean) => !prev);
     const movieIndex = useRecoilValue(SearchMovieIndex);
     const tvIndex = useRecoilValue(SearchTVIndex);
-
+console.log(movieIndex);
     const {scrollY} = useViewportScroll();
-    // const navigate = useNavigate();
     const [selectedRow, setSelectedRow] = useRecoilState(SelectedRow)
     const setClickedMovie = useSetRecoilState(ClickedMovie);
     const setClickedTV = useSetRecoilState(ClickedTV);
@@ -69,7 +68,8 @@ function Search() {
         setSavedId(null);
     };
 
-    const clickedContents = useRecoilValue(checkMedia === "searchMovie" ? ClickedMovie : ClickedTV);
+    const clickedContents = useRecoilValue(checkMedia === "searchMovie" ?
+        ClickedMovie : ClickedTV);
 
     const offset = 5;
     const NETFLIX_LOGO_URL =
@@ -94,13 +94,13 @@ function Search() {
                                 exit="exit"
                                 transition={{type: "tween", duration: 1}}
                                 // key={"searchMovie" + movieIndex}
-                                key={movieIndex + ""}
+                                key={movieIndex}
                             >
                                 {movieData?.data?.results
                                     .slice(offset * movieIndex, offset * movieIndex + offset)
                                     .map((content) => (
                                         <Box
-                                            key={content.id + selectedRow + "movie"}
+                                            key={content.id + "movie"}
                                             layoutId={content.id + ""}
                                             onClick={() => onBoxClicked(content.id, "movie")}
                                             variants={boxVariants}
@@ -132,13 +132,13 @@ function Search() {
                                 animate="visible"
                                 exit="exit"
                                 transition={{type: "tween", duration: 1}}
-                                key={"searchTV" + tvIndex}
+                                key={tvIndex}
                             >
                                 {tvData?.data?.results
                                     .slice(offset * tvIndex, offset * tvIndex + offset)
                                     .map((content) => (
                                         <Box
-                                            key={content.id + selectedRow + "tv"}
+                                            key={content.id + "tv"}
                                             layoutId={content.id + ""}
                                             onClick={() => onBoxClicked(content.id, "tv")}
                                             variants={boxVariants}
