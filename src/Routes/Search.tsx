@@ -16,7 +16,7 @@ import {
 import {IGetContentsResult} from "../api";
 import styled from "styled-components";
 import {useState} from "react";
-import {BigCover, BigModal, BigOverview, BigTitle, Overlay} from "../Components/StyledBigModal";
+import {BigCover, BigModal, BigOverview, BigTitle, BigDate, Overlay} from "../Components/StyledBigModal";
 import {Loader} from "../Components/Loader";
 
 const API_KEY = "8b0c5f0400aa76e404ea70c8b1e0ce22";
@@ -187,6 +187,8 @@ function Search() {
                                                 checkMedia === "searchMovie" ? clickedContents.title
                                                     : clickedContents.name}
                                             </BigTitle>
+                                            <BigDate>({checkMedia === "searchMovie" ? clickedContents.release_date
+                                                : clickedContents.first_air_date})</BigDate>
                                             <BigOverview>{clickedContents.overview}</BigOverview>
                                         </>
                                     )}

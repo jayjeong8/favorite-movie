@@ -1,10 +1,10 @@
 import {makeImagePath} from "../utils";
-import {AnimatePresence, motion, useViewportScroll} from "framer-motion";
+import {AnimatePresence, useViewportScroll} from "framer-motion";
 import {useMatch, useNavigate} from "react-router-dom";
 import {useRecoilValue} from "recoil";
 import {ClickedMovie, ClickedTV, SelectedRow} from "../atom";
 import {IBigModal} from "../api";
-import {BigModal, BigOverview, BigTitle, Overlay, BigCover} from "./StyledBigModal"
+import {BigModal, BigOverview, BigTitle, Overlay, BigCover, BigDate} from "./StyledBigModal"
 
 export default function BigContentModal({media}:IBigModal) {
     const selectedRow = useRecoilValue(SelectedRow);
@@ -41,6 +41,8 @@ export default function BigContentModal({media}:IBigModal) {
                                         media==="movie" ? clickedContents.title
                                         : clickedContents.name}
                                     </BigTitle>
+                                    <BigDate>({media==="movie" ? clickedContents.release_date
+                                        : clickedContents.first_air_date})</BigDate>
                                     <BigOverview>{clickedContents.overview}</BigOverview>
                                 </>
                             )}

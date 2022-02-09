@@ -35,6 +35,15 @@ export const BigTitle = styled.h3`
   position: relative;
   top: -72px;
 `;
+export const BigDate = styled.div`
+  color: ${(props) => props.theme.white.lighter};
+  padding-left: 32px;
+  margin-bottom: 16px;
+  font-size: 16px;
+  font-weight: bold;
+  position: relative;
+  top: -72px;
+`;
 export const BigOverview = styled.p`
   font-size: 16px;
   padding: 32px;

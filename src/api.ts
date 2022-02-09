@@ -21,6 +21,8 @@ export interface IContent {
     overview: string;
     genres: IGenres[];
     name: string;
+    first_air_date: string;
+    release_date: string;
 }
 
 export interface IGetContentsResult {
