@@ -171,7 +171,7 @@ function Search() {
                                          animate={{opacity: 1}}
                                          exit={{opacity: 0}}/>
                                 <BigModal
-                                    style={{top: scrollY.get() + 100}}
+                                    style={{top: scrollY.get() - 220}}
                                     layoutId={savedId + ""}
                                 >
                                     {clickedContents && (
