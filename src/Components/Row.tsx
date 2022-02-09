@@ -42,7 +42,7 @@ function Row({queryKeyName1, queryKeyName2, getApi, rowTitle}: IApi) {
     const setClickedTV = useSetRecoilState(ClickedTV);
     const onBoxClicked = (contentId: number) => {
         queryKeyName1 === "MOVIE" ?
-            navigate(`/movie/${contentId}`) : navigate(`/tv/${contentId}`)
+            navigate(`movie/${contentId}`) : navigate(`/tv/${contentId}`)
         setSelectedRow(queryKeyName2);
         const clicked = data?.results.find((content) => content.id === contentId || undefined);
         queryKeyName1 === "MOVIE" ?

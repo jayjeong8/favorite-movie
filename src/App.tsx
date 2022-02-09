@@ -9,14 +9,16 @@ import {RecoilRoot} from "recoil";
 function App() {
     return (
         <RecoilRoot>
-            <Router>
+            <Router basename={"/react-nomflix"}>
                 <Header/>
                 <Routes>
-                    <Route path="/*" element={<Home/>}/>
                     <Route path="/tv" element={<Tv/>}/>
-                    <Route path="/tv/*" element={<Tv/>}/>
+                    <Route path="/tv/:tvId" element={<Tv/>}/>
                     <Route path="/search" element={<Search/>}/>
-                    <Route path="/search/*" element={<Search/>}/>
+                    <Route path="/search/:searchId" element={<Search/>}/>
+                    <Route path="/movie/:movieId" element={<Home/>}/>
+                    <Route path="/movie" element={<Home/>}/>
+                    <Route path="/*" element={<Home/>}/>
                 </Routes>
             </Router>
         </RecoilRoot>

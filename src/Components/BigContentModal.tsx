@@ -9,9 +9,9 @@ import {BigModal, BigOverview, BigTitle, Overlay, BigCover} from "./StyledBigMod
 export default function BigContentModal({media}:IBigModal) {
     const selectedRow = useRecoilValue(SelectedRow);
     const navigate = useNavigate();
-    const bigMovieMatch = useMatch(media==="movie" ? "/movie/:movieId" :
+    const bigMovieMatch = useMatch(media==="movie" ? "movie/:movieId" :
         "/tv/:tvId");
-    const onOverlayClick = () => {media==="movie" ? navigate("/movie") : navigate("/tv")};
+    const onOverlayClick = () => {media==="movie" ? navigate("movie") : navigate("/tv")};
     const {scrollY} = useViewportScroll();
     const clickedContents = useRecoilValue(media==="movie" ? ClickedMovie: ClickedTV);
     return (
