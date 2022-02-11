@@ -95,10 +95,9 @@ function Search() {
                         <AnimatePresence initial={false} onExitComplete={toggleLeaving}>
                             <InRow
                                 variants={rowVariants}
-                                custom={increaseValue}
-                                initial="hidden"
+                                initial={increaseValue ? "hidden" : "exit"}
                                 animate="visible"
-                                exit="exit"
+                                exit={increaseValue ? "exit" : "hidden"}
                                 transition={{type: "tween", duration: 1}}
                                 key={movieIndex}
                             >
@@ -133,10 +132,9 @@ function Search() {
                         <AnimatePresence initial={false} onExitComplete={toggleLeaving}>
                             <InRow
                                 variants={rowVariants}
-                                custom={increaseValue}
-                                initial="hidden"
+                                initial={increaseValue ? "hidden" : "exit"}
                                 animate="visible"
-                                exit="exit"
+                                exit={increaseValue ? "exit" : "hidden"}
                                 transition={{type: "tween", duration: 1}}
                                 key={tvIndex}
                             >

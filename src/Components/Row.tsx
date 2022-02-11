@@ -64,10 +64,9 @@ function Row({queryKeyName1, queryKeyName2, getApi, rowTitle}: IApi) {
                         <AnimatePresence initial={false} onExitComplete={toggleLeaving}>
                             <InRow
                                 variants={rowVariants}
-                                custom={increaseValue}
-                                initial="hidden"
+                                initial={increaseValue ? "hidden" : "exit"}
                                 animate="visible"
-                                exit="exit"
+                                exit={increaseValue ? "exit" : "hidden"}
                                 transition={{type: "tween", duration: 1}}
                                 key={index + queryKeyName2}
                             >

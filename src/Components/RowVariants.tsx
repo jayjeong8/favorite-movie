@@ -1,14 +1,14 @@
 
 export const rowVariants = {
-    hidden: (increase: boolean) => ({
-        x: increase ? window.outerWidth : -window.outerWidth
-    }),
+    hidden: {
+        x: window.outerWidth
+    },
     visible: {
         x: 0,
     },
-    exit: (increase: boolean) => ({
-        x: increase ? -window.outerWidth : window.outerWidth
-    }),
+    exit: {
+        x: -window.outerWidth
+    }
 };
 export const boxVariants = {
     normal: {
