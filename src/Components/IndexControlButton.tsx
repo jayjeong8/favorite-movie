@@ -13,26 +13,21 @@ import {
     TVAiringToday, TVOnTheAir, TVPopular,
     TVTopRated
 } from "../atom";
-import {IGetContentsResult, IIndexControl} from "../api";
+import {IIndexControl} from "../api";
 
-
-const DecreaseButton = styled(motion.span)`
+const Button = styled(motion.span)`
   z-index: 2;
   position: absolute;
   align-items: center;
   top: 13vw;
-  left: 12%;
   cursor: pointer;
   color: rgba(255, 255, 255, 0.4);
 `;
-const IncreaseButton = styled(motion.span)`
-  z-index: 2;
-  position: absolute;
-  align-items: center;
-  top: 13vw;
+const DecreaseButton = styled(Button)`
+  left: 12%;
+`;
+const IncreaseButton = styled(Button)`
   right: 12%;
-  cursor: pointer;
-  color: rgba(255, 255, 255, 0.4);
 `;
 
 const offset = 5;
