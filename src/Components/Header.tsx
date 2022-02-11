@@ -82,7 +82,7 @@ const Input = styled(motion.input)`
   background-color: transparent;
   border: 1px solid ${(props) => props.theme.white.lighter};
   ::placeholder {
-    color: rgba(255, 255, 255, 0.8);
+    color: rgba(255,255,255,0.8);
   };
 `;
 
@@ -116,7 +116,9 @@ function Header() {
     const {scrollY} = useViewportScroll();
     const toggleSearch = () => {
         if (searchOpen) {
-            inputAnimation.start({scaleX: 0});
+            inputAnimation.start({
+                scaleX: 0,
+            });
         } else {
             inputAnimation.start({scaleX: 1});
         }
