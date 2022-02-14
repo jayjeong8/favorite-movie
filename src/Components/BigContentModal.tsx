@@ -11,7 +11,7 @@ export default function BigContentModal({media}:IBigModal) {
     const navigate = useNavigate();
     const bigMovieMatch = useMatch(media==="movie" ? "movie/:movieId" :
         "/tv/:tvId");
-    const onOverlayClick = () => {media==="movie" ? navigate("movie") : navigate("/tv")};
+    const onOverlayClick = () => {media==="movie" ? navigate("/") : navigate("/tv")};
     const {scrollY} = useViewportScroll();
     const clickedContents = useRecoilValue(media==="movie" ? ClickedMovie: ClickedTV);
     return (
