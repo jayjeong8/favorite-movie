@@ -4,7 +4,7 @@ import {useMatch, useNavigate} from "react-router-dom";
 import {useRecoilValue} from "recoil";
 import {ClickedMovie, ClickedTV, SelectedRow} from "../atom";
 import {IBigModal} from "../api";
-import {BigModal, BigOverview, BigTitle, Overlay, BigCover, BigDate} from "./StyledBigModal"
+import {BigModal, BigOverview, BigTitle, Overlay, BigCover, BigDate} from "../Styled/StyledBigModal"
 
 export default function BigContentModal({media}:IBigModal) {
     const selectedRow = useRecoilValue(SelectedRow);

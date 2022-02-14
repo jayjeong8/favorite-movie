@@ -1,14 +1,18 @@
 import {DefaultTheme} from "styled-components";
 
 export const theme: DefaultTheme = {
-    red: "#E51013",
-    black: {
-        veryDark: "#141414",
-        darker: "#181818",
-        lighter: "#2F2F2F",
+    black: "#121212",
+    gray: {
+        dark: "#595950",
+        gray: "#97968A",
+        light: "#DDDDD6",
     },
-    white: {
-        lighter: "#fff",
-        darker: "#e5e5e5",
-    },
+    white: "#F9F9F8",
+    yellow: {
+        dark: "#DBE23A",
+        light: "#FAFF86",
+    }
 };
+export const COLOR_BLACK = "rgba(18, 18, 18, 1)"
+export const COLOR_WHITE = "rgba(249, 249, 248, 1)"
+export const COLOR_ZEROBLACK = "rgba(18, 18, 18, 0)"

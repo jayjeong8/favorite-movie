@@ -43,7 +43,7 @@ export const Box = styled(motion.div)<{ bgphoto: string }>`
 export const Info = styled(motion.div)`
   padding: 12px;
   border-radius: 2px 2px 24px 24px;
-  background-color: ${(props) => props.theme.black.lighter};
+  background-color: ${(props) => props.theme.black};
   opacity: 0;
   position: absolute;
   width: 100%;

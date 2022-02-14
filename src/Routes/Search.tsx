@@ -3,7 +3,7 @@ import {useQuery} from "react-query";
 import {AnimatePresence, useViewportScroll} from "framer-motion";
 import IndexControlButton from "../Components/IndexControlButton";
 import {makeImagePath} from "../utils";
-import {Slider, Info, Box, RowTitle, InRow} from "../Components/StyledRow";
+import {Slider, Info, Box, RowTitle, InRow} from "../Styled/StyledRow";
 import {rowVariants, infoVariants, boxVariants} from "../Components/RowVariants";
 import {useRecoilValue, useSetRecoilState} from "recoil";
 import {
@@ -16,7 +16,7 @@ import {
 import {IGetContentsResult} from "../api";
 import styled from "styled-components";
 import {useState} from "react";
-import {BigCover, BigModal, BigOverview, BigTitle, BigDate, Overlay} from "../Components/StyledBigModal";
+import {BigCover, BigModal, BigOverview, BigTitle, BigDate, Overlay} from "../Styled/StyledBigModal";
 import {Loader} from "../Components/Loader";
 
 const API_KEY = "8b0c5f0400aa76e404ea70c8b1e0ce22";

@@ -18,7 +18,7 @@ export const BigModal = styled(motion.div)`
   margin: 0 auto;
   border-radius: 48px;
   overflow: hidden;
-  background-color: ${(props) => props.theme.black.lighter};
+  background-color: ${(props) => props.theme.black};
   filter: drop-shadow(0 0 0.16rem crimson);
 `;
 export const BigCover = styled.div`
@@ -28,7 +28,7 @@ export const BigCover = styled.div`
   height: 400px;
 `;
 export const BigTitle = styled.h3`
-  color: ${(props) => props.theme.white.lighter};
+  color: ${(props) => props.theme.white};
   padding: 32px;
   font-size: 24px;
   font-weight: bold;
@@ -36,7 +36,7 @@ export const BigTitle = styled.h3`
   top: -72px;
 `;
 export const BigDate = styled.div`
-  color: ${(props) => props.theme.white.lighter};
+  color: ${(props) => props.theme.white};
   padding-left: 32px;
   margin-bottom: 16px;
   font-size: 16px;
@@ -51,5 +51,5 @@ export const BigOverview = styled.p`
   line-height: 1.6;
   letter-spacing: -0.4px;
   top: -104px;
-  color: ${(props) => props.theme.white.lighter};
+  color: ${(props) => props.theme.white};
 `;

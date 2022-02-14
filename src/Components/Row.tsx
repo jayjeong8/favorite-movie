@@ -14,7 +14,7 @@ import {
     TVAiringToday, TVOnTheAir, TVPopular, TVTopRated,
 } from "../atom";
 import IndexControlButton from "./IndexControlButton";
-import {Slider, Info, Box, RowTitle, InRow} from "./StyledRow";
+import {Slider, Info, Box, RowTitle, InRow} from "../Styled/StyledRow";
 import {rowVariants, infoVariants, boxVariants} from "./RowVariants";
 
 

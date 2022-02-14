@@ -65,12 +65,11 @@ const GlobalStyle = createGlobalStyle`
   }
 
   body {
-    font-weight: 300;
-    //font-family: 'Source Sans Pro', sans-serif;
+    font-weight: 400;
     font-family: Pretendard, sans-serif;
-    color: ${(props) => props.theme.white.darker};
-    line-height: 1.2;
-    background-color: black;
+    color: ${(props) => props.theme.white};
+    line-height: 1.4;
+    background-color: ${(props) => props.theme.black};
     overflow-x: hidden;
   }
 

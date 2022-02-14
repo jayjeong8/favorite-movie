@@ -1,5 +1,6 @@
 import {useQuery} from "react-query";
-import styled from "styled-components";
+import {Loader} from "../Components/Loader";
+import {Wrapper, Banner, Title, Overview} from "../Styled/StyledHome"
 import {makeImagePath} from "../utils";
 import Row from "../Components/Row";
 import {
@@ -11,37 +12,6 @@ import {
 } from "../api";
 
 import BigContentModal from "../Components/BigContentModal";
-
-const Wrapper = styled.div`
-  background: black;
-  padding-bottom: 200px;
-`;
-const Loader = styled.div`
-  height: 20vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-const Banner = styled.div<{ bgPhoto: string }>`
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding: 0 16%;
-  background-image: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 1)),
-  url(${(props) => props.bgPhoto});
-  background-size: cover;
-`;
-const Title = styled.h2`
-  font-size: 56px;
-  margin-bottom: 16px;
-`;
-const Overview = styled.p`
-  font-size: 16px;
-  line-height: 1.6;
-  margin-left: 4px;
-  width: 50%;
-`;
 
 function Home() {
     const {data, isLoading} = useQuery<IGetContentsResult>(

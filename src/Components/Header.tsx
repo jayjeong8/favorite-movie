@@ -3,7 +3,8 @@ import styled from "styled-components";
 import {motion, useAnimation, useViewportScroll} from "framer-motion";
 import {useEffect, useState} from "react";
 import {useForm} from "react-hook-form";
-import FavoriteLogo from "../assets/FavoriteLogo"
+import FavoriteLogo from "../Assets/FavoriteLogo"
+import {COLOR_BLACK,COLOR_WHITE, COLOR_ZEROBLACK} from "../theme";
 
 const Nav = styled(motion.nav)`
   display: flex;
@@ -14,7 +15,6 @@ const Nav = styled(motion.nav)`
   top: 0;
   font-size: 12px;
   padding: 24px 64px;
-  color: white;
   z-index: 99;
 `;
 const Col = styled.div`
@@ -25,9 +25,9 @@ const Items = styled.ul`
   display: flex;
   align-items: center;
 `;
-const Item = styled.li`
-  margin-right: 20px;
-  color: ${(props) => props.theme.white.darker};
+const Item = styled(motion.li)`
+  margin-right: 24px;
+  font-weight: bold;
   transition: color 0.3s ease-in-out;
   position: relative;
   display: flex;
@@ -35,29 +35,40 @@ const Item = styled.li`
   flex-direction: column;
 
   &:hover {
-    color: ${(props) => props.theme.white.lighter};
+    color: ${(props) => props.theme.gray.light};
+  }
+
+  &:focus {
+    color: ${(props) => props.theme.black};
   }
 `;
+const Circle = styled(motion.span)`
+  position: absolute;
+  z-index: -1;
+  width: 64px;
+  height: 24px;
+  border-radius: 15px;
+  bottom: -4.3px;
+  right: 0;
+  margin: 0 auto;
+  background-color: ${(props) => props.theme.yellow.light};
+`;
+const MovieCircle = styled(Circle)`
+  left: -12px;
+`;
+const TVCircle = styled(Circle)`
+  left: -7px;
+`;
 const Search = styled.form`
-  color: white;
+  color: ${(props) => props.theme.white};
   display: flex;
   align-items: center;
   position: relative;
 
   svg {
-    height: 24px;
+    height: 20px;
+    padding-left: 4px;
   }
-`;
-const Circle = styled(motion.span)`
-  position: absolute;
-  width: 4px;
-  height: 4px;
-  border-radius: 4px;
-  bottom: -4px;
-  left: 0;
-  right: 0;
-  margin: 0 auto;
-  background-color: ${(props) => props.theme.red};
 `;
 const Input = styled(motion.input)`
   transform-origin: right center;
@@ -70,18 +81,20 @@ const Input = styled(motion.input)`
   color: white;
   font-size: 12px;
   background-color: transparent;
-  border: 1px solid ${(props) => props.theme.white.lighter};
+  border: 1px solid ${(props) => props.theme.gray.gray};
+
   ::placeholder {
-    color: rgba(255, 255, 255, 0.8);
-  };
+    color: ${(props) => props.theme.gray.gray};
+  }
+;
 `;
 
 const navVariants = {
     top: {
-        backgroundColor: "rgba(0, 0, 0, 0)",
+        backgroundColor: COLOR_ZEROBLACK,
     },
     scroll: {
-        backgroundColor: "rgba(0, 0, 0, 1)",
+        backgroundColor: COLOR_BLACK,
     },
 };
 
@@ -125,11 +138,11 @@ function Header() {
             <Col>
                 <FavoriteLogo/>
                 <Items>
-                    <Item>
-                        <Link to="/">MOVIE {homeMatch && <Circle layoutId="circle"/>}</Link>
+                    <Item style={{color: homeMatch ? COLOR_BLACK : COLOR_WHITE}}>
+                        <Link to="/">MOVIE {homeMatch && <MovieCircle layoutId="circle"/>}</Link>
                     </Item>
-                    <Item>
-                        <Link to="/tv">TV Show {tvMatch && <Circle layoutId="circle"/>}</Link>
+                    <Item style={{color: tvMatch ? COLOR_BLACK : COLOR_WHITE}}>
+                        <Link to="/tv">TV Show {tvMatch && <TVCircle layoutId="circle"/>}</Link>
                     </Item>
                 </Items>
             </Col>
