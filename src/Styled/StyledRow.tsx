@@ -7,7 +7,7 @@ export const Slider = styled.div`
   top: -100px;
 `;
 export const RowTitle = styled.div`
-  color: ${props => props.theme.yellow.dark};
+  color: ${props => props.theme.gray.light};
   font-size: 24px;
   font-weight: bold;
   margin: 16px 16%;
