@@ -95,13 +95,3 @@ export function getTVOnTheAir() {
     return fetch(`${BASE_PATH}/tv/on_the_air?api_key=${API_KEY}`)
         .then(response => response.json());
 }
-
-export function getSearchMovie() {
-    return fetch(`${BASE_PATH}/search/movie?api_key=${API_KEY}`)
-        .then(response => response.json());
-}
-
-export function getSearchTV() {
-    return fetch(`${BASE_PATH}/search/tv?api_key=${API_KEY}`)
-        .then(response => response.json());
-}

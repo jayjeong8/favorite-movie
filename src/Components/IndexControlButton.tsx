@@ -30,8 +30,6 @@ const IncreaseButton = styled(Button)`
   right: 12%;
 `;
 
-const offset = 5;
-
 export default function IndexControlButton({queryKeyName2, data}: IIndexControl) {
     const [leaving, setLeaving] = useRecoilState(ModalLeaving);
     const setIndex = useSetRecoilState(
@@ -49,6 +47,7 @@ export default function IndexControlButton({queryKeyName2, data}: IIndexControl)
     const toggleLeaving = () => setLeaving((prev: boolean) => !prev);
     const setIncreaseValue = useSetRecoilState(IncreaseState);
     const totalMovies = data?.results?.length;
+    const offset = 5;
     const maxIndex = Math.floor(totalMovies ? (totalMovies / offset - 1) : 1);
 
     const increaseIndex = () => {
