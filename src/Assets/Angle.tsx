@@ -15,7 +15,7 @@ export default function Angle({X}: IAngle) {
     return (
         <Svg style={{scaleX: X}}>
             <svg width="9" height="16" viewBox="0 0 9 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M8 1L1 8L8 15" stroke="#DDDDD6" stroke-width="1.2" stroke-linecap="round"/>
+                <path d="M8 1L1 8L8 15" stroke="#DDDDD6" strokeWidth="1.2" strokeLinecap="round"/>
             </svg>
         </Svg>
     )
