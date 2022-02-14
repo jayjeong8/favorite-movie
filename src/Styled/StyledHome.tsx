@@ -16,12 +16,17 @@ export const Banner = styled.div<{ bgPhoto: string }>`
   background-size: cover;
 `;
 export const Title = styled.h2`
-  font-size: 56px;
-  margin-bottom: 16px;
+  font-size: 52px;
+  font-weight: bold;
+  letter-spacing: -2px;
+  margin-bottom: 24px;
+  color: ${props => props.theme.white};
 `;
 export const Overview = styled.p`
   font-size: 16px;
   line-height: 1.6;
+  letter-spacing: -1px;
   margin-left: 4px;
-  width: 50%;
+  width: 40%;
+  color: ${props => props.theme.gray.light};
 `;

@@ -7,6 +7,7 @@ export const Slider = styled.div`
   top: -100px;
 `;
 export const RowTitle = styled.div`
+  color: ${props => props.theme.yellow.dark};
   font-size: 24px;
   font-weight: bold;
   margin: 16px 16%;
@@ -19,11 +20,10 @@ export const InRow = styled(motion.div)`
   position: absolute;
   align-items: center;
   margin: 0 16% 16px 16%;
-  filter: drop-shadow(0 0 0.08rem crimson);
+  filter: drop-shadow(0 0 1.2rem black);
 `;
 
 export const Box = styled(motion.div)<{ bgphoto: string }>`
-  background-color: white;
   background-image: url(${(props) => props.bgphoto});
   background-size: cover;
   background-position: center center;
@@ -42,7 +42,7 @@ export const Box = styled(motion.div)<{ bgphoto: string }>`
 `;
 export const Info = styled(motion.div)`
   padding: 12px;
-  border-radius: 2px 2px 24px 24px;
+  border-radius: 2px 2px 22px 22px;
   background-color: ${(props) => props.theme.black};
   opacity: 0;
   position: absolute;
