@@ -177,7 +177,7 @@ function Search() {
                                             <BigCover
                                                 style={{
                                                     backgroundImage: `linear-gradient(to top, black, transparent), url(${makeImagePath(
-                                                        clickedContents.backdrop_path ? clickedContents.backdrop_path : clickedContents.poster_path, "w780"
+                                                        clickedContents.backdrop_path ? clickedContents.backdrop_path : clickedContents.poster_path, "w1280"
                                                     )})`,
                                                 }}
                                             />
