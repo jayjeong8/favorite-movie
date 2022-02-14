@@ -1,5 +1,3 @@
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faAngleLeft, faAngleRight} from "@fortawesome/free-solid-svg-icons";
 import styled from "styled-components";
 import {motion} from "framer-motion";
 import {useRecoilState, useSetRecoilState} from "recoil";
@@ -14,6 +12,7 @@ import {
     TVTopRated
 } from "../atom";
 import {IIndexControl} from "../api";
+import Angle from "../Assets/Angle";
 
 const Button = styled(motion.span)`
   z-index: 2;
@@ -24,10 +23,10 @@ const Button = styled(motion.span)`
   color: rgba(255, 255, 255, 0.4);
 `;
 const DecreaseButton = styled(Button)`
-  left: 12%;
+  left: 12vw;
 `;
 const IncreaseButton = styled(Button)`
-  right: 12%;
+  right: 12vw;
 `;
 
 export default function IndexControlButton({queryKeyName2, data}: IIndexControl) {
@@ -68,12 +67,10 @@ export default function IndexControlButton({queryKeyName2, data}: IIndexControl)
     };
     return (<>
         <DecreaseButton onClick={decreaseIndex}>
-            <FontAwesomeIcon icon={faAngleLeft}
-                             size="2x"/>
+            <Angle X={1}/>
         </DecreaseButton>
         <IncreaseButton onClick={increaseIndex}>
-            <FontAwesomeIcon icon={faAngleRight}
-                             size="2x"/>
+            <Angle X={-1}/>
         </IncreaseButton>
     </>)
 
