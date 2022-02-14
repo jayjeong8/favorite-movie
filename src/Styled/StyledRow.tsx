@@ -10,7 +10,7 @@ export const RowTitle = styled.div`
   color: ${props => props.theme.gray.light};
   font-size: 24px;
   font-weight: bold;
-  margin: 16px 16%;
+  margin: 32px 16% 16px 16%;
 `;
 export const InRow = styled(motion.div)`
   display: grid;
@@ -19,7 +19,7 @@ export const InRow = styled(motion.div)`
   grid-template-columns: repeat(6, 1fr);
   position: absolute;
   align-items: center;
-  margin: 0 16% 16px 16%;
+  margin: 0 16%;  
   filter: drop-shadow(0 0 1.2rem black);
 `;
 
