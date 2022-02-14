@@ -48,9 +48,9 @@ const Circle = styled(motion.span)`
   width: 64px;
   height: 24px;
   border-radius: 15px;
-  bottom: -4.3px;
+  top: -3px;
   right: 0;
-  margin: 0 auto;
+  //margin: 0 auto;
   background-color: ${(props) => props.theme.yellow.light};
 `;
 const MovieCircle = styled(Circle)`
