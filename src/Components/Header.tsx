@@ -4,7 +4,7 @@ import {motion, useAnimation, useViewportScroll} from "framer-motion";
 import {useEffect, useState} from "react";
 import {useForm} from "react-hook-form";
 import FavoriteLogo from "../Assets/FavoriteLogo"
-import {COLOR_BLACK, COLOR_DARKYELLOW, COLOR_WHITE, COLOR_ZEROBLACK} from "../theme";
+import {COLOR_BLACK, COLOR_DARKYELLOW, COLOR_ZEROBLACK} from "../theme";
 
 const Nav = styled(motion.nav)`
   display: flex;
@@ -139,7 +139,7 @@ function Header() {
                 <FavoriteLogo/>
                 <Items>
                     <Item style={{color: homeMatch ? COLOR_BLACK : COLOR_DARKYELLOW}}>
-                        <Link to="/">MOVIE {homeMatch && <MovieCircle layoutId="circle"/>}</Link>
+                        <Link to="/">MOVIE {homeMatch  && <MovieCircle layoutId="circle"/>}</Link>
                     </Item>
                     <Item style={{color: tvMatch ? COLOR_BLACK : COLOR_DARKYELLOW}}>
                         <Link to="/tv">TV Show {tvMatch && <TVCircle layoutId="circle"/>}</Link>
