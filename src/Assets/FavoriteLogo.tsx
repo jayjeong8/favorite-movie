@@ -18,7 +18,7 @@ const logoVariants = {
 
 const strokeWidth = "2.5"
 
-function FavoriteLogo() {
+export default function FavoriteLogo() {
     return (
         <Svg
             variants={logoVariants}
@@ -54,4 +54,3 @@ function FavoriteLogo() {
     )
 }
 
-export default FavoriteLogo;
