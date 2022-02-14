@@ -19,7 +19,7 @@ export const BigModal = styled(motion.div)`
   border-radius: 48px;
   overflow: hidden;
   background-color: ${(props) => props.theme.black};
-  filter: drop-shadow(0 0 0.16rem crimson);
+  filter: drop-shadow(0 0 1.2rem black);
 `;
 export const BigCover = styled.div`
   width: 100%;

@@ -21,6 +21,7 @@ export const Title = styled.h2`
   letter-spacing: -2px;
   margin-bottom: 24px;
   color: ${props => props.theme.white};
+  filter: drop-shadow(0 0 1.2rem black);
 `;
 export const Overview = styled.p`
   font-size: 16px;
