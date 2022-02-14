@@ -3,7 +3,7 @@ import {COLOR_BLACK, COLOR_ZEROBLACK} from "../theme";
 
 export const Wrapper = styled.div`
   background: ${(props => props.theme.black)};
-  padding-bottom: 200px;
+  padding-bottom: 40px;
 `;
 export const Banner = styled.div<{ bgPhoto: string }>`
   height: 96vh;
