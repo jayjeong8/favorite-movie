@@ -26,37 +26,36 @@ const Items = styled.ul`
   align-items: center;
 `;
 const Item = styled(motion.li)`
-  margin-right: 28px;
   font-weight: bold;
   transition: color 0.3s ease-in-out;
+  margin-right: 48px;
   position: relative;
-  top: -1px;
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
+  top: 1px;
   color: ${(props) => props.theme.gray.dark};
   &:hover {
     color: ${(props) => props.theme.yellow.dark};
   }
-
 `;
 const Circle = styled(motion.span)`
   position: absolute;
   z-index: -1;
-  width: 64px;
-  height: 26px;
-  border-radius: 15px;
+  width: 80px;
+  height: 28px;
+  border-radius: 30px;
   border: 1px solid;
   border-color: ${(props) => props.theme.yellow.light};
-  top: -4px;
-  right: 0;
   margin: 0 auto;
+  top: -5px;
+  left: -20px;
+  right: 0;
+  bottom: 0;
 `;
 const MovieCircle = styled(Circle)`
-  left: -12px;
+ 
 `;
 const TVCircle = styled(Circle)`
-  left: -7px;
+  width: 48px;
+  left: -16px;
 `;
 const Search = styled.form`
   color: ${(props) => props.theme.white};
@@ -81,6 +80,7 @@ const Input = styled(motion.input)`
   font-size: 12px;
   background-color: transparent;
   border: 1px solid ${(props) => props.theme.gray.light};
+  color: rgba(0,0,0,0);
 
   ::placeholder {
     color: ${(props) => props.theme.gray.light};
@@ -137,12 +137,14 @@ function Header() {
                 <FavoriteLogo/>
                 <Items>
                     <Item>
-                        <Link to="/">MOVIE</Link>
-                        {<MovieCircle style={{backgroundColor: homeMatch ? COLOR_YELLOW : COLOR_ZEROBLACK}}/>}
+                        <Link to="/">MOVIE
+                            {<MovieCircle style={{backgroundColor: homeMatch ? COLOR_YELLOW : "COLOR_ZEROBLACK"}}/>}
+                        </Link>
                     </Item>
                     <Item>
-                        <Link to="/tv">TV Show</Link>
-                        {<TVCircle style={{backgroundColor: tvMatch ? COLOR_YELLOW : COLOR_ZEROBLACK}}/>}
+                        <Link to="/tv">TV
+                            {<TVCircle style={{backgroundColor: tvMatch ? COLOR_YELLOW : COLOR_ZEROBLACK}}/>}
+                        </Link>
                     </Item>
                 </Items>
             </Col>
