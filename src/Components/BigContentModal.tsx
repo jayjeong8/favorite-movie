@@ -5,6 +5,7 @@ import {useRecoilValue} from "recoil";
 import {ClickedMovie, ClickedTV, SelectedRow} from "../atom";
 import {IBigModal} from "../api";
 import {BigModal, BigOverview, BigTitle, Overlay, BigCover, BigDate} from "../Styled/StyledBigModal"
+import {COLOR_BLACK, COLOR_ZEROBLACK} from "../theme";
 
 export default function BigContentModal({media}:IBigModal) {
     const selectedRow = useRecoilValue(SelectedRow);
@@ -32,7 +33,7 @@ export default function BigContentModal({media}:IBigModal) {
                                 <>
                                     <BigCover
                                         style={{
-                                            backgroundImage: `linear-gradient(to top, black, transparent), url(${makeImagePath(
+                                            backgroundImage: `linear-gradient(to top, ${COLOR_BLACK}, ${COLOR_ZEROBLACK}), url(${makeImagePath(
                                                 clickedContents.backdrop_path ? clickedContents.backdrop_path : clickedContents.poster_path, "w1280"
                                             )})`,
                                         }}

@@ -6,12 +6,12 @@ export const Overlay = styled(motion.div)`
   top: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.6);
   opacity: 0;
 `;
 export const BigModal = styled(motion.div)`
   position: absolute;
-  width: 60vw;
+  width: 56vw;
   height: 80vh;
   left: 0;
   right: 0;
@@ -19,7 +19,7 @@ export const BigModal = styled(motion.div)`
   border-radius: 48px;
   overflow: hidden;
   background-color: ${(props) => props.theme.black};
-  filter: drop-shadow(0 0 1.2rem black);
+  filter: drop-shadow(0 0 0.8rem black);
 `;
 export const BigCover = styled.div`
   width: 100%;
@@ -28,8 +28,8 @@ export const BigCover = styled.div`
   height: 400px;
 `;
 export const BigTitle = styled.h3`
-  color: ${(props) => props.theme.white};
-  padding: 32px;
+  color: ${(props) => props.theme.yellow.light};
+  padding: 28px;
   font-size: 24px;
   font-weight: bold;
   position: relative;
@@ -45,11 +45,27 @@ export const BigDate = styled.div`
   top: -72px;
 `;
 export const BigOverview = styled.p`
-  font-size: 16px;
-  padding: 32px;
+  height: 12vh;
   position: relative;
+  padding: 0 32px;
+  font-size: 16px;
   line-height: 1.6;
   letter-spacing: -0.4px;
-  top: -104px;
+  top: -80px;
   color: ${(props) => props.theme.white};
+  overflow: auto;
+
+  ::-webkit-scrollbar {
+    width: 4px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: ${(props) => props.theme.gray.light};
+    border-radius: 20px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background-color: ${(props) => props.theme.gray.dark};
+    border-radius: 20px;
+  }
 `;
