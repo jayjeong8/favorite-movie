@@ -60,7 +60,7 @@ export const BigOverview = styled.p`
   overflow: auto;
 
   ::-webkit-scrollbar {
-    width: 4px;
+    width: 8px;
   }
 
   ::-webkit-scrollbar-thumb {

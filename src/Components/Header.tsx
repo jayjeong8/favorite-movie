@@ -4,7 +4,7 @@ import {motion, useAnimation, useViewportScroll} from "framer-motion";
 import {useEffect, useState} from "react";
 import {useForm} from "react-hook-form";
 import FavoriteLogo from "../Assets/FavoriteLogo"
-import {COLOR_BLACK, COLOR_ZEROBLACK} from "../theme";
+import {COLOR_BLACK, COLOR_ZEROBLACK, COLOR_YELLOW} from "../theme";
 
 const Nav = styled(motion.nav)`
   display: flex;
@@ -26,7 +26,7 @@ const Items = styled.ul`
   align-items: center;
 `;
 const Item = styled(motion.li)`
-  margin-right: 24px;
+  margin-right: 28px;
   font-weight: bold;
   transition: color 0.3s ease-in-out;
   position: relative;
@@ -44,12 +44,13 @@ const Circle = styled(motion.span)`
   position: absolute;
   z-index: -1;
   width: 64px;
-  height: 24px;
+  height: 26px;
   border-radius: 15px;
-  top: -3px;
+  border: 1px solid;
+  border-color: ${(props) => props.theme.yellow.light};
+  top: -4px;
   right: 0;
   margin: 0 auto;
-  background-color: ${(props) => props.theme.yellow.light};
 `;
 const MovieCircle = styled(Circle)`
   left: -12px;
@@ -79,10 +80,10 @@ const Input = styled(motion.input)`
   color: white;
   font-size: 12px;
   background-color: transparent;
-  border: 1px solid ${(props) => props.theme.gray.gray};
+  border: 1px solid ${(props) => props.theme.gray.light};
 
   ::placeholder {
-    color: ${(props) => props.theme.gray.gray};
+    color: ${(props) => props.theme.gray.light};
   }
 `;
 
@@ -137,11 +138,11 @@ function Header() {
                 <Items>
                     <Item>
                         <Link to="/">MOVIE</Link>
-                        {homeMatch && <MovieCircle layoutId="circle"/>}
+                        {<MovieCircle style={{backgroundColor: homeMatch ? COLOR_YELLOW : COLOR_ZEROBLACK}}/>}
                     </Item>
                     <Item>
                         <Link to="/tv">TV Show</Link>
-                        {tvMatch && <TVCircle layoutId="circle"/>}
+                        {<TVCircle style={{backgroundColor: tvMatch ? COLOR_YELLOW : COLOR_ZEROBLACK}}/>}
                     </Item>
                 </Items>
             </Col>

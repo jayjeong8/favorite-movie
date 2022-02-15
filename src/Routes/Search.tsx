@@ -23,13 +23,13 @@ const API_KEY = "8b0c5f0400aa76e404ea70c8b1e0ce22";
 const BASE_PATH = "https://api.themoviedb.org/3";
 
 const Wrapper = styled.div`
-  margin-top: 40vh;
+  margin-top: 42vh;
   position: relative;
 `;
 const SearchTitle = styled.div`
   position: absolute;
   top: -24vh;
-  margin-left: 8vw;
+  margin-left: 14vw;
   font-size: 40px;
 `;
 
