@@ -16,7 +16,7 @@ import {
 import {IGetContentsResult} from "../api";
 import styled from "styled-components";
 import {useState} from "react";
-import {BigCover, BigModal, BigOverview, BigTitle, BigDate, Overlay} from "../Styled/StyledBigModal";
+import {BigCover, BigModal, BigOverview, BigTitle, BigDate, Overlay, BigContainer} from "../Styled/StyledBigModal";
 import {Loader} from "../Components/Loader";
 
 const API_KEY = "8b0c5f0400aa76e404ea70c8b1e0ce22";
@@ -37,11 +37,11 @@ function Search() {
     const location = useLocation();
     const keyword = new URLSearchParams(location.search).get("keyword");
     const movieData = useQuery<IGetContentsResult>(["movieSearch", keyword], async () => {
-        return await fetch(`${BASE_PATH}/search/movie?api_key=${API_KEY}&query=${keyword}`)
+        return await fetch(`${BASE_PATH}/search/movie?api_key=${API_KEY}&language=ko&query=${keyword}`)
             .then(response => response.json())
     })
     const tvData = useQuery<IGetContentsResult>(["tvSearch", keyword], async () => {
-        return await fetch(`${BASE_PATH}/search/tv?api_key=${API_KEY}&query=${keyword}`)
+        return await fetch(`${BASE_PATH}/search/tv?api_key=${API_KEY}&language=ko&query=${keyword}`)
             .then(response => response.json())
     })
     const {isLoading} = useQuery(["movieSearch", keyword]);
@@ -176,18 +176,27 @@ function Search() {
                                         <>
                                             <BigCover
                                                 style={{
-                                                    backgroundImage: `linear-gradient(to top, black, transparent), url(${makeImagePath(
+                                                    backgroundImage: `url(${makeImagePath(
                                                         clickedContents.backdrop_path ? clickedContents.backdrop_path : clickedContents.poster_path, "w1280"
                                                     )})`,
                                                 }}
                                             />
-                                            <BigTitle>{
-                                                checkMedia === "searchMovie" ? clickedContents.title
-                                                    : clickedContents.name}
-                                            </BigTitle>
-                                            <BigDate>({checkMedia === "searchMovie" ? clickedContents.release_date
-                                                : clickedContents.first_air_date})</BigDate>
-                                            <BigOverview>{clickedContents.overview}</BigOverview>
+                                            <BigContainer>
+                                                <div>
+                                                    <BigTitle>{
+                                                        checkMedia === "searchMovie" ? clickedContents.title
+                                                            : clickedContents.name}
+                                                    </BigTitle>
+                                                    <BigDate>{checkMedia === "searchMovie" ? clickedContents.release_date
+                                                        : clickedContents.first_air_date}
+                                                    </BigDate>
+                                                </div>
+                                                <div>
+                                                    <BigOverview>{clickedContents.overview}</BigOverview>
+                                                </div>
+                                            </BigContainer>
+
+
                                         </>
                                     )}
                                 </BigModal>
