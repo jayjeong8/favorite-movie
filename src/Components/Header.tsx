@@ -4,7 +4,7 @@ import {motion, useAnimation, useViewportScroll} from "framer-motion";
 import {useEffect, useState} from "react";
 import {useForm} from "react-hook-form";
 import FavoriteLogo from "../Assets/FavoriteLogo"
-import {COLOR_BLACK, COLOR_DARKYELLOW, COLOR_ZEROBLACK} from "../theme";
+import {COLOR_BLACK, COLOR_ZEROBLACK} from "../theme";
 
 const Nav = styled(motion.nav)`
   display: flex;
@@ -30,17 +30,15 @@ const Item = styled(motion.li)`
   font-weight: bold;
   transition: color 0.3s ease-in-out;
   position: relative;
+  top: -1px;
   display: flex;
   justify-content: center;
   flex-direction: column;
-
+  color: ${(props) => props.theme.gray.dark};
   &:hover {
-    color: ${(props) => props.theme.gray.light};
+    color: ${(props) => props.theme.yellow.dark};
   }
 
-  &:focus {
-    color: ${(props) => props.theme.black};
-  }
 `;
 const Circle = styled(motion.span)`
   position: absolute;
@@ -50,7 +48,7 @@ const Circle = styled(motion.span)`
   border-radius: 15px;
   top: -3px;
   right: 0;
-  //margin: 0 auto;
+  margin: 0 auto;
   background-color: ${(props) => props.theme.yellow.light};
 `;
 const MovieCircle = styled(Circle)`
@@ -86,7 +84,6 @@ const Input = styled(motion.input)`
   ::placeholder {
     color: ${(props) => props.theme.gray.gray};
   }
-;
 `;
 
 const navVariants = {
@@ -138,11 +135,13 @@ function Header() {
             <Col>
                 <FavoriteLogo/>
                 <Items>
-                    <Item style={{color: homeMatch ? COLOR_BLACK : COLOR_DARKYELLOW}}>
-                        <Link to="/">MOVIE {homeMatch  && <MovieCircle layoutId="circle"/>}</Link>
+                    <Item>
+                        <Link to="/">MOVIE</Link>
+                        {homeMatch && <MovieCircle layoutId="circle"/>}
                     </Item>
-                    <Item style={{color: tvMatch ? COLOR_BLACK : COLOR_DARKYELLOW}}>
-                        <Link to="/tv">TV Show {tvMatch && <TVCircle layoutId="circle"/>}</Link>
+                    <Item>
+                        <Link to="/tv">TV Show</Link>
+                        {tvMatch && <TVCircle layoutId="circle"/>}
                     </Item>
                 </Items>
             </Col>
