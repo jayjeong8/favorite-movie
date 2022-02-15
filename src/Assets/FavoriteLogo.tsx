@@ -4,8 +4,8 @@ import {COLOR_WHITE} from "../theme";
 
 const Svg = styled(motion.svg)`
   margin-right: 48px;
-  width: 96px;
-  height: 24px;
+  width: 120px;
+  height: 28px;
   filter: drop-shadow(0 0 1.2rem black);
 `;
 
