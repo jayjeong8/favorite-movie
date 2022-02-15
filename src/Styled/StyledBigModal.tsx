@@ -25,34 +25,38 @@ export const BigCover = styled.div`
   width: 100%;
   background-size: cover;
   background-position: center center;
-  height: 400px;
+  height: 66%;
 `;
+export const BigContainer = styled.div`
+  top: -20px;
+  display: grid;
+  padding: 28px;
+  gap: 1%;
+  grid-template-columns: repeat(2, 1fr);
+`;
+
 export const BigTitle = styled.h3`
   color: ${(props) => props.theme.yellow.light};
-  padding: 28px;
   font-size: 24px;
-  font-weight: bold;
   position: relative;
-  top: -72px;
+
 `;
 export const BigDate = styled.div`
-  color: ${(props) => props.theme.white};
-  padding-left: 32px;
-  margin-bottom: 16px;
+  color: ${(props) => props.theme.gray.gray};
   font-size: 16px;
+  margin-left: 2px;
   font-weight: bold;
   position: relative;
-  top: -72px;
 `;
 export const BigOverview = styled.p`
-  height: 12vh;
+  top: 2px;
+  height: 21vh;
   position: relative;
   padding: 0 32px;
   font-size: 16px;
   line-height: 1.6;
   letter-spacing: -0.4px;
-  top: -80px;
-  color: ${(props) => props.theme.white};
+  color: ${(props) => props.theme.gray.light};
   overflow: auto;
 
   ::-webkit-scrollbar {
