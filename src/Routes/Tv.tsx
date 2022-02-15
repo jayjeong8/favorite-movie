@@ -33,25 +33,25 @@ function TV() {
                         queryKeyName1={"TV"}
                         queryKeyName2={"airingToday"}
                         getApi={getTVAiringToday}
-                        rowTitle={"Airing Today"}
+                        rowTitle={"오늘 방송 프로그램"}
                     />
                     <Row
                         queryKeyName1={"TV"}
                         queryKeyName2={"topRatedTV"}
                          getApi={getTVTopRated}
-                         rowTitle={"Top Rated"}
+                         rowTitle={"최고의 평가"}
                     />
                     <Row
                         queryKeyName1={"TV"}
                         queryKeyName2={"popularTV"}
                          getApi={getTVPopular}
-                         rowTitle={"Popular"}
+                         rowTitle={"요즘 뜨는 TV 프로그램"}
                     />
                     <Row
                         queryKeyName1={"TV"}
                         queryKeyName2={"onTheAir"}
                          getApi={getTVOnTheAir}
-                         rowTitle={"On The Air"}
+                         rowTitle={"현재 방영 중"}
                     />
 
                     <BigContentModal media="tv"/>

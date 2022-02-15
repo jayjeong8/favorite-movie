@@ -86,9 +86,9 @@ function Search() {
         <>
             {isLoading ? (<Loader>Loading..</Loader>) : (
                 <Wrapper>
-                    <SearchTitle>{`Search "${keyword}"..`}</SearchTitle>
+                    <SearchTitle>{`"${keyword}" 검색 결과`}</SearchTitle>
                     <Slider>
-                        <RowTitle>Movie</RowTitle>
+                        <RowTitle>영화</RowTitle>
                         <IndexControlButton
                             queryKeyName2={"searchMovie"}
                             data={movieData.data}/>
@@ -125,7 +125,7 @@ function Search() {
                         </AnimatePresence>
                     </Slider>
                     <Slider>
-                        <RowTitle>TV show</RowTitle>
+                        <RowTitle>TV 프로그램</RowTitle>
                         <IndexControlButton
                             queryKeyName2={"searchTV"}
                             data={tvData.data}/>
@@ -187,8 +187,8 @@ function Search() {
                                                         checkMedia === "searchMovie" ? clickedContents.title
                                                             : clickedContents.name}
                                                     </BigTitle>
-                                                    <BigDate>{checkMedia === "searchMovie" ? clickedContents.release_date
-                                                        : clickedContents.first_air_date}
+                                                    <BigDate>{checkMedia === "searchMovie" ? ("개봉: " + clickedContents.release_date)
+                                                        : ("방송 시작: " +clickedContents.first_air_date)}
                                                     </BigDate>
                                                 </div>
                                                 <div>

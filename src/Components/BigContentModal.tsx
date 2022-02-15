@@ -46,8 +46,8 @@ export default function BigContentModal({media}: IBigModal) {
                                                 media === "movie" ? clickedContents.title
                                                     : clickedContents.name}
                                             </BigTitle>
-                                            <BigDate>{media === "movie" ? clickedContents.release_date
-                                                : clickedContents.first_air_date}
+                                            <BigDate>{media === "movie" ? ("개봉: " + clickedContents.release_date)
+                                                : ("방송 시작: " +clickedContents.first_air_date)}
                                             </BigDate>
                                         </div>
                                         <div>

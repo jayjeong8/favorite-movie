@@ -34,25 +34,25 @@ function Home() {
                         queryKeyName1={"MOVIE"}
                         queryKeyName2={"nowPlaying"}
                         getApi={getMovieNowPlaying}
-                        rowTitle={"Now Playing"}
+                        rowTitle={"현재 상영 중"}
                     />
                     <Row
                         queryKeyName1={"MOVIE"}
                         queryKeyName2={"topRated"}
                         getApi={getMovieTopRated}
-                        rowTitle={"Top Rated"}
+                        rowTitle={"최고의 평가"}
                     />
                     <Row
                         queryKeyName1={"MOVIE"}
                         queryKeyName2={"popular"}
                         getApi={getMoviePopular}
-                        rowTitle={"Popular"}
+                        rowTitle={"요즘 뜨는 영화"}
                     />
                     <Row
                         queryKeyName1={"MOVIE"}
                         queryKeyName2={"upcoming"}
                         getApi={getMovieUpcoming}
-                        rowTitle={"Upcoming"}
+                        rowTitle={"개봉 예정"}
                     />
                     <BigContentModal media="movie"/>
                 </>
