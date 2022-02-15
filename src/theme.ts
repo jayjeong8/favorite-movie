@@ -3,7 +3,7 @@ import {DefaultTheme} from "styled-components";
 export const theme: DefaultTheme = {
     black: "#121212",
     gray: {
-        dark: "#595950",
+        dark: "#414137",
         gray: "#97968A",
         light: "#DDDDD6",
     },
@@ -14,6 +14,7 @@ export const theme: DefaultTheme = {
     }
 };
 export const COLOR_BLACK = "rgba(18, 18, 18, 1)"
-export const COLOR_WHITE = "rgba(249, 249, 248, 1)"
 export const COLOR_ZEROBLACK = "rgba(18, 18, 18, 0)"
-export const COLOR_DARKYELLOW = "rgba(219, 226, 58, 0.7)"
+export const COLOR_WHITE = "rgba(249, 249, 248, 1)"
+export const COLOR_YELLOW = "rgba(250, 255, 134, 1)"
+export const COLOR_DARKYELLOW = "rgba(219, 226, 58, 1)"
