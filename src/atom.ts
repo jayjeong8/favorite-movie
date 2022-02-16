@@ -2,7 +2,7 @@ import {atom} from "recoil";
 import {IContent} from "./api";
 
 
-//clicked
+//clicked content
 export const ClickedMovie = atom<IContent | undefined>({
     key: 'clickedMovie',
     default: undefined
@@ -10,6 +10,16 @@ export const ClickedMovie = atom<IContent | undefined>({
 export const ClickedTV = atom<IContent | undefined>({
     key: 'clickedTV',
     default: undefined
+})
+
+//favorite content
+export const FavoriteMovie = atom<IContent[]>({
+    key: 'favoriteMovie',
+    default: []
+})
+export const FavoriteTV = atom<IContent[]>({
+    key: 'favoriteTV',
+    default: []
 })
 
 //movie index
