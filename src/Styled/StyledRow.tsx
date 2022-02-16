@@ -19,8 +19,13 @@ export const InRow = styled(motion.div)`
   grid-template-columns: repeat(6, 1fr);
   position: absolute;
   align-items: center;
-  margin: 0 16%;  
+  margin: 0 16%;
   filter: drop-shadow(0 0 0.8rem black);
+`;
+
+export const BoxContainer = styled.div`
+display: flex;
+  flex-direction: column;
 `;
 
 export const Box = styled(motion.div)<{ bgphoto: string }>`
@@ -32,6 +37,7 @@ export const Box = styled(motion.div)<{ bgphoto: string }>`
   height: 20vw;
   font-size: 64px;
   cursor: pointer;
+  position: relative;
 
   &:first-child {
     transform-origin: center left;
@@ -41,15 +47,19 @@ export const Box = styled(motion.div)<{ bgphoto: string }>`
     transform-origin: center right;
   }
 `;
+
+export const InfoContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 4px;
+  padding: 6px;
+`;
+
 export const Info = styled(motion.div)`
-  padding: 12px;
-  border-radius: 2px 2px 22px 22px;
-  background-color: ${(props) => props.theme.black};
+  // padding: 12px;
+  
   color: ${(props) => props.theme.gray.light};
-  opacity: 0;
-  position: absolute;
-  width: 100%;
-  bottom: 0;
 
   h4 {
     text-align: center;
@@ -57,3 +67,4 @@ export const Info = styled(motion.div)`
     font-weight: bold;
   }
 `;
+

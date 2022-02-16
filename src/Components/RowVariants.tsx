@@ -15,11 +15,11 @@ export const boxVariants = {
         scale: 1,
     },
     hover: {
-        scale: 1.2,
-        y: -80,
+        scale: 1.1,
+        y: -40,
         transition: {
-            delay: 0.4,
-            duration: 0.3,
+            delay: 0.2,
+            duration: 0.2,
             type: "tween",
         }
     },

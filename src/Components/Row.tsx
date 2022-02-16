@@ -14,8 +14,9 @@ import {
     TVAiringToday, TVOnTheAir, TVPopular, TVTopRated,
 } from "../atom";
 import IndexControlButton from "./IndexControlButton";
-import {Slider, Info, Box, RowTitle, InRow} from "../Styled/StyledRow";
+import {Slider, Info, Box, RowTitle, InRow, InfoContainer, BoxContainer} from "../Styled/StyledRow";
 import {rowVariants, infoVariants, boxVariants} from "./RowVariants";
+import Star from "../Assets/Star";
 
 
 function Row({queryKeyName1, queryKeyName2, getApi, rowTitle}: IApi) {
@@ -40,6 +41,7 @@ function Row({queryKeyName1, queryKeyName2, getApi, rowTitle}: IApi) {
     const setSelectedRow = useSetRecoilState(SelectedRow)
     const setClickedMovie = useSetRecoilState(ClickedMovie);
     const setClickedTV = useSetRecoilState(ClickedTV);
+
     const onBoxClicked = (contentId: number) => {
         queryKeyName1 === "MOVIE" ?
             navigate(`movie/${contentId}`) : navigate(`/tv/${contentId}`)
@@ -73,22 +75,28 @@ function Row({queryKeyName1, queryKeyName2, getApi, rowTitle}: IApi) {
                                 {data?.results
                                     .slice(offset * index, offset * index + offset)
                                     .map((content) => (
-                                        <Box
-                                            key={content.id + queryKeyName2}
-                                            layoutId={content.id + queryKeyName2}
-                                            onClick={() => onBoxClicked(content.id)}
-                                            variants={boxVariants}
-                                            initial="normal"
-                                            whileHover="hover"
-                                            transition={{type: "tween"}}
-                                            bgphoto={content.poster_path ?
-                                                makeImagePath(content.poster_path, "w500")
-                                                : NETFLIX_LOGO_URL}
-                                        >
-                                            <Info variants={infoVariants}>
-                                                <h4>{queryKeyName1 === "MOVIE" ? content.title : content.name}</h4>
-                                            </Info>
-                                        </Box>
+                                        <BoxContainer>
+                                            <Box
+                                                key={content.id + queryKeyName2}
+                                                layoutId={content.id + queryKeyName2}
+                                                onClick={() => onBoxClicked(content.id)}
+                                                variants={boxVariants}
+                                                initial="normal"
+                                                whileHover="hover"
+                                                transition={{type: "tween"}}
+                                                bgphoto={content.poster_path ?
+                                                    makeImagePath(content.poster_path, "w500")
+                                                    : NETFLIX_LOGO_URL}
+                                            >
+                                            </Box>
+                                            <InfoContainer>
+                                                <Info>
+                                                    <h4>{queryKeyName1 === "MOVIE" ? content.title : content.name}</h4>
+                                                </Info>
+                                                <Star contentId={content.id}/>
+                                            </InfoContainer>
+                                        </BoxContainer>
+
                                     ))}
                             </InRow>
                         </AnimatePresence>
