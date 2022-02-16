@@ -15,8 +15,8 @@ export const boxVariants = {
         scale: 1,
     },
     hover: {
-        scale: 1.1,
-        y: -40,
+        scale: 1.04,
+        y: -4,
         transition: {
             delay: 0.2,
             duration: 0.2,
