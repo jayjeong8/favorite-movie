@@ -5,12 +5,13 @@ export const Slider = styled.div`
   position: relative;
   height: 26vw;
   top: -100px;
+  margin-top: 64px;
 `;
 export const RowTitle = styled.div`
   color: ${props => props.theme.yellow.light};
   font-size: 24px;
   letter-spacing: -1.6px;
-  margin: 36px 16% 16px 16.2%;
+  margin: 16px 16%;
 `;
 export const InRow = styled(motion.div)`
   display: grid;
