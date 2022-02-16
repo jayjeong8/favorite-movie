@@ -24,8 +24,17 @@ export const InRow = styled(motion.div)`
 `;
 
 export const BoxContainer = styled.div`
-display: flex;
+  display: flex;
   flex-direction: column;
+  
+  //같은 부모 아래 형제 중에 비교하는거라 BoxContainer의 자식 중에 찾는걸로 변경
+  //&:first-child div {
+  //  transform-origin: center left;
+  //}
+  //
+  //&:last-child div {
+  //  transform-origin: center right;
+  //}
 `;
 
 export const Box = styled(motion.div)<{ bgphoto: string }>`
@@ -38,14 +47,6 @@ export const Box = styled(motion.div)<{ bgphoto: string }>`
   font-size: 64px;
   cursor: pointer;
   position: relative;
-
-  &:first-child {
-    transform-origin: center left;
-  }
-
-  &:last-child {
-    transform-origin: center right;
-  }
 `;
 
 export const InfoContainer = styled.div`
@@ -58,7 +59,7 @@ export const InfoContainer = styled.div`
 
 export const Info = styled(motion.div)`
   // padding: 12px;
-  
+
   color: ${(props) => props.theme.gray.light};
 
   h4 {
