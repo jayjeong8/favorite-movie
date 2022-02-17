@@ -8,8 +8,8 @@ import {
     getTVTopRated,
     getTVPopular,
     getTVOnTheAir,
-    IGetContentsResult
 } from "../api";
+import {IGetContentsResult} from "../interface"
 import BigContentModal from "../Components/BigContentModal";
 
 function TV() {

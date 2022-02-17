@@ -2,7 +2,7 @@ import {makeImagePath} from "../utils";
 import {AnimatePresence} from "framer-motion";
 import {useNavigate} from "react-router-dom";
 import {useQuery} from "react-query";
-import {IGetContentsResult, IApi} from "../api";
+import {IGetContentsResult, IApi} from "../interface";
 import {useRecoilValue, useSetRecoilState} from "recoil";
 import {
     ClickedMovie, ClickedTV, IncreaseState, ModalLeaving,

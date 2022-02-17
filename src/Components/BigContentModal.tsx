@@ -3,7 +3,7 @@ import {AnimatePresence, useViewportScroll} from "framer-motion";
 import {useMatch, useNavigate} from "react-router-dom";
 import {useRecoilValue} from "recoil";
 import {ClickedMovie, ClickedTV, SelectedRow} from "../atom";
-import {IBigModal} from "../api";
+import {IBigModal} from "../interface";
 import {BigModal, BigOverview, BigTitle, Overlay, BigCover, BigDate, BigContainer} from "../Styled/StyledBigModal"
 import {COLOR_BLACK, COLOR_ZEROBLACK} from "../theme";
 

@@ -1,56 +1,6 @@
 const API_KEY = "8b0c5f0400aa76e404ea70c8b1e0ce22";
 const BASE_PATH = "https://api.themoviedb.org/3";
 
-interface IFavorite {
-    id: number;
-    favorite: boolean;
-    rated: object | boolean;
-    watchlist: boolean;
-}
-
-interface IGenres {
-    id: number,
-    name: string;
-}
-
-export interface IContent {
-    id: number;
-    backdrop_path: string;
-    poster_path: string;
-    title: string;
-    overview: string;
-    genres: IGenres[];
-    name: string;
-    first_air_date: string;
-    release_date: string;
-}
-
-export interface IGetContentsResult {
-    dates: {
-        maximum: string;
-        minimum: string;
-    };
-    page: number;
-    results: IContent[];
-    total_pages: number;
-    total_results: number;
-}
-
-export interface IApi {
-    queryKeyName1: string,
-    queryKeyName2: string,
-    getApi: any,
-    rowTitle: string,
-}
-export interface IIndexControl {
-    queryKeyName2: string;
-    data:IGetContentsResult | undefined;
-}
-export interface IBigModal {
-    media:"movie"|"tv"
-}
-
-
 export function getMovieNowPlaying() {
     return fetch(`${BASE_PATH}/movie/now_playing?api_key=${API_KEY}&language=ko`)
         .then(response => response.json());

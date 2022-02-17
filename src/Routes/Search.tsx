@@ -13,7 +13,7 @@ import {
     ModalLeaving,
     SearchMovieIndex, SearchTVIndex,
 } from "../atom";
-import {IGetContentsResult} from "../api";
+import {IGetContentsResult} from "../interface";
 import styled from "styled-components";
 import {useState} from "react";
 import {BigCover, BigModal, BigOverview, BigTitle, BigDate, Overlay, BigContainer} from "../Styled/StyledBigModal";

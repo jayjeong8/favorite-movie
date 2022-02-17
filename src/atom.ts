@@ -1,5 +1,5 @@
 import {atom} from "recoil";
-import {IContent} from "./api";
+import {IContent, IStar} from "./interface";
 
 
 //clicked content

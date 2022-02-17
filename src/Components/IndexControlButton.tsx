@@ -11,7 +11,7 @@ import {
     TVAiringToday, TVOnTheAir, TVPopular,
     TVTopRated
 } from "../atom";
-import {IIndexControl} from "../api";
+import {IIndexControl} from "../interface";
 import Angle from "../Assets/Angle";
 
 const Button = styled(motion.span)`
