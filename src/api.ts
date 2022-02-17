@@ -47,7 +47,7 @@ export interface IIndexControl {
     data:IGetContentsResult | undefined;
 }
 export interface IBigModal {
-    media:"movie"|"tv"|"search"
+    media:"movie"|"tv"
 }
 
 

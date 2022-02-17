@@ -138,7 +138,7 @@ function Header() {
                 <Items>
                     <Item>
                         <Link to="/">MOVIE
-                            {<MovieCircle style={{backgroundColor: homeMatch ? COLOR_YELLOW : "COLOR_ZEROBLACK"}}/>}
+                            {<MovieCircle style={{backgroundColor: homeMatch ? COLOR_YELLOW : COLOR_ZEROBLACK}}/>}
                         </Link>
                     </Item>
                     <Item>
