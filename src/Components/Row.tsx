@@ -15,7 +15,7 @@ import {
 } from "../atom";
 import IndexControlButton from "./IndexControlButton";
 import {Slider, Info, Box, RowTitle, InRow, InfoContainer, BoxContainer} from "../Styled/StyledRow";
-import {rowVariants, infoVariants, boxVariants} from "./RowVariants";
+import {rowVariants, boxVariants} from "./RowVariants";
 import Star from "../Assets/Star";
 
 
@@ -93,7 +93,7 @@ function Row({queryKeyName1, queryKeyName2, getApi, rowTitle}: IApi) {
                                                 <Info>
                                                     <h4>{queryKeyName1 === "MOVIE" ? content.title : content.name}</h4>
                                                 </Info>
-                                                <Star contentId={content.id}/>
+                                                <Star content={content}/>
                                             </InfoContainer>
                                         </BoxContainer>
 

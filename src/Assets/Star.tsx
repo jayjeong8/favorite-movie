@@ -19,23 +19,23 @@ const logoVariants = {
 }
 
 interface IStar {
-    contentId: number;
+    content: {};
 }
 
 const color = COLOR_YELLOW
 
-export default function Star(contentId: IStar) {
+export default function Star(content: IStar) {
     const [favorite, setFavorite] = useRecoilState(FavoriteMovie);
 
     useEffect(() => {
         window.localStorage.setItem("favorite", JSON.stringify(favorite));
     }, [favorite]);
 
-    const onStarClick = (contentId : number) => {
+    const onStarClick = (content: IStar) => {
         //클릭하면 로컬에 저장하고 로컬에 있으면 아이콘 채워짐. 없으면 라인
         //Favorite 페이지에서 로컬 목록 불러오기
-        console.log(contentId)
-        console.log(1)
+        // setFavorite([{id:id, photo:bgPhoto, name:contentName},...favorite])
+        console.log(content)
     }
 
     return (
@@ -43,7 +43,7 @@ export default function Star(contentId: IStar) {
             variants={logoVariants}
             animate="normal"
             whileHover="active"
-            onClick={() => onStarClick}
+            onClick={() => onStarClick(content)}
         >
             <svg width="18" height="24" viewBox="0 0 15 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path
