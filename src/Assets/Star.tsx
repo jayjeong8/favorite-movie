@@ -2,8 +2,9 @@ import {motion} from "framer-motion";
 import styled from "styled-components";
 import {COLOR_YELLOW} from "../theme";
 import {useRecoilState} from "recoil";
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
 import {FavoriteMovie} from "../atom";
+import {IStar, IContent} from "../interface";
 
 const Svg = styled(motion.div)`
   cursor: pointer;
@@ -18,24 +19,23 @@ const logoVariants = {
     },
 }
 
-interface IStar {
-    content: {};
-}
 
 const color = COLOR_YELLOW
 
 export default function Star(content: IStar) {
     const [favorite, setFavorite] = useRecoilState(FavoriteMovie);
-
     useEffect(() => {
         window.localStorage.setItem("favorite", JSON.stringify(favorite));
     }, [favorite]);
 
-    const onStarClick = (content: IStar) => {
+    const onStarClick = ({content}: IStar) => {
         //클릭하면 로컬에 저장하고 로컬에 있으면 아이콘 채워짐. 없으면 라인
         //Favorite 페이지에서 로컬 목록 불러오기
-        // setFavorite([{id:id, photo:bgPhoto, name:contentName},...favorite])
-        console.log(content)
+        const favoriteFilter =
+            favorite.filter((data) => (data.id !== content.id));
+//콘텐츠 한개를 넣음, 다른게 들어오면 추가로 넣음, 같은게 들어오면 원래 있던 것을 빼냄
+        setFavorite([content,...favoriteFilter]);
+        console.log(favorite);
     }
 
     return (
