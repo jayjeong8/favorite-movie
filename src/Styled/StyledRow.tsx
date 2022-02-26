@@ -3,6 +3,7 @@ import {motion} from "framer-motion";
 
 export const Slider = styled.div`
   position: relative;
+  width: 100vw;
   height: 26vw;
   top: -100px;
   margin-top: 64px;

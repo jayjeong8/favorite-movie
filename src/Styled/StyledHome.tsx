@@ -2,6 +2,7 @@ import styled from "styled-components";
 import {COLOR_BLACK, COLOR_ZEROBLACK} from "../theme";
 
 export const Wrapper = styled.div`
+  width: 100vw;
   background: ${(props => props.theme.black)};
   padding-bottom: 40px;
 `;
