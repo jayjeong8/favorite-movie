@@ -3,7 +3,7 @@ import {useQuery} from "react-query";
 import {AnimatePresence, useViewportScroll} from "framer-motion";
 import IndexControlButton from "../Components/IndexControlButton";
 import {makeImagePath} from "../utils";
-import {Slider, Info, Box, RowTitle, InRow} from "../Styled/StyledRow";
+import {Slider, Info, Box, RowTitle, InRow, InfoContainer, BoxContainer} from "../Styled/StyledRow";
 import {rowVariants, infoVariants, boxVariants} from "../Components/RowVariants";
 import {useRecoilValue, useSetRecoilState} from "recoil";
 import {
@@ -18,6 +18,7 @@ import styled from "styled-components";
 import {useState} from "react";
 import {BigCover, BigModal, BigOverview, BigTitle, BigDate, Overlay, BigContainer} from "../Styled/StyledBigModal";
 import {Loader} from "../Components/Loader";
+import Star from "../Assets/Star";
 
 const API_KEY = "8b0c5f0400aa76e404ea70c8b1e0ce22";
 const BASE_PATH = "https://api.themoviedb.org/3";
@@ -104,22 +105,27 @@ function Search() {
                                 {movieData?.data?.results
                                     .slice(offset * movieIndex, offset * movieIndex + offset)
                                     .map((content) => (
-                                        <Box
-                                            key={content.id + "movie"}
-                                            layoutId={content.id + ""}
-                                            onClick={() => onMovieBoxClicked(content.id)}
-                                            variants={boxVariants}
-                                            initial="normal"
-                                            whileHover="hover"
-                                            transition={{type: "tween"}}
-                                            bgphoto={content.poster_path ?
-                                                makeImagePath(content.poster_path, "w500")
-                                                : NETFLIX_LOGO_URL}
-                                        >
-                                            <Info variants={infoVariants}>
-                                                <h4>{content.title}</h4>
-                                            </Info>
-                                        </Box>
+                                        <BoxContainer>
+                                            <Box
+                                                key={content.id + "movie"}
+                                                layoutId={content.id + ""}
+                                                onClick={() => onMovieBoxClicked(content.id)}
+                                                variants={boxVariants}
+                                                initial="normal"
+                                                whileHover="hover"
+                                                transition={{type: "tween"}}
+                                                bgphoto={content.poster_path ?
+                                                    makeImagePath(content.poster_path, "w500")
+                                                    : NETFLIX_LOGO_URL}
+                                            >
+                                            </Box>
+                                            <InfoContainer>
+                                                <Info>
+                                                    <h4>{content.title}</h4>
+                                                </Info>
+                                                <Star content={content}/>
+                                            </InfoContainer>
+                                        </BoxContainer>
                                     ))}
                             </InRow>
                         </AnimatePresence>
@@ -141,22 +147,27 @@ function Search() {
                                 {tvData?.data?.results
                                     .slice(offset * tvIndex, offset * tvIndex + offset)
                                     .map((content) => (
-                                        <Box
-                                            key={content.id + "tv"}
-                                            layoutId={content.id + ""}
-                                            onClick={() => onTVBoxClicked(content.id)}
-                                            variants={boxVariants}
-                                            initial="normal"
-                                            whileHover="hover"
-                                            transition={{type: "tween"}}
-                                            bgphoto={content.poster_path ?
-                                                makeImagePath(content.poster_path, "w500")
-                                                : NETFLIX_LOGO_URL}
-                                        >
-                                            <Info variants={infoVariants}>
-                                                <h4>{content.name}</h4>
-                                            </Info>
-                                        </Box>
+                                        <BoxContainer>
+                                            <Box
+                                                key={content.id + "tv"}
+                                                layoutId={content.id + ""}
+                                                onClick={() => onTVBoxClicked(content.id)}
+                                                variants={boxVariants}
+                                                initial="normal"
+                                                whileHover="hover"
+                                                transition={{type: "tween"}}
+                                                bgphoto={content.poster_path ?
+                                                    makeImagePath(content.poster_path, "w500")
+                                                    : NETFLIX_LOGO_URL}
+                                            >
+                                            </Box>
+                                            <InfoContainer>
+                                                <Info>
+                                                    <h4>{content.name}</h4>
+                                                </Info>
+                                                <Star content={content}/>
+                                            </InfoContainer>
+                                        </BoxContainer>
                                     ))}
                             </InRow>
                         </AnimatePresence>
@@ -188,7 +199,7 @@ function Search() {
                                                             : clickedContents.name}
                                                     </BigTitle>
                                                     <BigDate>{checkMedia === "searchMovie" ? ("개봉: " + clickedContents.release_date)
-                                                        : ("방송 시작: " +clickedContents.first_air_date)}
+                                                        : ("방송 시작: " + clickedContents.first_air_date)}
                                                     </BigDate>
                                                 </div>
                                                 <div>
