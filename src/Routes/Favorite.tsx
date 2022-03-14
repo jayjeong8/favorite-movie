@@ -3,12 +3,12 @@ import styled from "styled-components";
 import {boxVariants} from "../Components/RowVariants";
 import {makeImagePath} from "../utils";
 import {useRecoilValue, useSetRecoilState} from "recoil";
-import {ClickedMovie, ClickedTV, FavoriteMovie, FavoriteTV} from "../atom";
+import {ClickedFavorite, FavoriteMovie, FavoriteTV} from "../atom";
 import Star from "../Assets/Star";
 import {COLOR_YELLOW} from "../theme";
-import {BigContainer, BigCover, BigDate, BigModal, BigOverview, BigTitle, Overlay} from "../Styled/StyledBigModal";
-import {AnimatePresence} from "framer-motion";
 import {useNavigate} from "react-router-dom";
+import BigContentModal from "../Components/BigContentModal";
+import {IContent} from "../interface";
 
 const Wrapper = styled.div`
   margin-top: 42vh;
@@ -36,15 +36,22 @@ const BoxWrapper = styled.div`
 `;
 
 export default function Favorite() {
-    const navigate = useNavigate();
-    const setClickedMovie = useSetRecoilState(ClickedMovie);
-    const setClickedTV = useSetRecoilState(ClickedTV);
+    const favoriteMovie = useRecoilValue(FavoriteMovie);
+    const favoriteTV = useRecoilValue(FavoriteTV);
 
-    const onBoxClickedMovie = (contentId: number) => {
-        navigate(`movie/${contentId}`);
-        const clicked = data?.results.find((content) => content.id === contentId || undefined);
-        setClickedMovie(clicked);
+    const navigate = useNavigate();
+    const setClickedFavorite = useSetRecoilState(ClickedFavorite);
+
+    const onBoxClickedMovie = (content:IContent) => {
+        navigate(`${content.id}`);
+        setClickedFavorite(content);
     };
+    const onBoxClickedTV = (content:IContent) => {
+        navigate(`${content.id}`);
+        setClickedFavorite(content);
+    };
+
+
     const NETFLIX_LOGO_URL =
         'https://assets.brand.microsites.netflix.io/assets/2800a67c-4252-11ec-a9ce-066b49664af6_cm_800w.jpg?v=4';
 
@@ -58,7 +65,7 @@ export default function Favorite() {
                         <Box
                             key={content.id + "movie"}
                             layoutId={content.id + ""}
-                            onClick={() => onBoxClickedMovie(content.id)}
+                            onClick={() => onBoxClickedMovie(content)}
                             variants={boxVariants}
                             initial="normal"
                             whileHover="hover"
@@ -76,6 +83,7 @@ export default function Favorite() {
                         </InfoContainer>
                     </BoxWrapper>
                 ))}
+
             </BoxContainer>
             <RowTitle>TV 프로그램</RowTitle>
             <BoxContainer>
@@ -84,7 +92,7 @@ export default function Favorite() {
                         <Box
                             key={content.id + "tv"}
                             layoutId={content.id + ""}
-                            onClick={() => onTVBoxClicked(content.id)}
+                            onClick={() => onBoxClickedTV(content)}
                             variants={boxVariants}
                             initial="normal"
                             whileHover="hover"
@@ -103,47 +111,7 @@ export default function Favorite() {
                     </BoxWrapper>
                 ))}
             </BoxContainer>
-            <AnimatePresence>
-                {savedId ? (
-                    <>
-                        <Overlay onClick={onOverlayClick}
-                                 animate={{opacity: 1}}
-                                 exit={{opacity: 0}}/>
-                        <BigModal
-                            style={{top: scrollY.get() - 220}}
-                            layoutId={savedId + ""}
-                        >
-                            {clickedContents && (
-                                <>
-                                    <BigCover
-                                        style={{
-                                            backgroundImage: `url(${makeImagePath(
-                                                clickedContents.backdrop_path ? clickedContents.backdrop_path : clickedContents.poster_path, "w1280"
-                                            )})`,
-                                        }}
-                                    />
-                                    <BigContainer>
-                                        <div>
-                                            <BigTitle>{
-                                                checkMedia === "searchMovie" ? clickedContents.title
-                                                    : clickedContents.name}
-                                            </BigTitle>
-                                            <BigDate>{checkMedia === "searchMovie" ? ("개봉: " + clickedContents.release_date)
-                                                : ("방송 시작: " + clickedContents.first_air_date)}
-                                            </BigDate>
-                                        </div>
-                                        <div>
-                                            <BigOverview>{clickedContents.overview}</BigOverview>
-                                        </div>
-                                    </BigContainer>
-
-
-                                </>
-                            )}
-                        </BigModal>
-                    </>
-                ) : null}
-            </AnimatePresence>
+            <BigContentModal media="favorite"/>
         </Wrapper>
     )
 }

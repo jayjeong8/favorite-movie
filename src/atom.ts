@@ -11,6 +11,10 @@ export const ClickedTV = atom<IContent | undefined>({
     key: 'clickedTV',
     default: undefined
 })
+export const ClickedFavorite = atom<IContent | undefined>({
+    key: 'clickedFavorite',
+    default: undefined
+})
 
 //favorite content
 let favoriteMovie = localStorage.getItem("savedFavoriteMovie");

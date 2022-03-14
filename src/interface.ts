@@ -45,5 +45,5 @@ export interface IIndexControl {
 }
 
 export interface IBigModal {
-    media:"movie"|"tv"
+    media:"movie"|"tv"|"favorite"
 }
