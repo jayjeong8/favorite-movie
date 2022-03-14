@@ -4,7 +4,7 @@ import {motion, useAnimation, useViewportScroll} from "framer-motion";
 import {useEffect, useState} from "react";
 import {useForm} from "react-hook-form";
 import FavoriteLogo from "../Assets/FavoriteLogo"
-import {COLOR_BLACK, COLOR_ZEROBLACK, COLOR_YELLOW} from "../theme";
+import {COLOR_BLACK, COLOR_ZEROBLACK, COLOR_YELLOW, COLOR_DARKYELLOW, COLOR_WHITE} from "../theme";
 
 const Nav = styled(motion.nav)`
   display: flex;
@@ -22,13 +22,15 @@ const Col = styled.div`
   align-items: center;
 `;
 const Items = styled.ul`
+  width: 100%;
   display: flex;
   align-items: center;
+  justify-content: space-between;
 `;
 const Item = styled(motion.li)`
   font-weight: bold;
   transition: color 0.3s ease-in-out;
-  margin-right: 48px;
+  margin-right: 32px;
   position: relative;
   top: 1px;
   color: ${(props) => props.theme.gray.dark};
@@ -39,7 +41,6 @@ const Item = styled(motion.li)`
 const Circle = styled(motion.span)`
   position: absolute;
   z-index: -1;
-  width: 80px;
   height: 28px;
   border-radius: 30px;
   border: 1px solid;
@@ -51,11 +52,15 @@ const Circle = styled(motion.span)`
   bottom: 0;
 `;
 const MovieCircle = styled(Circle)`
- 
+  width: 80px;
 `;
 const TVCircle = styled(Circle)`
   width: 48px;
   left: -16px;
+`;
+const FavoriteCircle = styled(Circle)`
+  width: 104px;
+  left: -12px;
 `;
 const Search = styled.form`
   color: ${(props) => props.theme.white};
@@ -104,6 +109,7 @@ function Header() {
     const [searchOpen, setSearchOpen] = useState(false);
     const homeMatch = useMatch("/");
     const tvMatch = useMatch("/tv");
+    const favoriteMatch = useMatch("/favorite");
     const inputAnimation = useAnimation();
     const navAnimation = useAnimation();
     const {scrollY} = useViewportScroll();
@@ -144,6 +150,12 @@ function Header() {
                     <Item>
                         <Link to="/tv">TV
                             {<TVCircle style={{backgroundColor: tvMatch ? COLOR_YELLOW : COLOR_ZEROBLACK}}/>}
+                        </Link>
+                    </Item>
+                    <div style={{color: COLOR_WHITE, marginRight: '32px'}}>|</div>
+                    <Item>
+                        <Link to="/favorite">MY FAVORITE
+                            {<FavoriteCircle style={{backgroundColor: favoriteMatch ? COLOR_YELLOW : COLOR_ZEROBLACK}}/>}
                         </Link>
                     </Item>
                 </Items>

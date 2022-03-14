@@ -17,6 +17,7 @@ export interface IContent {
 
 export interface IStar {
     content: IContent;
+    color: string;
 }
 
 export interface IGetContentsResult {
