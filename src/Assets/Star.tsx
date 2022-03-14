@@ -1,9 +1,9 @@
 import {motion} from "framer-motion";
 import styled from "styled-components";
-import {COLOR_BLACK, COLOR_YELLOW} from "../theme";
+import {COLOR_YELLOW} from "../theme";
 import {useRecoilState} from "recoil";
 import {useEffect} from "react";
-import {FavoriteMovie} from "../atom";
+import {FavoriteMovie, FavoriteTV} from "../atom";
 import {IStar, IContent} from "../interface";
 
 const Svg = styled(motion.div)`
@@ -19,35 +19,46 @@ const logoVariants = {
     },
 }
 
-export default function Star({content, color}: IStar,) {
-    const [favorite, setFavorite] = useRecoilState(FavoriteMovie);
+export default function Star({content, color, checkMedia}: IStar) {
+    const [favoriteMovie, setFavoriteMovie] = useRecoilState(FavoriteMovie);
+    const [favoriteTV, setFavoriteTV] = useRecoilState(FavoriteTV);
     useEffect(() => {
-        window.localStorage.setItem("favorite", JSON.stringify(favorite));
-    }, [favorite]);
+        window.localStorage.setItem("savedFavoriteMovie", JSON.stringify(favoriteMovie));
+    }, [favoriteMovie]);
+    useEffect(() => {
+        window.localStorage.setItem("savedFavoriteTV", JSON.stringify(favoriteTV));
+    }, [favoriteTV]);
     let addArray: boolean = false;
     const onStarClick = (content: IContent) => {
-        //클릭하면 로컬에 저장하고 로컬에 있으면 아이콘 채워짐. 없으면 라인
-        //Favorite 페이지에서 로컬 목록 불러오기
-        let array = [...favorite];
         addArray = true;
-        array.map((data, index) => {
-            if (data.id === content.id) {
-                array.splice(index, 1);
-                addArray = false;
-                // return;
+        if (checkMedia === "MOVIE") {
+            let array = [...favoriteMovie];
+            array.map((data, index) => {
+                if (data.id === content.id) {
+                    array.splice(index, 1);
+                    addArray = false;
+                }
+            });
+            if (addArray) {
+                setFavoriteMovie(() => [content, ...array])
+            } else if (!addArray) {
+                setFavoriteMovie(() => [...array])
             }
-        });
-        if (addArray) {
-            setFavorite(() => [content, ...array])
-        } else if (!addArray) {
-            setFavorite(() => [...array])
+        } else if (checkMedia === "TV"){
+                let array = [...favoriteTV];
+                array.map((data, index) => {
+                    if (data.id === content.id) {
+                        array.splice(index, 1);
+                        addArray = false;
+                    }
+                });
+                if (addArray) {
+                    setFavoriteTV(() => [content, ...array])
+                } else if (!addArray) {
+                    setFavoriteTV(() => [...array])
+                }
+            }
         }
-
-        // console.log(content)
-        console.log("addArray", addArray);
-        // console.log("array", array);
-        // console.log("favorite", favorite);
-    }
 
     return (
         <Svg

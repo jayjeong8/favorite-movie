@@ -13,13 +13,18 @@ export const ClickedTV = atom<IContent | undefined>({
 })
 
 //favorite content
+let favoriteMovie = localStorage.getItem("savedFavoriteMovie");
+let localFavoriteMovie = JSON.parse(favoriteMovie as any);
 export const FavoriteMovie = atom<IContent[]>({
     key: 'favoriteMovie',
-    default: []
+    default: localFavoriteMovie?.length > 0 ? localFavoriteMovie : []
 })
+
+let favoriteTV = localStorage.getItem("savedFavoriteTV");
+let localFavoriteTV = JSON.parse(favoriteTV as any);
 export const FavoriteTV = atom<IContent[]>({
     key: 'favoriteTV',
-    default: []
+    default: localFavoriteTV?.length > 0 ? localFavoriteTV : []
 })
 
 //movie index

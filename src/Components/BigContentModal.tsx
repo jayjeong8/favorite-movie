@@ -5,7 +5,6 @@ import {useRecoilValue} from "recoil";
 import {ClickedMovie, ClickedTV, SelectedRow} from "../atom";
 import {IBigModal} from "../interface";
 import {BigModal, BigOverview, BigTitle, Overlay, BigCover, BigDate, BigContainer} from "../Styled/StyledBigModal"
-import {COLOR_BLACK, COLOR_ZEROBLACK} from "../theme";
 
 export default function BigContentModal({media}: IBigModal) {
     const selectedRow = useRecoilValue(SelectedRow);

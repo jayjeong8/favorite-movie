@@ -4,7 +4,7 @@ import {motion} from "framer-motion";
 export const Slider = styled.div`
   position: relative;
   width: 100vw;
-  height: 26vw;
+  height: 30vw;
   top: -100px;
   margin-top: 64px;
 `;
@@ -16,12 +16,12 @@ export const RowTitle = styled.div`
 `;
 export const InRow = styled(motion.div)`
   display: grid;
-  width: 82.5%;
+  width: 100%;
   gap: 1%;
-  grid-template-columns: repeat(6, 1fr);
+  grid-template-columns: repeat(5, 1fr);
   position: absolute;
   align-items: center;
-  margin: 0 16%;
+  padding : 0 16%;
   filter: drop-shadow(0 0 0.8rem black);
 `;
 
@@ -48,15 +48,14 @@ export const InfoContainer = styled.div`
   align-items: center;
   margin-top: 4px;
   padding: 6px;
+  height: 4vw;
 `;
 
 export const Info = styled(motion.div)`
-  // padding: 12px;
-
   color: ${(props) => props.theme.gray.light};
 
   h4 {
-    text-align: center;
+    text-align: left;
     font-size: 12px;
     font-weight: bold;
   }

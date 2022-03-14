@@ -18,6 +18,7 @@ export interface IContent {
 export interface IStar {
     content: IContent;
     color: string;
+    checkMedia: "MOVIE" | "TV"
 }
 
 export interface IGetContentsResult {
@@ -32,7 +33,7 @@ export interface IGetContentsResult {
 }
 
 export interface IApi {
-    queryKeyName1: string,
+    queryKeyName1: "MOVIE" | "TV",
     queryKeyName2: string,
     getApi: any,
     rowTitle: string,

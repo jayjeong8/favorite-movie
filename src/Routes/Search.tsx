@@ -4,7 +4,7 @@ import {AnimatePresence, useViewportScroll} from "framer-motion";
 import IndexControlButton from "../Components/IndexControlButton";
 import {makeImagePath} from "../utils";
 import {Slider, Info, Box, RowTitle, InRow, InfoContainer, BoxContainer} from "../Styled/StyledRow";
-import {rowVariants, infoVariants, boxVariants} from "../Components/RowVariants";
+import {rowVariants, boxVariants} from "../Components/RowVariants";
 import {useRecoilValue, useSetRecoilState} from "recoil";
 import {
     ClickedMovie,
@@ -124,7 +124,7 @@ function Search() {
                                                 <Info>
                                                     <h4>{content.title}</h4>
                                                 </Info>
-                                                <Star content={content} color={COLOR_YELLOW}/>
+                                                <Star content={content} color={COLOR_YELLOW} checkMedia={"MOVIE"}/>
                                             </InfoContainer>
                                         </BoxContainer>
                                     ))}
@@ -166,7 +166,7 @@ function Search() {
                                                 <Info>
                                                     <h4>{content.name}</h4>
                                                 </Info>
-                                                <Star content={content} color={COLOR_YELLOW}/>
+                                                <Star content={content} color={COLOR_YELLOW} checkMedia={"TV"}/>
                                             </InfoContainer>
                                         </BoxContainer>
                                     ))}

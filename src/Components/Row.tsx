@@ -5,7 +5,7 @@ import {useQuery} from "react-query";
 import {IGetContentsResult, IApi} from "../interface";
 import {useRecoilValue, useSetRecoilState} from "recoil";
 import {
-    ClickedMovie, ClickedTV, FavoriteMovie, IncreaseState, ModalLeaving,
+    ClickedMovie, ClickedTV, IncreaseState, ModalLeaving,
     MovieNowPlaying,
     MoviePopular,
     MovieTopRated,
@@ -17,7 +17,7 @@ import IndexControlButton from "./IndexControlButton";
 import {Slider, Info, Box, RowTitle, InRow, InfoContainer, BoxContainer} from "../Styled/StyledRow";
 import {rowVariants, boxVariants} from "./RowVariants";
 import Star from "../Assets/Star";
-import {COLOR_BLACK, COLOR_YELLOW} from "../theme";
+import {COLOR_YELLOW} from "../theme";
 
 
 function Row({queryKeyName1, queryKeyName2, getApi, rowTitle}: IApi) {
@@ -38,7 +38,6 @@ function Row({queryKeyName1, queryKeyName2, getApi, rowTitle}: IApi) {
     const setLeaving = useSetRecoilState(ModalLeaving);
     const increaseValue = useRecoilValue(IncreaseState);
     const toggleLeaving = () => setLeaving((prev: boolean) => !prev);
-    const favorite = useRecoilValue(FavoriteMovie);
 
     const setSelectedRow = useSetRecoilState(SelectedRow)
     const setClickedMovie = useSetRecoilState(ClickedMovie);
@@ -95,15 +94,7 @@ function Row({queryKeyName1, queryKeyName2, getApi, rowTitle}: IApi) {
                                                 <Info>
                                                     <h4>{queryKeyName1 === "MOVIE" ? content.title : content.name}</h4>
                                                 </Info>
-                                                {/*{favorite.map((data) => {*/}
-                                                {/*    if (data.id === content.id) {*/}
-                                                {/*        */}
-                                                {/*    } else {*/}
-                                                {/*        console.log(2)*/}
-                                                {/*        return(<Star content={content} color={COLOR_BLACK}/>)*/}
-                                                {/*    }*/}
-                                                {/*})}*/}
-                                                <Star content={content} color={COLOR_YELLOW}/>
+                                                <Star content={content} color={COLOR_YELLOW} checkMedia={queryKeyName1}/>
                                             </InfoContainer>
                                         </BoxContainer>
                                     ))}
