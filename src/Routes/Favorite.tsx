@@ -29,6 +29,7 @@ export const BoxContainer = styled.div`
   padding: 0 16%;
   align-items: center;
   margin-bottom: 80px;
+  filter: drop-shadow(0 0 0.8rem black);
 `;
 const BoxWrapper = styled.div`
   display: flex;
