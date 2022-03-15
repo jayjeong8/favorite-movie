@@ -35,11 +35,11 @@ export const Box = styled(motion.div)<{ bgphoto: string }>`
   background-size: cover;
   background-position: center center;
   border-radius: 24px;
-  border: 10px, solid, ${props => props.theme.yellow.dark};
   height: 20vw;
   font-size: 64px;
   cursor: pointer;
   position: relative;
+  margin-bottom: 8px;
 `;
 
 export const InfoContainer = styled.div`
