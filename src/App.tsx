@@ -10,7 +10,7 @@ import Favorite from "./Routes/Favorite";
 function App() {
     return (
         <RecoilRoot>
-            <Router basename={"/react-nomflix"}>
+            <Router basename={"/favorite-movie/"}>
                 <Header/>
                 <Routes>
                     <Route path="/tv" element={<Tv/>}/>
