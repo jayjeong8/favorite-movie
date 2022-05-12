@@ -52,24 +52,29 @@ function Header() {
         <Nav variants={navVariants} animate={navAnimation} initial={"top"}>
             <Col>
                 <FavoriteLogo/>
-                <Items>
-                    <Item>
-                        <Link to="/">MOVIE
-                            {<MovieCircle style={{backgroundColor: homeMatch ? COLOR_YELLOW : COLOR_ZEROBLACK}}/>}
+                <Filters>
+                    <Filter>
+                        <Link to="/">
+                            {homeMatch &&
+                                <MovieCircle style={{backgroundColor: COLOR_YELLOW}} layoutId="filterCircle"/>}
+                            <MovieCircle onClick={() => window.scrollTo(0, 0)}>MOVIE</MovieCircle>
                         </Link>
-                    </Item>
-                    <Item>
-                        <Link to="/tv">TV
-                            {<TVCircle style={{backgroundColor: tvMatch ? COLOR_YELLOW : COLOR_ZEROBLACK}}/>}
+                    </Filter>
+                    <Filter>
+                        <Link to="/tv">
+                            {tvMatch && <TVCircle style={{backgroundColor: COLOR_YELLOW}} layoutId="filterCircle"/>}
+                            <TVCircle onClick={() => window.scrollTo(0, 0)}>TV</TVCircle>
                         </Link>
-                    </Item>
+                    </Filter>
                     <div style={{color: COLOR_WHITE, marginRight: '32px'}}>|</div>
-                    <Item>
-                        <Link to="/favorite">MY FAVORITE
-                            {<FavoriteCircle style={{backgroundColor: favoriteMatch ? COLOR_YELLOW : COLOR_ZEROBLACK}}/>}
+                    <Filter>
+                        <Link to="/favorite">
+                            {favoriteMatch &&
+                                <FavoriteCircle style={{backgroundColor: COLOR_YELLOW}} layoutId="filterCircle"/>}
+                            <FavoriteCircle onClick={() => window.scrollTo(0, 0)}>MY FAVORITE</FavoriteCircle>
                         </Link>
-                    </Item>
-                </Items>
+                    </Filter>
+                </Filters>
             </Col>
             <Col>
                 <Search onSubmit={handleSubmit(onValid)}>

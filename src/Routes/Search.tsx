@@ -8,7 +8,7 @@ import {rowVariants, boxVariants} from "../Components/RowVariants";
 import {useRecoilValue, useSetRecoilState} from "recoil";
 import {
     ClickedMovie,
-    ClickedTV,
+    ClickedTV, FavoriteMovie, FavoriteTV,
     IncreaseState,
     ModalLeaving,
     SearchMovieIndex, SearchTVIndex,
@@ -19,7 +19,7 @@ import {useState} from "react";
 import {BigCover, BigModal, BigOverview, BigTitle, BigDate, Overlay, BigContainer} from "../Styled/StyledBigModal";
 import {Loader} from "../Components/Loader";
 import Star from "../Assets/Star";
-import {COLOR_YELLOW} from "../theme";
+import {COLOR_BLACK, COLOR_YELLOW} from "../theme";
 
 const API_KEY = "8b0c5f0400aa76e404ea70c8b1e0ce22";
 const BASE_PATH = "https://api.themoviedb.org/3";
@@ -57,6 +57,8 @@ function Search() {
     const increaseValue = useRecoilValue(IncreaseState);
     const movieIndex = useRecoilValue(SearchMovieIndex);
     const tvIndex = useRecoilValue(SearchTVIndex);
+    const favoriteMovie = useRecoilValue(FavoriteMovie);
+    const favoriteTV = useRecoilValue(FavoriteTV);
     const {scrollY} = useViewportScroll();
 
     const toggleLeaving = () => setLeaving((prev: boolean) => !prev);
@@ -124,7 +126,7 @@ function Search() {
                                                 <Info>
                                                     <h4>{content.title}</h4>
                                                 </Info>
-                                                <Star content={content} color={COLOR_YELLOW} checkMedia={"MOVIE"}/>
+                                                <Star content={content} color={favoriteMovie.find(movie => movie.id === content.id) ? COLOR_YELLOW : COLOR_BLACK} checkMedia={"MOVIE"}/>
                                             </InfoContainer>
                                         </BoxContainer>
                                     ))}
@@ -166,7 +168,7 @@ function Search() {
                                                 <Info>
                                                     <h4>{content.name}</h4>
                                                 </Info>
-                                                <Star content={content} color={COLOR_YELLOW} checkMedia={"TV"}/>
+                                                <Star content={content} color={favoriteTV.find(tv => tv.id === content.id) ? COLOR_YELLOW : COLOR_BLACK} checkMedia={"TV"}/>
                                             </InfoContainer>
                                         </BoxContainer>
                                     ))}
