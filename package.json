@@ -56,5 +56,5 @@
   "devDependencies": {
     "@types/styled-components": "^5.1.21"
   },
-  "homepage": "https://jayjeong8.github.io/react-nomflix/"
+  "homepage": "https://jayjeong8.github.io/favorite-movie/"
 }
