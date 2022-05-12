@@ -62,9 +62,8 @@ export default function Favorite() {
             <RowTitle>영화</RowTitle>
             <BoxContainer>
                 {favoriteMovie.map((content) => (
-                    <BoxWrapper>
+                    <BoxWrapper key={content.id + "movieFavorite"}>
                         <Box
-                            key={content.id + "movie"}
                             layoutId={content.id + ""}
                             onClick={() => onBoxClickedMovie(content)}
                             variants={boxVariants}
@@ -89,9 +88,8 @@ export default function Favorite() {
             <RowTitle>TV 프로그램</RowTitle>
             <BoxContainer>
                 {favoriteTV.map((content) => (
-                    <BoxWrapper>
+                    <BoxWrapper key={content.id + "tvFavorite"}>
                         <Box
-                            key={content.id + "tv"}
                             layoutId={content.id + ""}
                             onClick={() => onBoxClickedTV(content)}
                             variants={boxVariants}

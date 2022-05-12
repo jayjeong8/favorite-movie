@@ -76,7 +76,7 @@ function Row({queryKeyName1, queryKeyName2, getApi, rowTitle}: IApi) {
                                 {data?.results
                                     .slice(offset * index, offset * index + offset)
                                     .map((content) => (
-                                        <BoxContainer>
+                                        <BoxContainer key={content.id}>
                                             <Box
                                                 key={content.id + queryKeyName2}
                                                 layoutId={content.id + queryKeyName2}
