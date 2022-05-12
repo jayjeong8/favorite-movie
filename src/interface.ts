@@ -47,3 +47,7 @@ export interface IIndexControl {
 export interface IBigModal {
     media:"movie"|"tv"|"favorite"
 }
+
+export interface IForm {
+    keyword: string;
+}
