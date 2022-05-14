@@ -58,14 +58,14 @@ export const FavoriteCircle = styled(Circle)`
   left: -12px;
 `;
 export const Search = styled.form`
-  color: ${(props) => props.theme.white};
+  color: ${(props) => props.theme.yellow.dark};
   display: flex;
   align-items: center;
   position: relative;
 
   svg {
     height: 20px;
-    padding-left: 4px;
+    padding-left: 6px;
   }
 `;
 export const Input = styled(motion.input)`
@@ -73,7 +73,7 @@ export const Input = styled(motion.input)`
   position: absolute;
   left: -184px;
   right: 0;
-  padding: 4px 8px 4px 40px;
+  padding: 4px 8px 4px 36px;
   width: 216px;
   height: 28px;
   z-index: -1;
@@ -82,7 +82,7 @@ export const Input = styled(motion.input)`
   background-color: transparent;
   border: 1.5px solid ${(props) => props.theme.gray.light};
   border-radius: 30px;
-  color: rgba(0,0,0,0);
+  color: ${(props) => props.theme.gray.light};
 
   ::placeholder {
     color: ${(props) => props.theme.gray.light};
