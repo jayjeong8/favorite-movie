@@ -1,4 +1,4 @@
-## 인생작 - favorite-movie 
+## 인생작 - favorite-movies
 
 https://jayjeong8.github.io/favorite-movies/
 
