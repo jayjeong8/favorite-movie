@@ -10,7 +10,7 @@ import Favorite from "./Routes/Favorite";
 function App() {
     return (
         <RecoilRoot>
-            <Router basename={"/favorite-movie/"}>
+            <Router basename={"/favorite-movies/"}>
                 <Header/>
                 <Routes>
                     <Route path="/tv" element={<Tv/>}/>
